@@ -10,6 +10,7 @@ public class Gun : MonoBehaviour
     public Transform bulletSpawn;
 
     [Header("Shooting")]
+    public bool isPlayable = false;
     public float shootingDelay = 0.15f;
     public float spreadIntensity = 0.02f;
     public float bulletVelocity = 30f;
