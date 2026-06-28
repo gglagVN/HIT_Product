@@ -6,14 +6,24 @@ public class Enemy : MonoBehaviour
 {
     private StateMachine stateMachine;
     private NavMeshAgent agent;
+    private GameObject player;
+    private Vector3 lastKnowPos;
     public NavMeshAgent Agent { get => agent; }
+    public GameObject Player { get => player; }
+    public Vector3 LastKnownPos { get => lastKnowPos; set => lastKnowPos = value; }
     [SerializeField]
     private string currentState;
     public Paths path;
-    private GameObject player;
+    public GameObject debugSphere;
+
+    [Header("Sight Values")]
     public float sightDistance = 20f;
     public float fieldOfView = 85f;
     public float eyeHeight;
+    [Header("Weapon Values")]
+    public Transform gunBarrel;
+    [Range(0.1f, 10f)]
+    public float fireRate;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +38,7 @@ public class Enemy : MonoBehaviour
     {
         CanSeePlayer();
         currentState = stateMachine.activeState.ToString();
+        debugSphere.transform.position = lastKnowPos;
     }
     public bool CanSeePlayer()
     {
