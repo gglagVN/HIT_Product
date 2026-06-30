@@ -85,12 +85,9 @@ public class Gun : MonoBehaviour
             burstBulletsLeft = bulletPerBurst;
             FireWeapon();
         }
+        HUDManager.Instance.magazineAmmoUI.text = (bulletsLeft / bulletPerBurst).ToString();
+        HUDManager.Instance.totalAmmoUI.text = (magazineSize / bulletPerBurst).ToString();
 
-        if (AmmoManager.Instance.ammoDisplay != null)
-        {
-            AmmoManager.Instance.ammoDisplay.text =
-                $"{bulletsLeft}/{magazineSize}";
-        }
     }
 
     private void FireWeapon()

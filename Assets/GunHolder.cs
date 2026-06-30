@@ -22,12 +22,12 @@ public class GunHolder : MonoBehaviour
 
     public void SelectWeapon(int index)
     {
-        if (index >= weapons.Length) return;
+        if (index >= weapons.Length || index == currentWeapon) return;
 
         Gun currentGun = weapons[currentWeapon].GetComponent<Gun>();
         if (currentGun.isReloading)
             return;
-
+        HUDManager.Instance.GetPrevGun(currentWeapon);
         Gun gun = weapons[index].GetComponent<Gun>();
         if (gun != null && !gun.isPlayable)
             return;
@@ -36,7 +36,12 @@ public class GunHolder : MonoBehaviour
         {
             weapons[i].SetActive(i == index);
         }
-
         currentWeapon = index;
+        HUDManager.Instance.GetCurrentGun(currentWeapon);
+        HUDManager.Instance.GetCurrentAmmo(currentWeapon);
+    }
+    public Gun GetCurrentWeapon()
+    {
+        return weapons[currentWeapon].GetComponent<Gun>();
     }
 }
