@@ -18,7 +18,7 @@ public class Gun : MonoBehaviour
     public GameObject muzzleEffect;
     private Animator anim;
     public float reloadTime;
-    public int magazineSize, bulletsLeft;
+    public int magazineSize, bulletsLeft, amountOfBullet;
     public bool isReloading;
 
     [Header("Burst")]
@@ -41,11 +41,30 @@ public class Gun : MonoBehaviour
 
     public ShootingMode currentShootingMode = ShootingMode.Single;
 
+    public enum AmmoType
+    {
+        Pistol,
+        Rifle,
+        Shotgun
+    }
+
+    [Header("Ammo Type")]
+    public AmmoType ammoType = AmmoType.Pistol;
+    public int maxAmmo = 120;
+
     private void Awake()
     {
         burstBulletsLeft = bulletPerBurst;
         anim = GetComponent<Animator>();
         bulletsLeft = magazineSize;
+        amountOfBullet = Mathf.Max(amountOfBullet, 0);
+    }
+
+    public void AddAmmo(int amount)
+    {
+        if (amount <= 0) return;
+
+        amountOfBullet = Mathf.Min(amountOfBullet + amount, maxAmmo);
     }
 
     private void Update()
@@ -86,7 +105,7 @@ public class Gun : MonoBehaviour
             FireWeapon();
         }
         HUDManager.Instance.magazineAmmoUI.text = (bulletsLeft / bulletPerBurst).ToString();
-        HUDManager.Instance.totalAmmoUI.text = (magazineSize / bulletPerBurst).ToString();
+        HUDManager.Instance.totalAmmoUI.text = (amountOfBullet / bulletPerBurst).ToString();
 
     }
 
@@ -151,7 +170,7 @@ public class Gun : MonoBehaviour
 
     private void Reload()
     {
-        if (isReloading) return;
+        if (isReloading && amountOfBullet == 0) return;
 
         anim.SetTrigger("RELOAD");
         isReloading = true;
@@ -161,7 +180,9 @@ public class Gun : MonoBehaviour
 
     private void ReloadCompleted()
     {
-        bulletsLeft = magazineSize;
+        int bulletsToReload = Mathf.Min(magazineSize - bulletsLeft, amountOfBullet);
+        bulletsLeft += bulletsToReload;
+        amountOfBullet -= bulletsToReload;
         isReloading = false;
     }
 
