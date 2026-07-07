@@ -19,6 +19,7 @@ public class HUDManager : MonoBehaviour
     public TextMeshProUGUI lethalAmountUI;
     public Image tacticalUI;
     public TextMeshProUGUI tacticalAmountUI;
+    public GameObject CrossHair;
     private void Awake()
     {
         if (Instance != null && Instance != this)

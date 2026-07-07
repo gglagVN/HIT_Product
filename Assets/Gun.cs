@@ -12,7 +12,9 @@ public class Gun : MonoBehaviour
     [Header("Shooting")]
     public bool isPlayable = false;
     public float shootingDelay = 0.15f;
-    public float spreadIntensity = 0.02f;
+    private float spreadIntensity = 0.02f;
+    public float hipSpreadIntensity = 0;
+    public float adsSpreadIntensity = 0;
     public float bulletVelocity = 30f;
     public float bulletPrefabLifeTime = 3f;
     public GameObject muzzleEffect;
@@ -31,6 +33,7 @@ public class Gun : MonoBehaviour
     private bool readyToShoot = true;
     private bool allowReset = true;
     private int burstBulletsLeft;
+    public bool isADS;
 
     public enum ShootingMode
     {
@@ -58,6 +61,7 @@ public class Gun : MonoBehaviour
         anim = GetComponent<Animator>();
         bulletsLeft = magazineSize;
         amountOfBullet = Mathf.Max(amountOfBullet, 0);
+        spreadIntensity = hipSpreadIntensity;
     }
 
     public void AddAmmo(int amount)
@@ -69,6 +73,14 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(1) && !isReloading)
+        {
+            EnterADS();
+        }
+        if (Input.GetMouseButtonUp(1) && !isReloading)
+        {
+            ExitADS();
+        }
         switch (currentShootingMode)
         {
             case ShootingMode.Auto:
@@ -108,6 +120,20 @@ public class Gun : MonoBehaviour
         HUDManager.Instance.totalAmmoUI.text = (amountOfBullet / bulletPerBurst).ToString();
 
     }
+    private void EnterADS()
+    {
+        anim.SetTrigger("enterADS");
+        isADS = true;
+        HUDManager.Instance.CrossHair.SetActive(false);
+        spreadIntensity = adsSpreadIntensity;
+    }
+    private void ExitADS()
+    {
+        anim.SetTrigger("exitADS");
+        isADS = false;
+        HUDManager.Instance.CrossHair.SetActive(true);
+        spreadIntensity = hipSpreadIntensity;
+    }
 
     private void FireWeapon()
     {
@@ -122,7 +148,15 @@ public class Gun : MonoBehaviour
 
         if (anim != null)
         {
-            anim.SetTrigger("RECOIL");
+            if (isADS)
+            {
+                anim.SetTrigger("RECOIL_ADS");
+            }
+            else
+            {
+                anim.SetTrigger("RECOIL");
+            }
+
         }
 
         // Bắn nhiều viên nếu là shotgun
@@ -170,7 +204,7 @@ public class Gun : MonoBehaviour
 
     private void Reload()
     {
-        if (isReloading && amountOfBullet == 0) return;
+        if (isReloading || amountOfBullet == 0) return;
 
         anim.SetTrigger("RELOAD");
         isReloading = true;
@@ -211,7 +245,9 @@ public class Gun : MonoBehaviour
 
         Vector3 targetPoint;
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
+        LayerMask mask = ~LayerMask.GetMask("WeaponRender");
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000f, mask))
         {
             targetPoint = hit.point;
         }
@@ -220,18 +256,11 @@ public class Gun : MonoBehaviour
             targetPoint = ray.GetPoint(1000f);
         }
 
-        Vector3 direction = targetPoint - bulletSpawn.position;
+        Vector3 direction = (targetPoint - bulletSpawn.position).normalized;
 
-        float x =
-            Random.Range(
-                -spreadIntensity,
-                spreadIntensity);
+        float z = Random.Range(-spreadIntensity, spreadIntensity);
+        float y = Random.Range(-spreadIntensity, spreadIntensity);
 
-        float y =
-            Random.Range(
-                -spreadIntensity,
-                spreadIntensity);
-
-        return direction + new Vector3(x, y, 0);
+        return direction + new Vector3(0, y, z);
     }
 }

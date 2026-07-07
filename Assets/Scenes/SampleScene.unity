@@ -5950,7 +5950,7 @@ Transform:
   m_GameObject: {fileID: 483079367}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: -0.003, z: -0.49}
+  m_LocalPosition: {x: 0.017, y: -0.032, z: -0.494}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11397,7 +11397,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &571729741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19391,6 +19391,7 @@ MonoBehaviour:
   lethalAmountUI: {fileID: 0}
   tacticalUI: {fileID: 0}
   tacticalAmountUI: {fileID: 0}
+  CrossHair: {fileID: 2084257512}
 --- !u!114 &925864119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28218,7 +28219,8 @@ MonoBehaviour:
   bulletSpawn: {fileID: 2101436917}
   isPlayable: 0
   shootingDelay: 1
-  spreadIntensity: 0.02
+  hipSpreadIntensity: 0.15
+  adsSpreadIntensity: 0.03
   bulletVelocity: 55
   bulletPrefabLifeTime: 3
   muzzleEffect: {fileID: 1282857998}
@@ -28229,6 +28231,7 @@ MonoBehaviour:
   isReloading: 0
   bulletPerBurst: 1
   pelletsPerShot: 1
+  isADS: 0
   currentShootingMode: 0
   ammoType: 0
   maxAmmo: 120
@@ -34862,7 +34865,8 @@ MonoBehaviour:
   bulletSpawn: {fileID: 483079368}
   isPlayable: 0
   shootingDelay: 1
-  spreadIntensity: 0.15
+  hipSpreadIntensity: 0.6
+  adsSpreadIntensity: 0.08
   bulletVelocity: 30
   bulletPrefabLifeTime: 3
   muzzleEffect: {fileID: 1341703042}
@@ -34873,6 +34877,7 @@ MonoBehaviour:
   isReloading: 0
   bulletPerBurst: 1
   pelletsPerShot: 8
+  isADS: 0
   currentShootingMode: 1
   ammoType: 2
   maxAmmo: 120
@@ -39033,7 +39038,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -87.5, y: 26.024994}
+  m_AnchoredPosition: {x: -87.5, y: 26.024963}
   m_SizeDelta: {x: 175, y: 52.049988}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1957438954
@@ -40087,7 +40092,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 7.944, y: 8.092}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2084257514
 MonoBehaviour:
@@ -40476,7 +40481,8 @@ MonoBehaviour:
   bulletSpawn: {fileID: 141988244}
   isPlayable: 0
   shootingDelay: 0.15
-  spreadIntensity: 0.02
+  hipSpreadIntensity: 0.2
+  adsSpreadIntensity: 0.05
   bulletVelocity: 100
   bulletPrefabLifeTime: 3
   muzzleEffect: {fileID: 8722026273750327904}
@@ -40487,6 +40493,7 @@ MonoBehaviour:
   isReloading: 0
   bulletPerBurst: 1
   pelletsPerShot: 1
+  isADS: 0
   currentShootingMode: 2
   ammoType: 1
   maxAmmo: 120
@@ -40622,7 +40629,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1324608333552923
 GameObject:
   m_ObjectHideFlags: 0
@@ -40883,7 +40890,7 @@ Transform:
   m_GameObject: {fileID: 1487773600227487}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0.35, y: -0.39999998, z: 0.921}
+  m_LocalPosition: {x: 0.35, y: -0.4, z: 0.921}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision.gameObject.name);
         Transform hitTransform = collision.transform;
         if (collision.gameObject.tag != "Bullet")
         {
