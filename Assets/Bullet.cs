@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-
+    public int bulletDamage = 10;
     void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.name);
@@ -18,6 +18,10 @@ public class Bullet : MonoBehaviour
             }
             CreateBulletImpactEffect(collision);
             Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == "Target")
+        {
+            collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
         }
     }
     void CreateBulletImpactEffect(Collision collision)

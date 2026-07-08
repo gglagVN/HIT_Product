@@ -6,7 +6,8 @@ public class AttackState : BaseState
 {
     private float moveTimer;
     private float losePlayerTimer;
-    private float shotTimer;
+    private float attackTimer;
+
     public override void Enter()
     {
 
@@ -23,17 +24,24 @@ public class AttackState : BaseState
         {
             losePlayerTimer = 0;
             moveTimer += Time.deltaTime;
-            shotTimer += Time.deltaTime;
-            enemy.transform.LookAt(enemy.Player.transform);
-            if (shotTimer > enemy.fireRate)
+            attackTimer += Time.deltaTime;
+            Vector3 targetPos = enemy.Player.transform.position;
+            targetPos.y = enemy.transform.position.y;
+
+            enemy.transform.LookAt(targetPos);
+
+            if (attackTimer > enemy.fireRate)
             {
-                Shoot();
+                enemy.PerformAttack();
+                attackTimer = 0f;
             }
+
             if (moveTimer > Random.Range(3, 7))
             {
-                enemy.Agent.SetDestination(enemy.transform.position + (Random.insideUnitSphere * 5));
+                enemy.SetAttackDestination();
                 moveTimer = 0f;
             }
+
             enemy.LastKnownPos = enemy.Player.transform.position;
         }
         else
@@ -44,26 +52,5 @@ public class AttackState : BaseState
                 stateMachine.ChangeState(new SearchState());
             }
         }
-    }
-    public void Shoot()
-    {
-        Transform gunBarrel = enemy.gunBarrel;
-        GameObject bullet = GameObject.Instantiate(Resources.Load("Prefabs/Bullet") as GameObject, gunBarrel.position, enemy.transform.rotation);
-        Vector3 shootDirection = (enemy.Player.transform.position - gunBarrel.transform.position).normalized;
-        bullet.GetComponent<Rigidbody>().velocity = Quaternion.AngleAxis(Random.Range(-3f, 3f), Vector3.up) * shootDirection * 40;
-        Debug.Log("Shoot");
-        shotTimer = 0;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

@@ -11,6 +11,7 @@ public class Gun : MonoBehaviour
 
     [Header("Shooting")]
     public bool isPlayable = false;
+    public int weaponDamage;
     public float shootingDelay = 0.15f;
     private float spreadIntensity = 0.02f;
     public float hipSpreadIntensity = 0;
@@ -170,7 +171,8 @@ public class Gun : MonoBehaviour
                     bulletPrefab,
                     bulletSpawn.position,
                     Quaternion.identity);
-
+            Bullet bul = bullet.GetComponent<Bullet>();
+            bul.bulletDamage = weaponDamage;
             bullet.transform.forward = shootingDirection;
 
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
