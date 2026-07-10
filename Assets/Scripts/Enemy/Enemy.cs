@@ -37,9 +37,20 @@ public class Enemy : MonoBehaviour
     public float meleeCooldown = 1f;
     public float walkSpeed = 2f;
     public float chaseSpeed = 4.5f;
+    public float blendSmooth = 0.12f;
     private float nextAttackTime;
     private Animator anim;
     private bool attackAnimationPlaying;
+
+    private bool IsGunnerPathing()
+    {
+        return Agent != null && Agent.hasPath && !Agent.pathPending && Agent.remainingDistance > Agent.stoppingDistance + 0.1f;
+    }
+
+    private bool IsGunnerStopped()
+    {
+        return Agent != null && !IsGunnerPathing();
+    }
 
     void Start()
     {
@@ -107,20 +118,55 @@ public class Enemy : MonoBehaviour
         }
 
         bool isMoving = Agent != null && Agent.velocity.sqrMagnitude > 0.1f;
-        bool shouldChase = playerSeen && enemyStyle == EnemyStyle.Zombie;
+        float moveX = 0f;
+        float moveY = 0f;
 
-        if (shouldChase)
+        // compute local velocity for blend-tree (X = strafe, Y = forward)
+        if (Agent != null)
         {
-            Agent.speed = chaseSpeed;
+            Vector3 localVel = transform.InverseTransformDirection(Agent.velocity);
+            float speedDenom = Mathf.Max(Agent.speed, 0.0001f);
+            moveX = localVel.x / speedDenom;
+            moveY = localVel.z / speedDenom;
+        }
+
+        if (enemyStyle == EnemyStyle.Zombie)
+        {
+            bool shouldChase = playerSeen;
+
+            if (Agent != null)
+            {
+                Agent.speed = shouldChase ? chaseSpeed : walkSpeed;
+            }
+
+            anim.SetBool("isWalking", !attackAnimationPlaying && !shouldChase && isMoving);
+            anim.SetBool("isChasing", !attackAnimationPlaying && shouldChase);
+            anim.SetBool("isAttacking", attackAnimationPlaying);
+            // Zombie doesn't use blend tree; skip setting moveX/moveY
+            return;
+        }
+
+        bool isAttackState = stateMachine != null && stateMachine.activeState is AttackState;
+        bool isPathing = IsGunnerPathing();
+        bool shouldAttackGunner = attackAnimationPlaying || (isAttackState && playerSeen && !isPathing);
+        bool shouldChaseGunner = playerSeen && (isAttackState || isPathing);
+        bool shouldWalkGunner = !isAttackState && !playerSeen && isMoving;
+
+        anim.SetBool("isWalking", shouldWalkGunner);
+        anim.SetBool("isChasing", shouldChaseGunner);
+        anim.SetBool("isAttacking", shouldAttackGunner);
+
+        if (shouldChaseGunner)
+        {
+            anim.SetFloat("moveX", moveX, blendSmooth, Time.deltaTime);
+            anim.SetFloat("moveY", moveY, blendSmooth, Time.deltaTime);
         }
         else
         {
-            Agent.speed = walkSpeed;
+            anim.SetFloat("moveX", 0f, blendSmooth, Time.deltaTime);
+            anim.SetFloat("moveY", 0f, blendSmooth, Time.deltaTime);
         }
 
-        anim.SetBool("isWalking", !attackAnimationPlaying && !shouldChase && isMoving);
-        anim.SetBool("isChasing", !attackAnimationPlaying && shouldChase);
-        anim.SetBool("isAttacking", attackAnimationPlaying);
     }
 
     private void ResetAnimationBools()
@@ -133,6 +179,8 @@ public class Enemy : MonoBehaviour
         anim.SetBool("isWalking", false);
         anim.SetBool("isChasing", false);
         anim.SetBool("isAttacking", false);
+        anim.SetFloat("moveX", 0f);
+        anim.SetFloat("moveY", 0f);
     }
 
     private IEnumerator ResetAttackAnimation()
@@ -142,10 +190,27 @@ public class Enemy : MonoBehaviour
         UpdateAnimationState(CanSeePlayer());
     }
 
+    private IEnumerator ResetAttackAnimation(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        attackAnimationPlaying = false;
+        UpdateAnimationState(CanSeePlayer());
+    }
+
     public virtual void PerformAttack()
     {
         if (enemyStyle == EnemyStyle.Gunner)
         {
+            if (!IsGunnerPathing())
+            {
+                attackAnimationPlaying = true;
+                if (anim != null)
+                {
+                    anim.SetBool("isAttacking", true);
+                }
+                // keep attack animation visible for a short duration related to fireRate
+                StartCoroutine(ResetAttackAnimation(Mathf.Max(0.25f, fireRate)));
+            }
             Shoot();
         }
         else
