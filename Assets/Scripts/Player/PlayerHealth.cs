@@ -61,6 +61,12 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
+        CameraShake.Instance.Shake(0.15f, 0.1f);
+        float percent = health / maxHealth;
+
+        float alpha = Mathf.Lerp(0.8f, 0.2f, percent);
+
+        DamageOverlay.Instance.ShowDamage(alpha);
         lerpTimer = 0f;
     }
     public void RestoreHealth(float healAmount)

@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8432b83cdc4f6984cab627668161698a, type: 3}
+  m_Name: Level9
+  m_EditorClassIdentifier: 
+  levelName: SampleLevel
+  timeLimit: 60
+  nodes:
+  - {fileID: 7057049473778087390, guid: ecb49908adbbc9b4babad8e9e66871fe, type: 3}
+  - {fileID: 3752538660121005363, guid: 3729be1f17063504a9d90e40d993d76c, type: 3}
+  - {fileID: 6998170773511327927, guid: 77e23b9056e4e074c97a3a0e46c8e574, type: 3}
+  - {fileID: 7257271502048586457, guid: 755b8bdc51c87c142a64f52c318654bb, type: 3}
+  - {fileID: 7257271502048586457, guid: 0f13e420435446a47942af2d988bbb0c, type: 3}
+  - {fileID: 7257271502048586457, guid: e5ec28b33523a0346b9c90fa7ac2eb1c, type: 3}
+  - {fileID: 7757690598169674416, guid: d0c83bfa31c65594dbd138211ef2952a, type: 3}
+  - {fileID: 7757690598169674416, guid: c2a658bfa248b52408df462d177699fc, type: 3}
+  - {fileID: 7757690598169674416, guid: 05d219781b3691a42bcbca2f5b45c7f3, type: 3}
+  - {fileID: 7757690598169674416, guid: 22b83dd4617df6641a160228a3a068cf, type: 3}
+  - {fileID: 7757690598169674416, guid: e34858a14186be94c87b4ab424c412e9, type: 3}
+  - {fileID: 7757690598169674416, guid: 26df62a5daf209f40b072294e153178b, type: 3}
+  - {fileID: 7757690598169674416, guid: 0184a804e88201b4a8595ae7f6be44b3, type: 3}
+  - {fileID: 7757690598169674416, guid: b0b16d768f6fd8445b517dfb4b19c750, type: 3}
+  - {fileID: 7757690598169674416, guid: 4e535513bf0f3d340bf705ea2bb8e8bf, type: 3}
+  - {fileID: 7757690598169674416, guid: 1afdf3ee93349bd44b5ba72778df1016, type: 3}
+  - {fileID: 7757690598169674416, guid: 3b9b28163b8ab834f9b8eb2fcaca144f, type: 3}
+  - {fileID: 7757690598169674416, guid: a8460eddfafc1b34dbbbae8a8db6d6f5, type: 3}
+  - {fileID: 7757690598169674416, guid: c7585f9876351334287e839769eb8a8f, type: 3}
+  - {fileID: 7757690598169674416, guid: 8788e3d96dc7bfa40aeabb898286726d, type: 3}
+  - {fileID: 7757690598169674416, guid: 11314110a3e066e46a70f4cf8f543f9d, type: 3}
+  - {fileID: 7757690598169674416, guid: 388ee6164bf70e44a9a82239a8e5580e, type: 3}
+  - {fileID: 7757690598169674416, guid: a62374928c9c6f740a4b544ab61d5072, type: 3}
+  - {fileID: 7757690598169674416, guid: be34cc25964ec034a8bf0855b7d1521f, type: 3}
+  - {fileID: 7757690598169674416, guid: 4ea4ac99805a5bb4cb0869230667c419, type: 3}
+  - {fileID: 7757690598169674416, guid: 81abf5106dfc6b24090e5427079707a5, type: 3}
+  - {fileID: 7757690598169674416, guid: 74718646ea038eb489a5d377ca23ce68, type: 3}
+  - {fileID: 7757690598169674416, guid: e6da8f4a92b1a824aaa647d44a9e9e30, type: 3}
+  - {fileID: 7757690598169674416, guid: e80630cd7d9abf94d8d3d279a839ee49, type: 3}
+  - {fileID: 7757690598169674416, guid: 32a84d77077d6ab48844487dc3f0fc64, type: 3}
+  - {fileID: 7757690598169674416, guid: fcd815c34fcac7d48b82361132d3aee8, type: 3}
+  - {fileID: 7757690598169674416, guid: 08de8623d4746b141a044b1a170d4134, type: 3}
+  - {fileID: 7757690598169674416, guid: 7cdb01715d4bef645aa84b408a37405b, type: 3}
+  - {fileID: 7757690598169674416, guid: 1f5c80c4ccdcf5d4281756c6535e9abb, type: 3}
+  - {fileID: 7757690598169674416, guid: b3935d94ad3e8e640acf2457bd9a218b, type: 3}
+  - {fileID: 7757690598169674416, guid: deac42734f230bf418fced50d12e99bb, type: 3}
+  - {fileID: 7757690598169674416, guid: 7b14a375e1b93814f9e4d6621f963fd9, type: 3}
+  - {fileID: 7757690598169674416, guid: fe40a6694f057fa4fb4be7c7492dc414, type: 3}
+  - {fileID: 7757690598169674416, guid: 1dca4342a549aa9439cd47ea5752a372, type: 3}
+  - {fileID: 7757690598169674416, guid: 07fa698d16570554fbe0a5eb6495cf1b, type: 3}
+  - {fileID: 7757690598169674416, guid: 03c3b94ac7672d14fb0d65dc2f3e58eb, type: 3}
+  - {fileID: 7757690598169674416, guid: 9b2426ece2267bb4c973867bcf10f25c, type: 3}
+  startNode: {fileID: 7057049473778087390, guid: ecb49908adbbc9b4babad8e9e66871fe,
+    type: 3}
+  endNode: {fileID: 7757690598169674416, guid: deac42734f230bf418fced50d12e99bb, type: 3}
+  puzzleType: 0
+  correctPassword: 210125
+  passwordLength: 6

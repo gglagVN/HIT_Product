@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8432b83cdc4f6984cab627668161698a, type: 3}
+  m_Name: Level10
+  m_EditorClassIdentifier: 
+  levelName: SampleLevel
+  timeLimit: 60
+  nodes:
+  - {fileID: 7057049473778087390, guid: c1692c0a37ac463409b462f648a3db8b, type: 3}
+  - {fileID: 3752538660121005363, guid: a9fd2dd1c4f343644bd34c98b9d02232, type: 3}
+  - {fileID: 6998170773511327927, guid: 10176cfb744b9f54eb652a80b0a535e9, type: 3}
+  - {fileID: 7257271502048586457, guid: dfc6b98704c2c3743b1f13bbc7b7435f, type: 3}
+  - {fileID: 7257271502048586457, guid: 4ab6e443cd7e65f4cb855d7f1a9773b6, type: 3}
+  - {fileID: 7257271502048586457, guid: 5d13bc85212758746a4db6a008d7ae7f, type: 3}
+  - {fileID: 7757690598169674416, guid: e4199b62f7567c84980d779d385c8b75, type: 3}
+  - {fileID: 7757690598169674416, guid: 3a3a90f81ab6c31439c64e1d57b9c62b, type: 3}
+  - {fileID: 7757690598169674416, guid: de177fa1524041b43bb18c66f0734a71, type: 3}
+  - {fileID: 7757690598169674416, guid: b51a3a26ff3ed9d408fc31d15877a806, type: 3}
+  - {fileID: 7757690598169674416, guid: 57a869baa093f2142a3ad872e09fe3b5, type: 3}
+  - {fileID: 7757690598169674416, guid: 50fe9b8220296b2469165f7cca24ee4f, type: 3}
+  - {fileID: 7757690598169674416, guid: 9a08a17d1b719d140bacabc0fd4ce18b, type: 3}
+  - {fileID: 7757690598169674416, guid: 6d23a155fd419894dbd93a7821258853, type: 3}
+  - {fileID: 7757690598169674416, guid: 113d228c9d5a90c4db6c45df2143731e, type: 3}
+  - {fileID: 7757690598169674416, guid: f30fefddc35ac014ab4b743ea2c62d77, type: 3}
+  - {fileID: 7757690598169674416, guid: 1371261913f292246b36b2875ababb01, type: 3}
+  - {fileID: 7757690598169674416, guid: 29cca454d42bd4440a6f11b05f7b5007, type: 3}
+  - {fileID: 7757690598169674416, guid: 037c11011aa4ecb418bf26fa06bed996, type: 3}
+  - {fileID: 7757690598169674416, guid: 0005cdcb3c7609b4cb8e3c598df93886, type: 3}
+  - {fileID: 7757690598169674416, guid: 12551713148e213409ac12e7e9354234, type: 3}
+  - {fileID: 7757690598169674416, guid: bc5e1eeb22ee07f498ae2cf2833ac96e, type: 3}
+  - {fileID: 7757690598169674416, guid: eb57b86ccd2df80458c8dbdc2cf2616a, type: 3}
+  - {fileID: 7757690598169674416, guid: 23966c09bfc8ce94bae014fc3adc1dd9, type: 3}
+  - {fileID: 7757690598169674416, guid: 9d9f31296f18084408df9cc636205153, type: 3}
+  - {fileID: 7757690598169674416, guid: 9aa71cea488e8714f904a6c73ea7d814, type: 3}
+  - {fileID: 7757690598169674416, guid: 35bb87622424ca446a7cd86b70aa9256, type: 3}
+  - {fileID: 7757690598169674416, guid: 4c7bface4dcd171488cc2639107d9645, type: 3}
+  - {fileID: 7757690598169674416, guid: 473b9b998bce05e4fb5297f096d401a6, type: 3}
+  - {fileID: 7757690598169674416, guid: f05953350fdf9f1428455fb9645fe6c1, type: 3}
+  - {fileID: 7757690598169674416, guid: 514ce4b9144b572408822496c4d4cde7, type: 3}
+  - {fileID: 7757690598169674416, guid: 6896fccd360127541adf016a48b297c4, type: 3}
+  - {fileID: 7757690598169674416, guid: 8500037c000d1db4ab0c20d82eaf1f5c, type: 3}
+  - {fileID: 7757690598169674416, guid: 0e2b813cf87e119458f8e58dee18cf40, type: 3}
+  - {fileID: 7757690598169674416, guid: 627c4c6ddb3cd2646ae4f87456092bf9, type: 3}
+  - {fileID: 7757690598169674416, guid: 20abf6a447f489444b70b01496e643fa, type: 3}
+  - {fileID: 7757690598169674416, guid: f6ea6d1a1f951d3439fb9a400610386e, type: 3}
+  - {fileID: 7757690598169674416, guid: 6ba476b6afac1ad41919a2dd9adef44e, type: 3}
+  - {fileID: 7757690598169674416, guid: 9a95b87c31e019a40bebbcb2acb7d0dc, type: 3}
+  - {fileID: 7757690598169674416, guid: 15ee9e79c188cba4b97e4aafa63b839b, type: 3}
+  - {fileID: 7757690598169674416, guid: c74d576592617d243b20750b91969849, type: 3}
+  - {fileID: 7757690598169674416, guid: 052cdb311f5b8f54b932806f8522f579, type: 3}
+  - {fileID: 7757690598169674416, guid: 5e9120b74901826469c84b8774da35ba, type: 3}
+  - {fileID: 7757690598169674416, guid: b286f594689fbcf4d95629b67c4f4489, type: 3}
+  - {fileID: 7757690598169674416, guid: a38c6b53265a9fb47b8acf33bb131734, type: 3}
+  - {fileID: 7757690598169674416, guid: 68d18acc6949826499435cbdabf0939e, type: 3}
+  - {fileID: 7757690598169674416, guid: a2b004c22330e9b44a876e4d5a38ef52, type: 3}
+  - {fileID: 7757690598169674416, guid: 596ac9189e6507e46a018135f877bddb, type: 3}
+  - {fileID: 7757690598169674416, guid: 47500bed5aeb81c4abb36968b6896c4f, type: 3}
+  startNode: {fileID: 7057049473778087390, guid: c1692c0a37ac463409b462f648a3db8b,
+    type: 3}
+  endNode: {fileID: 7757690598169674416, guid: 47500bed5aeb81c4abb36968b6896c4f, type: 3}
+  puzzleType: 0
+  correctPassword: 210125
+  passwordLength: 6

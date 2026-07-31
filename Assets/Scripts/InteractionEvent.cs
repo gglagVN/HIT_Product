@@ -1,20 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class InteractionEvent : MonoBehaviour
 {
+    [Header("Events")]
     public UnityEvent OnInteract;
-    // Start is called before the first frame update
-    void Start()
-    {
+    public UnityEvent OnHackSuccess;
+    public UnityEvent OnHackFail;
 
+    public void InvokeInteract()
+    {
+        OnInteract?.Invoke();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InvokeHackSuccess()
     {
+        OnHackSuccess?.Invoke();
+    }
 
+    public void InvokeHackFail()
+    {
+        OnHackFail?.Invoke();
     }
 }

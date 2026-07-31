@@ -216,9 +216,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useEvents: 0
-  promtMessage: 
-  gunHolder: {fileID: 0}
-  ammoAmount: 30
+  promtMessage: Pistol Ammo
+  ammoAmount: 10
   ammoType: 0
 --- !u!65 &3984795408720667871
 BoxCollider:

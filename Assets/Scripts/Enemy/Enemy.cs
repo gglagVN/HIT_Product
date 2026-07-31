@@ -9,7 +9,10 @@ public class Enemy : MonoBehaviour
         Gunner,
         Zombie
     }
+    private EnemyAudio enemyAudio;
+    private bool playerDetected = false;
 
+    private float nextIdleSound;
     private StateMachine stateMachine;
     private NavMeshAgent agent;
     private GameObject player;
@@ -38,6 +41,8 @@ public class Enemy : MonoBehaviour
     public float walkSpeed = 2f;
     public float chaseSpeed = 4.5f;
     public float blendSmooth = 0.12f;
+    private float losePlayerTimer;
+    [SerializeField] private float losePlayerDelay = 2f;
     private float nextAttackTime;
     private Animator anim;
     private bool attackAnimationPlaying;
@@ -54,6 +59,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        enemyAudio = GetComponent<EnemyAudio>();
         anim = GetComponent<Animator>();
         stateMachine = GetComponent<StateMachine>();
         agent = GetComponent<NavMeshAgent>();
@@ -64,16 +70,26 @@ public class Enemy : MonoBehaviour
         stateMachine.Initialise();
         player = GameObject.FindGameObjectWithTag("Player");
         ResetAnimationBools();
+        nextIdleSound = Time.time + Random.Range(3f, 8f);
     }
 
     void Update()
     {
+        if (isDead)
+            return;
         bool playerSeen = CanSeePlayer();
+
+        HandleFootstepState(playerSeen);
+
+        HandleEnemyAudio(playerSeen);
+
         currentState = stateMachine.activeState.ToString();
+
         if (debugSphere != null)
         {
             debugSphere.transform.position = lastKnowPos;
         }
+
         UpdateAnimationState(playerSeen);
     }
 
@@ -109,7 +125,47 @@ public class Enemy : MonoBehaviour
 
         return false;
     }
+    private void HandleEnemyAudio(bool playerSeen)
+    {
+        if (enemyAudio == null)
+            return;
 
+        //-------------------------
+        // Detect
+        //-------------------------
+
+        if (playerSeen)
+        {
+            losePlayerTimer = Time.time + losePlayerDelay;
+
+            if (!playerDetected)
+            {
+                playerDetected = true;
+                enemyAudio.PlayDetect();
+            }
+        }
+        else
+        {
+            if (Time.time >= losePlayerTimer)
+            {
+                playerDetected = false;
+            }
+        }
+
+        //-------------------------
+        // Idle
+        //-------------------------
+
+        if (!playerSeen && Time.time >= nextIdleSound)
+        {
+            if (enemyStyle == EnemyStyle.Zombie)
+                enemyAudio.PlayIdle();
+
+            nextIdleSound = Time.time + Random.Range(8f, 15f);
+        }
+    }
+    private bool isRunning;
+    private bool isWalking;
     private void UpdateAnimationState(bool playerSeen)
     {
         if (anim == null)
@@ -167,6 +223,68 @@ public class Enemy : MonoBehaviour
             anim.SetFloat("moveY", 0f, blendSmooth, Time.deltaTime);
         }
 
+    }
+    private bool isDead;
+    public void Die()
+    {
+        isDead = true;
+
+        if (enemyAudio != null)
+            enemyAudio.StopFootstep();
+    }
+    private void HandleFootstepState(bool playerSeen)
+    {
+        if (Agent == null)
+            return;
+
+        // Không di chuyển
+        if (Agent.velocity.sqrMagnitude < 0.05f)
+        {
+            isWalking = false;
+            isRunning = false;
+
+            if (enemyAudio != null)
+                enemyAudio.StopFootstep();
+
+            return;
+        }
+
+        if (enemyStyle == EnemyStyle.Zombie)
+        {
+            {
+                isWalking = anim.GetBool("isWalking");
+                isRunning = anim.GetBool("isChasing");
+            }
+        }
+        else
+        {
+            // Gunner
+            if (Agent.speed >= chaseSpeed - 0.1f)
+            {
+                isRunning = true;
+                isWalking = false;
+            }
+            else
+            {
+                isWalking = true;
+                isRunning = false;
+            }
+        }
+        if (enemyAudio == null)
+            return;
+
+        if (!isWalking && !isRunning)
+        {
+            enemyAudio.StopFootstep();
+        }
+        else if (isWalking)
+        {
+            enemyAudio.StartWalkLoop();
+        }
+        else if (isRunning)
+        {
+            enemyAudio.StartRunLoop();
+        }
     }
 
     private void ResetAnimationBools()
@@ -237,7 +355,10 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-
+        if (enemyAudio != null)
+        {
+            enemyAudio.PlayGunnerShoot();
+        }
         GameObject bullet = Instantiate(Resources.Load("Prefabs/Bullet") as GameObject, gunBarrel.position, transform.rotation);
         Vector3 shootDirection = (Player.transform.position - gunBarrel.transform.position).normalized;
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
@@ -270,6 +391,10 @@ public class Enemy : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(meleeDamage);
+            }
+            if (enemyAudio != null)
+            {
+                enemyAudio.PlayAttack();
             }
 
             nextAttackTime = Time.time + meleeCooldown;

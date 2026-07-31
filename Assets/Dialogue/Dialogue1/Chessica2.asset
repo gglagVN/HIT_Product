@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698af18bcd7bb7b48bc263191c92e1ba, type: 3}
+  m_Name: Chessica2
+  m_EditorClassIdentifier: 
+  speakerName: Chessica
+  dialogue: Can you hear me? Please, Don't be afraid. My name is Chessica. I'm thirteen
+    years old. This might sound impossible But I think, I'm inside your mind. I tried
+    to move. I tried to open my eyes. But I couldn't feel my own body. Then I saw
+    your memories. Not all of them. Just Little pieces. I think Somehow They merged
+    us together. It wasn't an accident. Someone Did this to us I don't know why.
+    But I'm sure we share the same body now.
+  voiceClip: {fileID: 8300000, guid: 5fe6b92b2bcd4b54da0b024d9471a633, type: 3}
+  duration: 10

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6705224245902205768}
   - component: {fileID: 6491717912113755731}
   - component: {fileID: 6144772298583697434}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3790381781893469068}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Keypad
   m_TagString: Untagged
   m_Icon: {fileID: 0}

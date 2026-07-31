@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8432b83cdc4f6984cab627668161698a, type: 3}
+  m_Name: Level12
+  m_EditorClassIdentifier: 
+  levelName: SampleLevel
+  timeLimit: 60
+  nodes:
+  - {fileID: 7057049473778087390, guid: 5280195a61eae0144884729f58b7956a, type: 3}
+  - {fileID: 3752538660121005363, guid: f8a9ddb56726e524c881e7fe391c0785, type: 3}
+  - {fileID: 6998170773511327927, guid: df3f1c0b26d2e3440b5eef4736980393, type: 3}
+  - {fileID: 7257271502048586457, guid: 6e9130ae416cdf2498b194f67eb39588, type: 3}
+  - {fileID: 7257271502048586457, guid: e34cbe39e817e8f45b8073f7c6c198dc, type: 3}
+  - {fileID: 7257271502048586457, guid: a9f8e747c01b5634b9b0c1da7c038adb, type: 3}
+  - {fileID: 7757690598169674416, guid: 586044710c44265458cd9efd62954c53, type: 3}
+  - {fileID: 7757690598169674416, guid: 300afbada0386aa4ebc36758bdffd6e1, type: 3}
+  - {fileID: 7757690598169674416, guid: fa0cffe1cf3dc2b47bd4afbb9733867d, type: 3}
+  - {fileID: 7757690598169674416, guid: f2420d466b69f6047abe0c448b3dab61, type: 3}
+  - {fileID: 7757690598169674416, guid: eef2916156b9bb74ab91d8fa3ada9ff7, type: 3}
+  - {fileID: 7757690598169674416, guid: 1a239338aa15c424f9b7303e12a8e24f, type: 3}
+  - {fileID: 7757690598169674416, guid: c7becdda9d3366f4f8a21d469862b1da, type: 3}
+  - {fileID: 7757690598169674416, guid: d4bf85f66ef8fca4e8538e13003d8f48, type: 3}
+  - {fileID: 7757690598169674416, guid: bb04b51a00c89bf4d9fde3eb21210bb1, type: 3}
+  - {fileID: 7757690598169674416, guid: 60b512f53ab99404aa7905243800a596, type: 3}
+  - {fileID: 7757690598169674416, guid: 6979ffe55ef5f1f488e120df84bc2eb8, type: 3}
+  - {fileID: 7757690598169674416, guid: 407b51ff9e566da4a986c23e1c4b7d31, type: 3}
+  - {fileID: 7757690598169674416, guid: 341daa9cf66f8994bbd2d6de2a97dfd4, type: 3}
+  - {fileID: 7757690598169674416, guid: 2429ea7d2605a514bb9a59b5a9a45767, type: 3}
+  - {fileID: 7757690598169674416, guid: 76df653808191094797918d78bbb8a73, type: 3}
+  - {fileID: 7757690598169674416, guid: d4167c5ef4e102a4bb2ef48bf967d4f4, type: 3}
+  - {fileID: 7757690598169674416, guid: bd11cb07006ae5e4b949044aa64d2d64, type: 3}
+  - {fileID: 7757690598169674416, guid: b9a86c6dc304d4e4c8b10c532b912b1f, type: 3}
+  - {fileID: 7757690598169674416, guid: a55cc4622ce2a1b4a87472615f16df57, type: 3}
+  - {fileID: 7757690598169674416, guid: 854cb1e766d180841b91dbc6d4f292d4, type: 3}
+  - {fileID: 7757690598169674416, guid: 1bacace84149e634e8c9c1954f8f77aa, type: 3}
+  - {fileID: 7757690598169674416, guid: 168f9939bbd94704a92c01a89efb7698, type: 3}
+  - {fileID: 7757690598169674416, guid: edf417ab98ec2fb4a9d55cc857df30f8, type: 3}
+  - {fileID: 7757690598169674416, guid: f6e972e92ebec3745839f35a4f3ceb15, type: 3}
+  - {fileID: 7757690598169674416, guid: 62e1bb8aab2e12a4690cae9db6a8ce65, type: 3}
+  - {fileID: 7757690598169674416, guid: 3e2161e0ae05b874dac7f889bcb8b311, type: 3}
+  - {fileID: 7757690598169674416, guid: d3fd8297b8497e9448eefe43f1e43833, type: 3}
+  - {fileID: 7757690598169674416, guid: ac2fa1d0ca830f343a6c6f4f567d594a, type: 3}
+  - {fileID: 7757690598169674416, guid: 9dc27466dd97a3648a60492a788d8a05, type: 3}
+  - {fileID: 7757690598169674416, guid: 4b9140b7fa41a0f4c9b1a66520a77893, type: 3}
+  - {fileID: 7757690598169674416, guid: e2d2a3bb8bc3cfc4e9c129dd8651fbae, type: 3}
+  - {fileID: 7757690598169674416, guid: 7e5eeb6889b3c4f4a8090dbb15a469c3, type: 3}
+  - {fileID: 7757690598169674416, guid: ed3a5c2afe13ff943b4702057bce6b3d, type: 3}
+  - {fileID: 7757690598169674416, guid: f90b85cc03080124c91526bd52369b6a, type: 3}
+  - {fileID: 7757690598169674416, guid: f2a7867649f05bc47845057539e23a6a, type: 3}
+  startNode: {fileID: 7057049473778087390, guid: 5280195a61eae0144884729f58b7956a,
+    type: 3}
+  endNode: {fileID: 7757690598169674416, guid: f6e972e92ebec3745839f35a4f3ceb15, type: 3}
+  puzzleType: 0
+  correctPassword: 210125
+  passwordLength: 6

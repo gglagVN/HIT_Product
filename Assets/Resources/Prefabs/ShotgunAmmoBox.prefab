@@ -145,7 +145,7 @@ PrefabInstance:
     - target: {fileID: 7145165998672086327, guid: 8a271fde7aad44b5a8ec8025c447c359,
         type: 3}
       propertyPath: m_Name
-      value: Shotgun Variant
+      value: ShotgunAmmoBox
       objectReference: {fileID: 0}
     - target: {fileID: 7145165998672086327, guid: 8a271fde7aad44b5a8ec8025c447c359,
         type: 3}
@@ -237,7 +237,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useEvents: 0
-  promtMessage: 
-  gunHolder: {fileID: 0}
-  ammoAmount: 30
+  promtMessage: Shotgun Ammo
+  ammoAmount: 5
   ammoType: 2

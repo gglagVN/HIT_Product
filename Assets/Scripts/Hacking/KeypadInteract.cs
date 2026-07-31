@@ -1,0 +1,138 @@
+using System.Collections;
+using UnityEngine;
+
+/// <summary>
+/// Entry point for interaction with a keypad. It opens the hacking UI and pauses the player.
+/// </summary>
+public class KeypadInteract : Interactable
+{
+    [Header("Hacking")]
+    [SerializeField] private InteractionEvent interactionEvent;
+    [SerializeField] private HackManager hackManager;
+    [SerializeField] private HackLevel hackLevel;
+    [SerializeField] private GameObject targetObject;
+    [SerializeField] private InputManager inputManager;
+    [SerializeField] private PlayerLook playerLook;
+
+    private void Awake()
+    {
+        if (hackManager == null)
+        {
+            hackManager = FindObjectOfType<HackManager>();
+        }
+
+        if (inputManager == null)
+        {
+            inputManager = FindObjectOfType<InputManager>();
+        }
+
+        if (playerLook == null)
+        {
+            playerLook = FindObjectOfType<PlayerLook>();
+        }
+    }
+
+    private void OnEnable()
+    {
+        var mgr = hackManager != null ? hackManager : HackManager.Instance;
+        if (mgr != null)
+        {
+            mgr.onHackSucceeded.AddListener(OnHackSucceeded);
+            mgr.onHackFailed.AddListener(OnHackFailed);
+        }
+    }
+
+    private void OnDisable()
+    {
+        var mgr = hackManager != null ? hackManager : HackManager.Instance;
+        if (mgr != null)
+        {
+            mgr.onHackSucceeded.RemoveListener(OnHackSucceeded);
+            mgr.onHackFailed.RemoveListener(OnHackFailed);
+        }
+    }
+
+    protected override void Interact()
+    {
+        if (hackManager == null || hackLevel == null)
+        {
+            Debug.LogWarning("HackManager or HackLevel is not assigned.");
+            return;
+        }
+        Debug.Log("Interact");
+        Debug.Log("HackManager = " + hackManager);
+        Debug.Log("HackLevel = " + hackLevel);
+
+        if (hackManager.IsActive)
+        {
+            return;
+        }
+
+        SetPlayerControl(false);
+        playerLook.SetLookEnabled(false);
+        if (hackLevel.PuzzleType == HackPuzzleType.Password)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        interactionEvent?.InvokeInteract();
+        hackManager.StartHack(hackLevel, targetObject);
+    }
+
+    private bool IsCurrentHackTarget()
+    {
+        if (hackManager == null)
+        {
+            return false;
+        }
+
+        return hackManager.CurrentTarget == targetObject && hackManager.CurrentLevel == hackLevel;
+    }
+
+    private void OnHackSucceeded()
+    {
+        if (!IsCurrentHackTarget())
+        {
+            return;
+        }
+        interactionEvent?.InvokeHackSuccess();
+
+        SetPlayerControl(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        playerLook.SetLookEnabled(true);
+        StartCoroutine("delay");
+    }
+    IEnumerator delay()
+    {
+        yield return new WaitForSeconds(1f);
+        targetObject.GetComponent<Animator>().SetBool("isOpened", true);
+    }
+
+    private void OnHackFailed()
+    {
+        if (!IsCurrentHackTarget())
+        {
+            return;
+        }
+        interactionEvent?.InvokeHackFail();
+
+        SetPlayerControl(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        playerLook.SetLookEnabled(true);
+    }
+
+    private void SetPlayerControl(bool enabled)
+    {
+        if (inputManager != null)
+        {
+            inputManager.SetPlayerControlsEnabled(enabled);
+        }
+    }
+}

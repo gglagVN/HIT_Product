@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698af18bcd7bb7b48bc263191c92e1ba, type: 3}
+  m_Name: Chessica3
+  m_EditorClassIdentifier: 
+  speakerName: Chessica
+  dialogue: You collected all the documents we need, didn't you? Then let's pull
+    the lever and runnnnn
+  voiceClip: {fileID: 8300000, guid: 9b002d1c507709946b662d9eebbeeb34, type: 3}
+  duration: 3
