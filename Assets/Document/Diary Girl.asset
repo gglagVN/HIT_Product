@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Diary Girl
   m_EditorClassIdentifier: 
   title: Girl's Diary
-  paperImage: {fileID: 21300000, guid: b2b09a8c8b924be469ffb0527e41b1ab, type: 3}
+  paperImage: {fileID: 21300000, guid: 1789f02665a140a4c83966895891354c, type: 3}

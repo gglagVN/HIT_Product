@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Escape Hint
   m_EditorClassIdentifier: 
   title: Escape Hint
-  paperImage: {fileID: 21300000, guid: 348c647a57d16bc4bb12fed46dbaf960, type: 3}
+  paperImage: {fileID: 21300000, guid: a7e0ebfcaa2f5c448a0bc9f94f137c2c, type: 3}

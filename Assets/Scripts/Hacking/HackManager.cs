@@ -117,6 +117,11 @@ public class HackManager : MonoBehaviour
 
     public void SetCurrentNode(HackNode node)
     {
+        if (currentNode != null && node != null && currentNode != node && hackCanvas != null)
+        {
+            hackCanvas.MarkPathTraversal(currentNode, node);
+        }
+
         currentNode = node;
         if (currentNode != null)
         {
@@ -142,7 +147,12 @@ public class HackManager : MonoBehaviour
 
         if (currentNode.Neighbors.Contains(nextNode) && !nextNode.IsVisited)
         {
+            var previousNode = currentNode;
             SetCurrentNode(nextNode);
+            if (hackCanvas != null)
+            {
+                hackCanvas.MarkPathTraversal(previousNode, nextNode);
+            }
             nextNode.ExecuteEffect(this);
             return true;
         }

@@ -20,7 +20,9 @@ public class HackCanvas : MonoBehaviour
     [SerializeField] private GameObject keyNodePrefab;
     [SerializeField] private GameObject bonusNodePrefab;
     [SerializeField] private GameObject teleportNodePrefab;
-    [SerializeField] private Text timerText;
+    [SerializeField] private GameObject activeNodePrefab;
+    [SerializeField] private GameObject visitedNodePrefab;
+    [SerializeField] private TextMeshProUGUI timerText;
 
     [Header("Colors")]
     [SerializeField] private Color normalColor = new Color(0.85f, 0.95f, 1f, 1f);
@@ -40,7 +42,6 @@ public class HackCanvas : MonoBehaviour
     public string CorrectPassword => correctPassword;
     public int PasswordLength => passwordLength;
 
-    private readonly Dictionary<HackNodeType, Sprite> generatedSprites = new Dictionary<HackNodeType, Sprite>();
     private Image overlayImage;
     [SerializeField] private GameObject passwordPanel;
     [SerializeField] private TextMeshProUGUI passwordDisplayText;
@@ -61,7 +62,9 @@ public class HackCanvas : MonoBehaviour
 
     private readonly Dictionary<HackNode, NodeVisual> visuals = new Dictionary<HackNode, NodeVisual>();
     private readonly List<Image> lines = new List<Image>();
+    private readonly Dictionary<string, Image> lineImagesByPair = new Dictionary<string, Image>();
     private readonly HashSet<string> createdLinePairs = new HashSet<string>();
+    private readonly HashSet<string> traversedLinePairs = new HashSet<string>();
     private bool isDragging;
 
     private void Awake()
@@ -224,12 +227,20 @@ public class HackCanvas : MonoBehaviour
         float pulse = 0.5f + Mathf.Sin(Time.time * 2f) * 0.2f;
         foreach (var line in lines)
         {
-            if (line != null)
+            if (line == null)
             {
-                var color = line.color;
-                color.a = pulse;
-                line.color = color;
+                continue;
             }
+
+            var pairKey = GetPairKeyFromLine(line);
+            if (pairKey != null && traversedLinePairs.Contains(pairKey))
+            {
+                continue;
+            }
+
+            var color = line.color;
+            color.a = pulse;
+            line.color = color;
         }
     }
 
@@ -317,9 +328,37 @@ public class HackCanvas : MonoBehaviour
         StartCoroutine(FlashRoutine(visual, duration));
     }
 
+    public void MarkPathTraversal(HackNode from, HackNode to)
+    {
+        if (from == null || to == null)
+        {
+            return;
+        }
+
+        int a = from.GetInstanceID();
+        int b = to.GetInstanceID();
+        int min = Mathf.Min(a, b);
+        int max = Mathf.Max(a, b);
+        string pairKey = $"{min}_{max}";
+
+        traversedLinePairs.Add(pairKey);
+
+        if (lineImagesByPair.TryGetValue(pairKey, out var lineImage) && lineImage != null)
+        {
+            lineImage.color = GetLineColorForPair(pairKey);
+            return;
+        }
+
+        RebuildLines();
+        if (lineImagesByPair.TryGetValue(pairKey, out var rebuiltLine) && rebuiltLine != null)
+        {
+            rebuiltLine.color = GetLineColorForPair(pairKey);
+        }
+    }
+
     private System.Collections.IEnumerator FlashRoutine(NodeVisual visual, float duration)
     {
-        if (visual == null)
+        if (visual == null || visual.Image == null)
         {
             yield break;
         }
@@ -347,34 +386,16 @@ public class HackCanvas : MonoBehaviour
             if (node == null)
                 continue;
 
-            var visualObject = Instantiate(GetPrefabForNode(node), nodeContainer, false);
+            var visualObject = Instantiate(GetPrefabForNode(node, NodeVisualState.Normal), nodeContainer, false);
             var visual = visualObject.AddComponent<NodeVisual>();
             visual.Initialize(this, node);
-            var image = visualObject.GetComponent<Image>();
-            image.color = GetBaseColor(node);
-            image.sprite = GetSpriteForNode(node);
-            image.type = Image.Type.Simple;
-            visual.Image = image;
+            visual.CurrentState = NodeVisualState.Normal;
+            visual.SetOutline(false);
             visuals[node] = visual;
             PositionNode(visual, node);
         }
 
-        foreach (var node in nodes)
-        {
-            if (node == null)
-                continue;
-
-            if (!visuals.TryGetValue(node, out var sourceVisual))
-                continue;
-
-            foreach (var neighbor in node.Neighbors)
-            {
-                if (neighbor == null || !visuals.TryGetValue(neighbor, out var targetVisual))
-                    continue;
-
-                CreateLine(sourceVisual, targetVisual);
-            }
-        }
+        RebuildLines();
     }
 
     private void CreateLine(NodeVisual source, NodeVisual target)
@@ -394,7 +415,9 @@ public class HackCanvas : MonoBehaviour
         var lineObject = new GameObject("Line", typeof(RectTransform), typeof(Image));
         lineObject.transform.SetParent(nodeContainer, false);
         var lineImage = lineObject.GetComponent<Image>();
-        lineImage.color = new Color(1f, 1f, 1f, 0.35f);
+        lineImage.color = GetLineColor(source, target);
+        lineImage.raycastTarget = false;
+        lineImage.maskable = false;
         var rect = lineObject.GetComponent<RectTransform>();
         rect.SetAsFirstSibling();
 
@@ -406,6 +429,7 @@ public class HackCanvas : MonoBehaviour
         rect.anchoredPosition = from + diff / 2f;
         rect.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg);
         lines.Add(lineImage);
+        lineImagesByPair[pairKey] = lineImage;
     }
 
     private void PositionNode(NodeVisual visual, HackNode node)
@@ -418,6 +442,66 @@ public class HackCanvas : MonoBehaviour
         visual.RectTransform.anchoredPosition = node.UIPosition;
     }
 
+    private Color GetLineColor(NodeVisual source, NodeVisual target)
+    {
+        if (source == null || target == null)
+        {
+            return new Color(1f, 1f, 1f, 0.35f);
+        }
+
+        int a = source.Node != null ? source.Node.GetInstanceID() : -1;
+        int b = target.Node != null ? target.Node.GetInstanceID() : -1;
+        if (a < 0 || b < 0)
+        {
+            return new Color(1f, 1f, 1f, 0.35f);
+        }
+
+        int min = Mathf.Min(a, b);
+        int max = Mathf.Max(a, b);
+        return GetLineColorForPair($"{min}_{max}");
+    }
+
+    private Color GetLineColorForPair(string pairKey)
+    {
+        if (traversedLinePairs.Contains(pairKey))
+        {
+            return new Color(1f, 0.06f, 0.06f, 1f);
+        }
+
+        return new Color(0.8f, 0.85f, 1f, 0.45f);
+    }
+
+    private string GetPairKeyFromLine(Image line)
+    {
+        if (line == null)
+        {
+            return null;
+        }
+
+        foreach (var entry in lineImagesByPair)
+        {
+            if (entry.Value == line)
+            {
+                return entry.Key;
+            }
+        }
+
+        return null;
+    }
+
+    private void RefreshLineColors()
+    {
+        foreach (var entry in lineImagesByPair)
+        {
+            if (entry.Value == null)
+            {
+                continue;
+            }
+
+            entry.Value.color = GetLineColorForPair(entry.Key);
+        }
+    }
+
     public void UpdateVisuals()
     {
         if (hackManager == null)
@@ -425,11 +509,30 @@ public class HackCanvas : MonoBehaviour
             return;
         }
 
+        if (lines.Count > 0)
+        {
+            for (int i = 0; i < lines.Count; i++)
+            {
+                var line = lines[i];
+                if (line == null)
+                {
+                    continue;
+                }
+
+                var color = line.color;
+                color.a = 0.95f;
+                line.color = color;
+            }
+        }
+
+        RefreshLineColors();
+
         if (IsPasswordPuzzleActive())
         {
             return;
         }
 
+        var nodesToRefresh = new List<HackNode>();
         foreach (var entry in visuals)
         {
             var node = entry.Key;
@@ -439,19 +542,22 @@ public class HackCanvas : MonoBehaviour
                 continue;
             }
 
-            visual.Image.color = GetVisualColor(node);
-            visual.Image.sprite = GetSpriteForNode(node);
-            // show a white outline for the current node
+            var desiredState = GetVisualState(node);
+            if (visual.CurrentState != desiredState)
+            {
+                nodesToRefresh.Add(node);
+                continue;
+            }
+
             visual.SetOutline(node == hackManager.CurrentNode);
 
-            // visited nodes get a gentle pulse; current node is emphasized
             if (node == hackManager.CurrentNode)
             {
                 visual.RectTransform.localScale = Vector3.one * 1.15f;
             }
             else if (node.IsVisited)
             {
-                float t = (Mathf.Sin(Time.time * 6f) + 1f) * 0.5f; // 0..1
+                float t = (Mathf.Sin(Time.time * 6f) + 1f) * 0.5f;
                 float s = Mathf.Lerp(0.95f, 1.05f, t);
                 visual.RectTransform.localScale = Vector3.one * s;
             }
@@ -461,20 +567,32 @@ public class HackCanvas : MonoBehaviour
             }
         }
 
+        foreach (var node in nodesToRefresh)
+        {
+            if (visuals.TryGetValue(node, out var currentVisual))
+            {
+                ReplaceVisual(node, currentVisual, GetVisualState(node));
+            }
+        }
+
         if (timerText != null)
         {
-            timerText.text = $"Time: {Mathf.CeilToInt(hackManager.RemainingTime)}s";
+            int totalSeconds = Mathf.CeilToInt(hackManager.RemainingTime);
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+
+            timerText.text = $"{minutes:D2}:{seconds:D2}";
         }
     }
 
-    private GameObject GetPrefabForNode(HackNode node)
+    private GameObject GetPrefabForNode(HackNode node, NodeVisualState state)
     {
         if (node == null)
         {
             return nodePrefab;
         }
 
-        return node.NodeType switch
+        GameObject basePrefab = node.NodeType switch
         {
             HackNodeType.Start => startNodePrefab != null ? startNodePrefab : nodePrefab,
             HackNodeType.End => endNodePrefab != null ? endNodePrefab : nodePrefab,
@@ -485,137 +603,90 @@ public class HackCanvas : MonoBehaviour
             HackNodeType.Teleport => teleportNodePrefab != null ? teleportNodePrefab : nodePrefab,
             _ => nodePrefab
         };
+
+        if (state == NodeVisualState.Active && activeNodePrefab != null)
+        {
+            return activeNodePrefab;
+        }
+
+        if (state == NodeVisualState.Visited && visitedNodePrefab != null)
+        {
+            return visitedNodePrefab;
+        }
+
+        return basePrefab != null ? basePrefab : nodePrefab;
     }
 
-    private Sprite GetSpriteForNode(HackNode node)
+    private NodeVisualState GetVisualState(HackNode node)
     {
         if (node == null)
         {
-            return GetOrCreateSprite(HackNodeType.Normal);
+            return NodeVisualState.Normal;
         }
 
-        if (generatedSprites.TryGetValue(node.NodeType, out var sprite) && sprite != null)
+        if (hackManager != null && node == hackManager.CurrentNode)
         {
-            return sprite;
+            return NodeVisualState.Active;
         }
 
-        return GetOrCreateSprite(node.NodeType);
+        return node.IsVisited ? NodeVisualState.Visited : NodeVisualState.Normal;
     }
 
-    private Sprite GetOrCreateSprite(HackNodeType nodeType)
+    private void ReplaceVisual(HackNode node, NodeVisual currentVisual, NodeVisualState desiredState)
     {
-        if (generatedSprites.TryGetValue(nodeType, out var existing) && existing != null)
+        if (node == null || currentVisual == null)
         {
-            return existing;
+            return;
         }
 
-        var texture = new Texture2D(64, 64, TextureFormat.RGBA32, false);
-        texture.filterMode = FilterMode.Bilinear;
-        texture.wrapMode = TextureWrapMode.Clamp;
-        var pixels = new Color32[64 * 64];
+        var oldRect = currentVisual.RectTransform;
+        var position = oldRect != null ? oldRect.anchoredPosition : node.UIPosition;
+        var scale = oldRect != null ? oldRect.localScale : Vector3.one;
 
-        for (int i = 0; i < pixels.Length; i++)
-        {
-            pixels[i] = new Color32(0, 0, 0, 0);
-        }
+        var newVisualObject = Instantiate(GetPrefabForNode(node, desiredState), nodeContainer, false);
+        var newVisual = newVisualObject.AddComponent<NodeVisual>();
+        newVisual.Initialize(this, node);
+        newVisual.CurrentState = desiredState;
+        newVisual.RectTransform.anchoredPosition = position;
+        newVisual.RectTransform.localScale = scale;
+        newVisual.SetOutline(node == hackManager?.CurrentNode);
 
-        FillShape(texture, pixels, nodeType);
-        texture.SetPixels32(pixels);
-        texture.Apply();
-
-        var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100f);
-        generatedSprites[nodeType] = sprite;
-        return sprite;
+        visuals[node] = newVisual;
+        Destroy(currentVisual.gameObject);
+        RebuildLines();
     }
 
-    private void FillShape(Texture2D texture, Color32[] pixels, HackNodeType nodeType)
+    private void RebuildLines()
     {
-        for (int y = 0; y < texture.height; y++)
+        foreach (var line in lines)
         {
-            for (int x = 0; x < texture.width; x++)
+            if (line != null)
             {
-                bool inside = false;
-                switch (nodeType)
-                {
-                    case HackNodeType.Start:
-                        inside = IsDiamond(x, y, texture.width, texture.height);
-                        break;
-                    case HackNodeType.End:
-                        inside = IsStar(x, y, texture.width, texture.height);
-                        break;
-                    case HackNodeType.Virus:
-                        inside = IsHexagon(x, y, texture.width, texture.height);
-                        break;
-                    case HackNodeType.Firewall:
-                        inside = IsShield(x, y, texture.width, texture.height);
-                        break;
-                    case HackNodeType.Key:
-                        inside = IsCircle(x, y, texture.width, texture.height);
-                        break;
-                    case HackNodeType.Bonus:
-                        inside = IsLightning(x, y, texture.width, texture.height);
-                        break;
-                    case HackNodeType.Teleport:
-                        inside = IsRoundedSquare(x, y, texture.width, texture.height);
-                        break;
-                    default:
-                        inside = IsCircle(x, y, texture.width, texture.height);
-                        break;
-                }
-
-                if (inside)
-                {
-                    pixels[y * texture.width + x] = new Color32(255, 255, 255, 255);
-                }
+                Destroy(line.gameObject);
             }
         }
-    }
 
-    private bool IsCircle(int x, int y, int width, int height)
-    {
-        float cx = width * 0.5f;
-        float cy = height * 0.5f;
-        float radius = width * 0.28f;
-        return (x - cx) * (x - cx) + (y - cy) * (y - cy) <= radius * radius;
-    }
+        lines.Clear();
+        createdLinePairs.Clear();
+        lineImagesByPair.Clear();
 
-    private bool IsDiamond(int x, int y, int width, int height)
-    {
-        float cx = width * 0.5f;
-        float cy = height * 0.5f;
-        float dx = Mathf.Abs(x - cx);
-        float dy = Mathf.Abs(y - cy);
-        return dx + dy <= width * 0.3f;
-    }
+        foreach (var node in visuals.Keys)
+        {
+            if (node == null || !visuals.TryGetValue(node, out var sourceVisual))
+            {
+                continue;
+            }
 
-    private bool IsHexagon(int x, int y, int width, int height)
-    {
-        float cx = width * 0.5f;
-        float cy = height * 0.5f;
-        float dx = Mathf.Abs(x - cx);
-        float dy = Mathf.Abs(y - cy);
-        return dy <= height * 0.24f && dx <= width * 0.32f - 0.5f * dy * 0.8f;
-    }
+            foreach (var neighbor in node.Neighbors)
+            {
+                if (neighbor == null || !visuals.TryGetValue(neighbor, out var targetVisual))
+                {
+                    continue;
+                }
 
-    private bool IsShield(int x, int y, int width, int height)
-    {
-        float cx = width * 0.5f;
-        float cy = height * 0.5f;
-        float rx = width * 0.24f;
-        float ry = height * 0.3f;
-        bool body = (x - cx) * (x - cx) / (rx * rx) + (y - cy) * (y - cy) / (ry * ry) <= 1f;
-        bool top = y >= height * 0.18f && y <= height * 0.42f && x >= width * 0.32f && x <= width * 0.68f;
-        return body || top;
-    }
-
-    private bool IsStar(int x, int y, int width, int height)
-    {
-        float cx = width * 0.5f;
-        float cy = height * 0.5f;
-        float dist = Mathf.Sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
-        float angle = Mathf.Atan2(y - cy, x - cx);
-        float spike = 0.6f + 0.2f * Mathf.Sin(5f * angle);
-        return dist <= width * 0.22f * spike;
+                CreateLine(sourceVisual, targetVisual);
+            }
+        }
     }
 
     private bool IsLightning(int x, int y, int width, int height)
@@ -684,6 +755,7 @@ public class HackCanvas : MonoBehaviour
         }
 
         lines.Clear();
+        lineImagesByPair.Clear();
 
         createdLinePairs.Clear();
 
@@ -696,6 +768,7 @@ public class HackCanvas : MonoBehaviour
         }
 
         visuals.Clear();
+        traversedLinePairs.Clear();
     }
 
     private void InitializeFailureOverlay()
@@ -774,6 +847,13 @@ public class HackCanvas : MonoBehaviour
         OnNodePointerUp?.Invoke();
     }
 
+    private enum NodeVisualState
+    {
+        Normal,
+        Visited,
+        Active
+    }
+
     private sealed class NodeVisual : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
     {
         private HackCanvas owner;
@@ -782,23 +862,31 @@ public class HackCanvas : MonoBehaviour
         public RectTransform RectTransform { get; private set; }
         public Image Image { get; set; }
         public HackNode Node => node;
+        public NodeVisualState CurrentState { get; set; }
 
         public void Initialize(HackCanvas canvas, HackNode targetNode)
         {
             owner = canvas;
             node = targetNode;
             RectTransform = GetComponent<RectTransform>();
+            if (RectTransform == null)
+            {
+                RectTransform = gameObject.AddComponent<RectTransform>();
+            }
+
             RectTransform.sizeDelta = new Vector2(56f, 56f);
             RectTransform.anchoredPosition = Vector2.zero;
             RectTransform.localScale = Vector3.one;
+
             var image = GetComponent<Image>();
             if (image != null)
             {
-                image.sprite = null;
                 image.type = Image.Type.Simple;
                 image.raycastTarget = true;
             }
-            // ensure an Outline component exists for highlighting current node
+
+            Image = image;
+
             var outline = GetComponent<UnityEngine.UI.Outline>();
             if (outline == null)
             {
@@ -831,7 +919,11 @@ public class HackCanvas : MonoBehaviour
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            // PointerEnter events don't provide button state reliably, forward anyway.
+            if (owner == null || node == null)
+            {
+                return;
+            }
+
             owner.OnNodePointerEnter?.Invoke(node);
         }
 

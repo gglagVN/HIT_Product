@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Experiment Report
   m_EditorClassIdentifier: 
   title: Experiment Report
-  paperImage: {fileID: 21300000, guid: 196942b2b9bb08e4b809789f6263a3a9, type: 3}
+  paperImage: {fileID: 21300000, guid: 28ac0c119d8cffc46b77ee332d4f8576, type: 3}
