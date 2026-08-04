@@ -180,8 +180,8 @@ public class HackCanvas : MonoBehaviour
     private void UpdatePasswordDisplay()
     {
         passwordDisplayText.text =
-            new string('*', enteredPassword.Length)
-            .PadRight(passwordLength, '_');
+            string.Join(" ", new string('*', enteredPassword.Length)
+            .PadRight(passwordLength, '_').ToCharArray());
     }
 
     private void ResetPasswordInput()
@@ -213,7 +213,7 @@ public class HackCanvas : MonoBehaviour
 
     private void Update()
     {
-        if (hackManager != null && hackManager.IsActive && Input.GetKeyDown(KeyCode.Escape))
+        if (hackManager != null && hackManager.IsActive && Input.GetKeyDown(KeyCode.Tab))
         {
             hackManager.FailHack();
             return;

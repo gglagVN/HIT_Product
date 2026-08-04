@@ -13,6 +13,7 @@ public class KeypadInteract : Interactable
     [SerializeField] private GameObject targetObject;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private PlayerLook playerLook;
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class KeypadInteract : Interactable
         {
             playerLook = FindObjectOfType<PlayerLook>();
         }
+        audioSource = targetObject.GetComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -111,6 +113,8 @@ public class KeypadInteract : Interactable
     IEnumerator delay()
     {
         yield return new WaitForSeconds(1f);
+        if (audioSource != null)
+            audioSource.Play();
         targetObject.GetComponent<Animator>().SetBool("isOpened", true);
     }
 

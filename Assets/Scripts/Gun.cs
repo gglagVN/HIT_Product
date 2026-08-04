@@ -10,6 +10,7 @@ public class Gun : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
     public MonoBehaviour playerMovement;
+    public PlayerLook playerLook;
 
     [Header("Shooting")]
     public bool isPlayable = false;
@@ -66,6 +67,11 @@ public class Gun : MonoBehaviour
         amountOfBullet = Mathf.Max(amountOfBullet, 0);
         spreadIntensity = hipSpreadIntensity;
         gunAudio = GetComponent<GunAudio>();
+
+        if (playerLook == null)
+        {
+            playerLook = FindObjectOfType<PlayerLook>();
+        }
     }
 
     public void AddAmmo(int amount)
@@ -130,6 +136,11 @@ public class Gun : MonoBehaviour
         isADS = true;
         HUDManager.Instance.CrossHair.SetActive(false);
         spreadIntensity = adsSpreadIntensity;
+
+        if (playerLook != null)
+        {
+            playerLook.SetADS(true);
+        }
     }
     private void ExitADS()
     {
@@ -137,6 +148,11 @@ public class Gun : MonoBehaviour
         isADS = false;
         HUDManager.Instance.CrossHair.SetActive(true);
         spreadIntensity = hipSpreadIntensity;
+
+        if (playerLook != null)
+        {
+            playerLook.SetADS(false);
+        }
     }
 
     private void FireWeapon()
