@@ -21,13 +21,10 @@ public class PlayerMotor : MonoBehaviour
         controller = GetComponent<CharacterController>();
     }
 
-    void Update()
-    {
-        isGrounded = controller.isGrounded;
-    }
-
     public void ProcessMove(Vector2 input)
     {
+        isGrounded = controller.isGrounded;
+
         Vector3 moveDirection = Vector3.zero;
 
         moveDirection.x = input.x;
@@ -54,7 +51,7 @@ public class PlayerMotor : MonoBehaviour
 
     public void Jump()
     {
-        if (isGrounded)
+        if (controller.isGrounded)
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
         }

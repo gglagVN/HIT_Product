@@ -34,8 +34,6 @@ public class EnemyHealth : MonoBehaviour
             enemyAudio.PlayGunnerHurt();
         currentHealth -= damage;
 
-        Debug.Log("Enemy HP: " + currentHealth);
-
         if (currentHealth <= 0)
         {
             Die();

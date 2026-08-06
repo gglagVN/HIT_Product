@@ -20,8 +20,10 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent Agent { get => agent; }
     public GameObject Player { get => player; }
     public Vector3 LastKnownPos { get => lastKnowPos; set => lastKnowPos = value; }
+#if UNITY_EDITOR
     [SerializeField]
     private string currentState;
+#endif
     public Paths path;
     public GameObject debugSphere;
 
@@ -29,10 +31,30 @@ public class Enemy : MonoBehaviour
     public float sightDistance = 20f;
     public float fieldOfView = 85f;
     public float eyeHeight;
+    [SerializeField] private LayerMask sightMask = ~0;
+
+    private bool playerVisible;
+    private int playerVisibleFrame = -1;
+
+    public bool PlayerVisible
+    {
+        get
+        {
+            if (playerVisibleFrame != Time.frameCount)
+            {
+                playerVisibleFrame = Time.frameCount;
+                playerVisible = CanSeePlayer();
+            }
+            return playerVisible;
+        }
+    }
 
     [Header("Combat")]
     public EnemyStyle enemyStyle = EnemyStyle.Gunner;
     public Transform gunBarrel;
+    [SerializeField] private Bullet bulletPrefab;
+    [SerializeField] private float bulletLifeTime = 5f;
+    private static Bullet fallbackBulletPrefab;
     [Range(0.1f, 10f)]
     public float fireRate = 1f;
     public float meleeRange = 2f;
@@ -46,6 +68,26 @@ public class Enemy : MonoBehaviour
     private float nextAttackTime;
     private Animator anim;
     private bool attackAnimationPlaying;
+
+    private static readonly int AnimIsWalking = Animator.StringToHash("isWalking");
+    private static readonly int AnimIsChasing = Animator.StringToHash("isChasing");
+    private static readonly int AnimIsAttacking = Animator.StringToHash("isAttacking");
+    private static readonly int AnimMoveX = Animator.StringToHash("moveX");
+    private static readonly int AnimMoveY = Animator.StringToHash("moveY");
+
+    private bool animIsWalking;
+    private bool animIsChasing;
+    private bool animIsAttacking;
+
+    private void SetAnimBool(int parameterHash, bool value, ref bool cachedValue)
+    {
+        if (cachedValue == value)
+        {
+            return;
+        }
+        cachedValue = value;
+        anim.SetBool(parameterHash, value);
+    }
 
     private bool IsGunnerPathing()
     {
@@ -77,13 +119,15 @@ public class Enemy : MonoBehaviour
     {
         if (isDead)
             return;
-        bool playerSeen = CanSeePlayer();
+        bool playerSeen = PlayerVisible;
 
         HandleFootstepState(playerSeen);
 
         HandleEnemyAudio(playerSeen);
 
+#if UNITY_EDITOR
         currentState = stateMachine.activeState.ToString();
+#endif
 
         if (debugSphere != null)
         {
@@ -110,11 +154,13 @@ public class Enemy : MonoBehaviour
 
                     RaycastHit hitInfo;
 
-                    if (Physics.Raycast(ray, out hitInfo, sightDistance))
+                    if (Physics.Raycast(ray, out hitInfo, sightDistance, sightMask, QueryTriggerInteraction.Ignore))
                     {
                         if (hitInfo.transform.gameObject == player)
                         {
+#if UNITY_EDITOR
                             Debug.DrawRay(ray.origin, ray.direction * sightDistance, Color.red);
+#endif
                             LastKnownPos = player.transform.position;
                             return true;
                         }
@@ -195,9 +241,9 @@ public class Enemy : MonoBehaviour
                 Agent.speed = shouldChase ? chaseSpeed : walkSpeed;
             }
 
-            anim.SetBool("isWalking", !attackAnimationPlaying && !shouldChase && isMoving);
-            anim.SetBool("isChasing", !attackAnimationPlaying && shouldChase);
-            anim.SetBool("isAttacking", attackAnimationPlaying);
+            SetAnimBool(AnimIsWalking, !attackAnimationPlaying && !shouldChase && isMoving, ref animIsWalking);
+            SetAnimBool(AnimIsChasing, !attackAnimationPlaying && shouldChase, ref animIsChasing);
+            SetAnimBool(AnimIsAttacking, attackAnimationPlaying, ref animIsAttacking);
             // Zombie doesn't use blend tree; skip setting moveX/moveY
             return;
         }
@@ -208,19 +254,19 @@ public class Enemy : MonoBehaviour
         bool shouldChaseGunner = playerSeen && (isAttackState || isPathing);
         bool shouldWalkGunner = !isAttackState && !playerSeen && isMoving;
 
-        anim.SetBool("isWalking", shouldWalkGunner);
-        anim.SetBool("isChasing", shouldChaseGunner);
-        anim.SetBool("isAttacking", shouldAttackGunner);
+        SetAnimBool(AnimIsWalking, shouldWalkGunner, ref animIsWalking);
+        SetAnimBool(AnimIsChasing, shouldChaseGunner, ref animIsChasing);
+        SetAnimBool(AnimIsAttacking, shouldAttackGunner, ref animIsAttacking);
 
         if (shouldChaseGunner)
         {
-            anim.SetFloat("moveX", moveX, blendSmooth, Time.deltaTime);
-            anim.SetFloat("moveY", moveY, blendSmooth, Time.deltaTime);
+            anim.SetFloat(AnimMoveX, moveX, blendSmooth, Time.deltaTime);
+            anim.SetFloat(AnimMoveY, moveY, blendSmooth, Time.deltaTime);
         }
         else
         {
-            anim.SetFloat("moveX", 0f, blendSmooth, Time.deltaTime);
-            anim.SetFloat("moveY", 0f, blendSmooth, Time.deltaTime);
+            anim.SetFloat(AnimMoveX, 0f, blendSmooth, Time.deltaTime);
+            anim.SetFloat(AnimMoveY, 0f, blendSmooth, Time.deltaTime);
         }
 
     }
@@ -252,8 +298,8 @@ public class Enemy : MonoBehaviour
         if (enemyStyle == EnemyStyle.Zombie)
         {
             {
-                isWalking = anim.GetBool("isWalking");
-                isRunning = anim.GetBool("isChasing");
+                isWalking = anim.GetBool(AnimIsWalking);
+                isRunning = anim.GetBool(AnimIsChasing);
             }
         }
         else
@@ -294,25 +340,29 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        anim.SetBool("isWalking", false);
-        anim.SetBool("isChasing", false);
-        anim.SetBool("isAttacking", false);
-        anim.SetFloat("moveX", 0f);
-        anim.SetFloat("moveY", 0f);
+        animIsWalking = false;
+        animIsChasing = false;
+        animIsAttacking = false;
+
+        anim.SetBool(AnimIsWalking, false);
+        anim.SetBool(AnimIsChasing, false);
+        anim.SetBool(AnimIsAttacking, false);
+        anim.SetFloat(AnimMoveX, 0f);
+        anim.SetFloat(AnimMoveY, 0f);
     }
 
     private IEnumerator ResetAttackAnimation()
     {
         yield return new WaitForSeconds(0.25f);
         attackAnimationPlaying = false;
-        UpdateAnimationState(CanSeePlayer());
+        UpdateAnimationState(PlayerVisible);
     }
 
     private IEnumerator ResetAttackAnimation(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         attackAnimationPlaying = false;
-        UpdateAnimationState(CanSeePlayer());
+        UpdateAnimationState(PlayerVisible);
     }
 
     public virtual void PerformAttack()
@@ -324,7 +374,7 @@ public class Enemy : MonoBehaviour
                 attackAnimationPlaying = true;
                 if (anim != null)
                 {
-                    anim.SetBool("isAttacking", true);
+                    SetAnimBool(AnimIsAttacking, true, ref animIsAttacking);
                 }
                 // keep attack animation visible for a short duration related to fireRate
                 StartCoroutine(ResetAttackAnimation(Mathf.Max(0.25f, fireRate)));
@@ -359,13 +409,38 @@ public class Enemy : MonoBehaviour
         {
             enemyAudio.PlayGunnerShoot();
         }
-        GameObject bullet = Instantiate(Resources.Load("Prefabs/Bullet") as GameObject, gunBarrel.position, transform.rotation);
+        Bullet bullet = GlobalReferences.Instance.SpawnBullet(
+            ResolveBulletPrefab(), gunBarrel.position, transform.rotation, bulletLifeTime);
+        if (bullet == null)
+        {
+            return;
+        }
+
         Vector3 shootDirection = (Player.transform.position - gunBarrel.transform.position).normalized;
-        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-        if (bulletRb != null)
+        if (bullet.TryGetComponent(out Rigidbody bulletRb))
         {
             bulletRb.velocity = Quaternion.AngleAxis(Random.Range(-3f, 3f), Vector3.up) * shootDirection * 40f;
         }
+    }
+
+    /// Trả prefab đạn đã gán trong Inspector, thiếu thì nạp một lần từ Resources và dùng chung cho mọi enemy.
+    private Bullet ResolveBulletPrefab()
+    {
+        if (bulletPrefab != null)
+        {
+            return bulletPrefab;
+        }
+
+        if (fallbackBulletPrefab == null)
+        {
+            GameObject loaded = Resources.Load<GameObject>("Prefabs/Bullet");
+            if (loaded != null)
+            {
+                loaded.TryGetComponent(out fallbackBulletPrefab);
+            }
+        }
+
+        return fallbackBulletPrefab;
     }
 
     public virtual void TryMeleeAttack()
@@ -383,7 +458,7 @@ public class Enemy : MonoBehaviour
             attackAnimationPlaying = true;
             if (anim != null)
             {
-                anim.SetBool("isAttacking", true);
+                SetAnimBool(AnimIsAttacking, true, ref animIsAttacking);
             }
             StartCoroutine(ResetAttackAnimation());
 

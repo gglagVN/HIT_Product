@@ -33,22 +33,18 @@ public class PlayerInteract : MonoBehaviour
         }
 
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+#if UNITY_EDITOR
         Debug.DrawRay(ray.origin, ray.direction * distance, Color.green);
+#endif
 
         RaycastHit hitInfo;
 
         if (Physics.Raycast(ray, out hitInfo, distance, mask))
         {
-            Debug.Log($"Hit: {hitInfo.collider.name} | Layer: {LayerMask.LayerToName(hitInfo.collider.gameObject.layer)}");
-            Interactable interactable =
-                hitInfo.collider.GetComponent<Interactable>();
-
-            if (interactable != null)
+            if (hitInfo.collider.TryGetComponent(out Interactable interactable))
             {
                 // Bật outline
-                Outline outline = interactable.GetComponent<Outline>();
-
-                if (outline != null)
+                if (interactable.TryGetComponent(out Outline outline))
                 {
                     outline.enabled = true;
                     currentOutline = outline;

@@ -8,6 +8,7 @@ public class Crate : Interactable
     [SerializeField] private GameObject targetObject;
     [SerializeField] private InputManager inputManager;
     [SerializeField] private PlayerLook playerLook;
+    private Animator targetAnimator;
     private bool isSolved;
 
     private void Awake()
@@ -26,6 +27,11 @@ public class Crate : Interactable
         if (playerLook == null)
         {
             playerLook = FindObjectOfType<PlayerLook>();
+        }
+
+        if (targetObject != null)
+        {
+            targetAnimator = targetObject.GetComponent<Animator>();
         }
     }
 
@@ -57,9 +63,6 @@ public class Crate : Interactable
             return;
         }
         if (isSolved) return;
-        Debug.Log("Interact");
-        Debug.Log("HackManager = " + hackManager);
-        Debug.Log("HackLevel = " + hackLevel);
 
         if (hackManager.IsActive)
         {
@@ -102,7 +105,10 @@ public class Crate : Interactable
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         playerLook.SetLookEnabled(true);
-        targetObject.GetComponent<Animator>().SetBool("isOpened", true);
+        if (targetAnimator != null)
+        {
+            targetAnimator.SetBool("isOpened", true);
+        }
         isSolved = true;
     }
 

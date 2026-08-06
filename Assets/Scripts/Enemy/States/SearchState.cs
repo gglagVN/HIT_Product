@@ -18,9 +18,9 @@ public class SearchState : BaseState
 
     public override void Perform()
     {
-        if (enemy.CanSeePlayer())
+        if (enemy.PlayerVisible)
         {
-            stateMachine.ChangeState(new AttackState());
+            stateMachine.ChangeState(stateMachine.AttackStateInstance);
             return;
         }
 
@@ -40,7 +40,7 @@ public class SearchState : BaseState
 
             if (searchTimer >= 10f)
             {
-                stateMachine.ChangeState(new PatrolState());
+                stateMachine.ChangeState(stateMachine.PatrolStateInstance);
             }
         }
     }
@@ -60,9 +60,6 @@ public class SearchState : BaseState
         {
             enemy.Agent.SetDestination(hit.position);
         }
-        Debug.Log("Remaining: " + enemy.Agent.remainingDistance);
-        Debug.Log("HasPath: " + enemy.Agent.hasPath);
-        Debug.Log("Status: " + enemy.Agent.pathStatus);
     }
 
     public override void Exit()

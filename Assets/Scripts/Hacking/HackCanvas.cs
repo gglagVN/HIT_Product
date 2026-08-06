@@ -65,6 +65,8 @@ public class HackCanvas : MonoBehaviour
     private readonly Dictionary<string, Image> lineImagesByPair = new Dictionary<string, Image>();
     private readonly HashSet<string> createdLinePairs = new HashSet<string>();
     private readonly HashSet<string> traversedLinePairs = new HashSet<string>();
+    private readonly List<HackNode> nodesToRefresh = new List<HackNode>();
+    private bool lineColorsDirty = true;
     private bool isDragging;
 
     private void Awake()
@@ -225,15 +227,10 @@ public class HackCanvas : MonoBehaviour
         }
 
         float pulse = 0.5f + Mathf.Sin(Time.time * 2f) * 0.2f;
-        foreach (var line in lines)
+        foreach (var entry in lineImagesByPair)
         {
-            if (line == null)
-            {
-                continue;
-            }
-
-            var pairKey = GetPairKeyFromLine(line);
-            if (pairKey != null && traversedLinePairs.Contains(pairKey))
+            var line = entry.Value;
+            if (line == null || traversedLinePairs.Contains(entry.Key))
             {
                 continue;
             }
@@ -342,6 +339,7 @@ public class HackCanvas : MonoBehaviour
         string pairKey = $"{min}_{max}";
 
         traversedLinePairs.Add(pairKey);
+        lineColorsDirty = true;
 
         if (lineImagesByPair.TryGetValue(pairKey, out var lineImage) && lineImage != null)
         {
@@ -471,24 +469,6 @@ public class HackCanvas : MonoBehaviour
         return new Color(0.8f, 0.85f, 1f, 0.45f);
     }
 
-    private string GetPairKeyFromLine(Image line)
-    {
-        if (line == null)
-        {
-            return null;
-        }
-
-        foreach (var entry in lineImagesByPair)
-        {
-            if (entry.Value == line)
-            {
-                return entry.Key;
-            }
-        }
-
-        return null;
-    }
-
     private void RefreshLineColors()
     {
         foreach (var entry in lineImagesByPair)
@@ -509,30 +489,18 @@ public class HackCanvas : MonoBehaviour
             return;
         }
 
-        if (lines.Count > 0)
+        if (lineColorsDirty)
         {
-            for (int i = 0; i < lines.Count; i++)
-            {
-                var line = lines[i];
-                if (line == null)
-                {
-                    continue;
-                }
-
-                var color = line.color;
-                color.a = 0.95f;
-                line.color = color;
-            }
+            RefreshLineColors();
+            lineColorsDirty = false;
         }
-
-        RefreshLineColors();
 
         if (IsPasswordPuzzleActive())
         {
             return;
         }
 
-        var nodesToRefresh = new List<HackNode>();
+        nodesToRefresh.Clear();
         foreach (var entry in visuals)
         {
             var node = entry.Key;
@@ -549,21 +517,28 @@ public class HackCanvas : MonoBehaviour
                 continue;
             }
 
-            visual.SetOutline(node == hackManager.CurrentNode);
+            bool isCurrent = node == hackManager.CurrentNode;
+            visual.SetOutline(isCurrent);
 
-            if (node == hackManager.CurrentNode)
+            float scale;
+            if (isCurrent)
             {
-                visual.RectTransform.localScale = Vector3.one * 1.15f;
+                scale = 1.15f;
             }
             else if (node.IsVisited)
             {
                 float t = (Mathf.Sin(Time.time * 6f) + 1f) * 0.5f;
-                float s = Mathf.Lerp(0.95f, 1.05f, t);
-                visual.RectTransform.localScale = Vector3.one * s;
+                scale = Mathf.Lerp(0.95f, 1.05f, t);
             }
             else
             {
-                visual.RectTransform.localScale = Vector3.one;
+                scale = 1f;
+            }
+
+            var targetScale = Vector3.one * scale;
+            if (visual.RectTransform.localScale != targetScale)
+            {
+                visual.RectTransform.localScale = targetScale;
             }
         }
 
@@ -669,6 +644,7 @@ public class HackCanvas : MonoBehaviour
         lines.Clear();
         createdLinePairs.Clear();
         lineImagesByPair.Clear();
+        lineColorsDirty = true;
 
         foreach (var node in visuals.Keys)
         {
@@ -769,6 +745,7 @@ public class HackCanvas : MonoBehaviour
 
         visuals.Clear();
         traversedLinePairs.Clear();
+        lineColorsDirty = true;
     }
 
     private void InitializeFailureOverlay()
@@ -858,6 +835,8 @@ public class HackCanvas : MonoBehaviour
     {
         private HackCanvas owner;
         private HackNode node;
+        private UnityEngine.UI.Outline outline;
+        private bool outlineEnabled;
 
         public RectTransform RectTransform { get; private set; }
         public Image Image { get; set; }
@@ -887,7 +866,7 @@ public class HackCanvas : MonoBehaviour
 
             Image = image;
 
-            var outline = GetComponent<UnityEngine.UI.Outline>();
+            outline = GetComponent<UnityEngine.UI.Outline>();
             if (outline == null)
             {
                 outline = gameObject.AddComponent<UnityEngine.UI.Outline>();
@@ -895,14 +874,18 @@ public class HackCanvas : MonoBehaviour
             outline.effectColor = Color.clear;
             outline.effectDistance = new Vector2(2f, 2f);
             outline.enabled = false;
+            outlineEnabled = false;
         }
 
         public void SetOutline(bool enabled)
         {
-            var outline = GetComponent<UnityEngine.UI.Outline>();
             if (outline == null)
                 return;
 
+            if (outlineEnabled == enabled)
+                return;
+
+            outlineEnabled = enabled;
             outline.effectColor = enabled ? Color.white : Color.clear;
             outline.enabled = enabled;
         }

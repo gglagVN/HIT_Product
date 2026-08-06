@@ -18,12 +18,9 @@ public class HackableDoor : MonoBehaviour, IHackable
         {
             gameObject.SetActive(false);
         }
-
-        Debug.Log($"{name} unlocked by hacking.");
     }
 
     public void OnHackFailure()
     {
-        Debug.Log($"{name} remained locked after a failed hack attempt.");
     }
 }

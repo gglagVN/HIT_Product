@@ -20,6 +20,8 @@ public class HUDManager : MonoBehaviour
     public Image tacticalUI;
     public TextMeshProUGUI tacticalAmountUI;
     public GameObject CrossHair;
+    private GunHolder cachedGunHolder;
+    private Gun[] cachedGuns;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -40,30 +42,56 @@ public class HUDManager : MonoBehaviour
     }
     public void GetCurrentGun(int index)
     {
-        GunHolder gunHolder = FindObjectOfType<GunHolder>();
+        EnsureGunCache();
         for (int i = 0; i < listGunIsActive.Length; i++)
         {
-            bool unlocked = true;
-            if (gunHolder != null && gunHolder.weapons != null && i < gunHolder.weapons.Length)
-            {
-                Gun g = gunHolder.weapons[i]?.GetComponent<Gun>();
-                unlocked = (g == null) || g.isPlayable;
-            }
-            listGunIsActive[i].SetActive(unlocked && i == index);
+            listGunIsActive[i].SetActive(IsWeaponUnlocked(i) && i == index);
         }
     }
     public void GetPrevGun(int index)
     {
-        GunHolder gunHolder = FindObjectOfType<GunHolder>();
+        EnsureGunCache();
         for (int i = 0; i < listGunIsUnactive.Length; i++)
         {
-            bool unlocked = true;
-            if (gunHolder != null && gunHolder.weapons != null && i < gunHolder.weapons.Length)
-            {
-                Gun g = gunHolder.weapons[i]?.GetComponent<Gun>();
-                unlocked = (g == null) || g.isPlayable;
-            }
-            listGunIsUnactive[i].SetActive(unlocked && i == index);
+            listGunIsUnactive[i].SetActive(IsWeaponUnlocked(i) && i == index);
         }
+    }
+
+    /// <summary>
+    /// Tìm GunHolder một lần và cache sẵn mảng Gun tương ứng với danh sách vũ khí.
+    /// </summary>
+    private void EnsureGunCache()
+    {
+        if (cachedGunHolder == null)
+        {
+            cachedGunHolder = FindObjectOfType<GunHolder>();
+            cachedGuns = null;
+        }
+
+        if (cachedGunHolder == null || cachedGunHolder.weapons == null)
+        {
+            cachedGuns = null;
+            return;
+        }
+
+        if (cachedGuns != null && cachedGuns.Length == cachedGunHolder.weapons.Length) return;
+
+        cachedGuns = new Gun[cachedGunHolder.weapons.Length];
+        for (int i = 0; i < cachedGuns.Length; i++)
+        {
+            GameObject weapon = cachedGunHolder.weapons[i];
+            cachedGuns[i] = weapon != null ? weapon.GetComponent<Gun>() : null;
+        }
+    }
+
+    /// <summary>
+    /// Kiểm tra vũ khí ở vị trí index đã được mở khoá hay chưa.
+    /// </summary>
+    private bool IsWeaponUnlocked(int index)
+    {
+        if (cachedGuns == null || index >= cachedGuns.Length) return true;
+
+        Gun gun = cachedGuns[index];
+        return (gun == null) || gun.isPlayable;
     }
 }

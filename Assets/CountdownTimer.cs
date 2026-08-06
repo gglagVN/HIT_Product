@@ -11,6 +11,8 @@ public class CountdownTimer : MonoBehaviour
 
     private bool isRunning;
 
+    private int lastDisplayedSeconds = -1;
+
     private void Start()
     {
         currentTime = duration;
@@ -41,14 +43,22 @@ public class CountdownTimer : MonoBehaviour
     {
         currentTime = duration;
         isRunning = true;
+        lastDisplayedSeconds = -1;
         timerText.gameObject.SetActive(true);
     }
 
     private void UpdateTimerUI()
     {
-        int minutes = Mathf.FloorToInt(currentTime / 60);
-        int seconds = Mathf.FloorToInt(currentTime % 60);
+        int totalSeconds = Mathf.FloorToInt(currentTime);
 
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        if (totalSeconds == lastDisplayedSeconds)
+            return;
+
+        lastDisplayedSeconds = totalSeconds;
+
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+
+        timerText.SetText("{0:00}:{1:00}", minutes, seconds);
     }
 }

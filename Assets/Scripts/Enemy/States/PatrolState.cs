@@ -9,6 +9,9 @@ public class PatrolState : BaseState
 
     public override void Enter()
     {
+        waypointIndex = 0;
+        waitTimer = 0f;
+
         enemy.Agent.SetDestination(enemy.path.waypoints[waypointIndex].position);
     }
     public override void Exit()
@@ -18,9 +21,9 @@ public class PatrolState : BaseState
     public override void Perform()
     {
         PatrolCycle();
-        if (enemy.CanSeePlayer())
+        if (enemy.PlayerVisible)
         {
-            stateMachine.ChangeState(new AttackState());
+            stateMachine.ChangeState(stateMachine.AttackStateInstance);
         }
     }
     public void PatrolCycle()

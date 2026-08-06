@@ -61,9 +61,6 @@ public class KeypadInteract : Interactable
             Debug.LogWarning("HackManager or HackLevel is not assigned.");
             return;
         }
-        Debug.Log("Interact");
-        Debug.Log("HackManager = " + hackManager);
-        Debug.Log("HackLevel = " + hackLevel);
 
         if (hackManager.IsActive)
         {

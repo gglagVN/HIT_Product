@@ -7,10 +7,14 @@ public class AttackState : BaseState
     private float moveTimer;
     private float losePlayerTimer;
     private float attackTimer;
+    private float nextMoveDelay;
 
     public override void Enter()
     {
-
+        moveTimer = 0f;
+        losePlayerTimer = 0f;
+        attackTimer = 0f;
+        nextMoveDelay = Random.Range(3, 7);
     }
 
     public override void Exit()
@@ -20,7 +24,7 @@ public class AttackState : BaseState
 
     public override void Perform()
     {
-        if (enemy.CanSeePlayer())
+        if (enemy.PlayerVisible)
         {
             losePlayerTimer = 0;
             moveTimer += Time.deltaTime;
@@ -36,10 +40,11 @@ public class AttackState : BaseState
                 attackTimer = 0f;
             }
 
-            if (moveTimer > Random.Range(3, 7))
+            if (moveTimer > nextMoveDelay)
             {
                 enemy.SetAttackDestination();
                 moveTimer = 0f;
+                nextMoveDelay = Random.Range(3, 7);
             }
 
             enemy.LastKnownPos = enemy.Player.transform.position;
@@ -49,7 +54,7 @@ public class AttackState : BaseState
             losePlayerTimer += Time.deltaTime;
             if (losePlayerTimer > 8)
             {
-                stateMachine.ChangeState(new SearchState());
+                stateMachine.ChangeState(stateMachine.SearchStateInstance);
             }
         }
     }

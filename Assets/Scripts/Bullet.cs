@@ -1,35 +1,98 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     public int bulletDamage = 10;
+
+    private Rigidbody body;
+    private Bullet sourcePrefab;
+    private float despawnTime;
+    private bool isLive;
+
+    void Awake()
+    {
+        body = GetComponent<Rigidbody>();
+    }
+
+    /// Khởi động lại viên đạn vừa lấy từ pool: xoá quán tính cũ và hẹn giờ tự thu hồi.
+    public void Arm(Bullet prefab, float lifeTime)
+    {
+        sourcePrefab = prefab;
+        despawnTime = Time.time + lifeTime;
+        isLive = true;
+
+        if (body != null)
+        {
+            body.velocity = Vector3.zero;
+            body.angularVelocity = Vector3.zero;
+        }
+    }
+
+    void Update()
+    {
+        if (isLive && Time.time >= despawnTime)
+        {
+            Despawn();
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
-        Transform hitTransform = collision.transform;
-        if (collision.gameObject.tag != "Bullet")
+        if (!isLive)
         {
-            if (hitTransform.CompareTag("Player"))
+            return;
+        }
+
+        Transform hitTransform = collision.transform;
+        if (!collision.gameObject.CompareTag("Bullet"))
+        {
+            if (hitTransform.CompareTag("Player") &&
+                hitTransform.TryGetComponent(out PlayerHealth playerHealth))
             {
-                Debug.Log("Hit Player");
-                hitTransform.GetComponent<PlayerHealth>().TakeDamage(10f);
+                playerHealth.TakeDamage(10f);
             }
             CreateBulletImpactEffect(collision);
-            Destroy(gameObject);
+            Despawn();
         }
-        if (collision.gameObject.tag == "Target")
+        if (collision.gameObject.CompareTag("Target") &&
+            collision.gameObject.TryGetComponent(out EnemyHealth enemyHealth))
         {
-            collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
+            enemyHealth.TakeDamage(bulletDamage);
         }
     }
+
     void CreateBulletImpactEffect(Collision collision)
     {
+        if (GlobalReferences.Instance == null)
+        {
+            return;
+        }
+
         ContactPoint contact = collision.contacts[0];
-        GameObject hole = Instantiate(GlobalReferences.Instance.bulletImpactEffectPrefab, contact.point, Quaternion.LookRotation(contact.normal));
-        hole.transform.SetParent(collision.gameObject.transform);
+        GlobalReferences.Instance.SpawnImpact(contact.point, Quaternion.LookRotation(contact.normal), collision.transform);
+    }
+
+    private void Despawn()
+    {
+        if (!isLive)
+        {
+            return;
+        }
+        isLive = false;
+
+        if (body != null)
+        {
+            body.velocity = Vector3.zero;
+            body.angularVelocity = Vector3.zero;
+        }
+
+        if (GlobalReferences.Instance != null)
+        {
+            GlobalReferences.Instance.ReleaseBullet(sourcePrefab, this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
-
-

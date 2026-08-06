@@ -147,12 +147,7 @@ public class HackManager : MonoBehaviour
 
         if (currentNode.Neighbors.Contains(nextNode) && !nextNode.IsVisited)
         {
-            var previousNode = currentNode;
             SetCurrentNode(nextNode);
-            if (hackCanvas != null)
-            {
-                hackCanvas.MarkPathTraversal(previousNode, nextNode);
-            }
             nextNode.ExecuteEffect(this);
             return true;
         }
@@ -217,11 +212,6 @@ public class HackManager : MonoBehaviour
         {
             var hackable = targetObjectReference.GetComponent<IHackable>();
             hackable?.OnHackSuccess();
-        }
-
-        if (hackCanvas != null)
-        {
-            hackCanvas.ShowSuccessEffect();
         }
 
         if (runtimeContainer != null)
@@ -447,11 +437,6 @@ public class HackManager : MonoBehaviour
         {
             FailHack();
         }
-    }
-
-    private IEnumerator FlashInvalidNode(HackNode node)
-    {
-        yield break;
     }
 
     private void CreateRuntimeNodes(HackLevel level)

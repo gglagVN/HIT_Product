@@ -12,11 +12,6 @@ public class Medkit : Interactable
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     protected override void Interact()
     {
         playerHealth.RestoreHealth(20f);

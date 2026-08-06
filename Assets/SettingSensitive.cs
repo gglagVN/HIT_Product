@@ -15,6 +15,9 @@ public class SettingSensitive : MonoBehaviour
     [Header("Player")]
     public PlayerLook playerLook;
 
+    private int lastNormalPercent = int.MinValue;
+    private int lastADSPercent = int.MinValue;
+
     private void Start()
     {
         // Load giá trị đã lưu
@@ -90,13 +93,25 @@ public class SettingSensitive : MonoBehaviour
 
     private void UpdateNormalText(float value)
     {
-        normalText.text =
-            Mathf.RoundToInt(value) + "%";
+        int percent = Mathf.RoundToInt(value);
+
+        if (percent == lastNormalPercent)
+            return;
+
+        lastNormalPercent = percent;
+
+        normalText.SetText("{0}%", percent);
     }
 
     private void UpdateADSText(float value)
     {
-        ADSText.text =
-            Mathf.RoundToInt(value) + "%";
+        int percent = Mathf.RoundToInt(value);
+
+        if (percent == lastADSPercent)
+            return;
+
+        lastADSPercent = percent;
+
+        ADSText.SetText("{0}%", percent);
     }
 }

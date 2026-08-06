@@ -33,11 +33,16 @@ public class Gun : MonoBehaviour
     [Header("Shotgun")]
     public int pelletsPerShot = 1; // 1 = súng thường, >1 = shotgun
 
+    private Bullet bulletPrefabBullet;
+    private ParticleSystem muzzleParticles;
     private bool isShooting;
     private bool readyToShoot = true;
     private bool allowReset = true;
     private int burstBulletsLeft;
     public bool isADS;
+
+    private int lastMagazineAmmoDisplayed = int.MinValue;
+    private int lastTotalAmmoDisplayed = int.MinValue;
 
     public enum ShootingMode
     {
@@ -68,10 +73,26 @@ public class Gun : MonoBehaviour
         spreadIntensity = hipSpreadIntensity;
         gunAudio = GetComponent<GunAudio>();
 
+        if (bulletPrefab != null && !bulletPrefab.TryGetComponent(out bulletPrefabBullet))
+        {
+            Debug.LogError($"{name}: bulletPrefab thiếu component Bullet.", this);
+        }
+
+        if (muzzleEffect != null)
+        {
+            muzzleParticles = muzzleEffect.GetComponent<ParticleSystem>();
+        }
+
         if (playerLook == null)
         {
             playerLook = FindObjectOfType<PlayerLook>();
         }
+    }
+
+    private void OnEnable()
+    {
+        lastMagazineAmmoDisplayed = int.MinValue;
+        lastTotalAmmoDisplayed = int.MinValue;
     }
 
     public void AddAmmo(int amount)
@@ -126,9 +147,38 @@ public class Gun : MonoBehaviour
             FireWeapon();
         }
 
-        HUDManager.Instance.magazineAmmoUI.text = (bulletsLeft / bulletPerBurst).ToString();
-        HUDManager.Instance.totalAmmoUI.text = (amountOfBullet / bulletPerBurst).ToString();
+        UpdateAmmoUI();
 
+    }
+
+    /// <summary>
+    /// Đẩy số đạn lên HUD, chỉ ghi lại text khi giá trị hiển thị thay đổi.
+    /// </summary>
+    private void UpdateAmmoUI()
+    {
+        HUDManager hud = HUDManager.Instance;
+        if (hud == null || bulletPerBurst == 0) return;
+
+        int magazineAmmo = bulletsLeft / bulletPerBurst;
+        int totalAmmo = amountOfBullet / bulletPerBurst;
+
+        if (magazineAmmo != lastMagazineAmmoDisplayed)
+        {
+            lastMagazineAmmoDisplayed = magazineAmmo;
+            if (hud.magazineAmmoUI != null)
+            {
+                hud.magazineAmmoUI.SetText("{0}", magazineAmmo);
+            }
+        }
+
+        if (totalAmmo != lastTotalAmmoDisplayed)
+        {
+            lastTotalAmmoDisplayed = totalAmmo;
+            if (hud.totalAmmoUI != null)
+            {
+                hud.totalAmmoUI.SetText("{0}", totalAmmo);
+            }
+        }
     }
     private void EnterADS()
     {
@@ -166,9 +216,9 @@ public class Gun : MonoBehaviour
         bulletsLeft--;
         gunAudio.PlayShoot();
 
-        if (muzzleEffect != null)
+        if (muzzleParticles != null)
         {
-            muzzleEffect.GetComponent<ParticleSystem>().Play();
+            muzzleParticles.Play();
         }
         if (pelletsPerShot > 1)
         {
@@ -199,28 +249,26 @@ public class Gun : MonoBehaviour
             Vector3 shootingDirection =
                 CalculateDirectionAndSpread().normalized;
 
-            GameObject bullet =
-                Instantiate(
-                    bulletPrefab,
-                    bulletSpawn.position,
-                    Quaternion.identity);
-            Bullet bul = bullet.GetComponent<Bullet>();
+            Bullet bul = GlobalReferences.Instance.SpawnBullet(
+                bulletPrefabBullet,
+                bulletSpawn.position,
+                Quaternion.identity,
+                bulletPrefabLifeTime);
+
+            if (bul == null)
+            {
+                continue;
+            }
+
             bul.bulletDamage = weaponDamage;
-            bullet.transform.forward = shootingDirection;
+            bul.transform.forward = shootingDirection;
 
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-
-            if (rb != null)
+            if (bul.TryGetComponent(out Rigidbody rb))
             {
                 rb.AddForce(
                     shootingDirection * bulletVelocity,
                     ForceMode.Impulse);
             }
-
-            StartCoroutine(
-                DestroyBulletAfterTime(
-                    bullet,
-                    bulletPrefabLifeTime));
         }
 
         if (allowReset)
@@ -253,18 +301,6 @@ public class Gun : MonoBehaviour
         bulletsLeft += bulletsToReload;
         amountOfBullet -= bulletsToReload;
         isReloading = false;
-    }
-
-    private IEnumerator DestroyBulletAfterTime(
-        GameObject bullet,
-        float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        if (bullet != null)
-        {
-            Destroy(bullet);
-        }
     }
 
     private void ResetShot()

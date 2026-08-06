@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
     public Image frontHealthBar;
     public Image backHealthBar;
     public TextMeshProUGUI healthText;
+    private float lastHealthDisplayed = float.NaN;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,20 +23,24 @@ public class PlayerHealth : MonoBehaviour
     void Update()
     {
         health = Mathf.Clamp(health, 0, maxHealth);
-        UpdateHealthUI();
-        if (Input.GetKeyDown(KeyCode.J))
+
+        float hFraction = health / maxHealth;
+        bool barsAreLerping =
+            backHealthBar.fillAmount > hFraction ||
+            frontHealthBar.fillAmount < hFraction;
+
+        if (barsAreLerping || health != lastHealthDisplayed)
         {
-            TakeDamage(10f);
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            RestoreHealth(10f);
+            UpdateHealthUI();
         }
     }
     public void UpdateHealthUI()
     {
-        healthText.text = health.ToString();
-        Debug.Log(health);
+        if (health != lastHealthDisplayed)
+        {
+            lastHealthDisplayed = health;
+            healthText.SetText("{0}", health);
+        }
         float fillF = frontHealthBar.fillAmount;
         float fillB = backHealthBar.fillAmount;
         float hFraction = health / maxHealth;

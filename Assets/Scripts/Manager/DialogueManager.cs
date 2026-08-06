@@ -12,6 +12,7 @@ public class DialogueManager : MonoBehaviour
     private bool waitingForNext;
     [SerializeField]
     private float typeSpeed = 0.03f;
+    private WaitForSeconds typeDelay;
 
     [Header("UI")]
     public CanvasGroup dialogueGroup;
@@ -34,6 +35,8 @@ public class DialogueManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        typeDelay = new WaitForSeconds(typeSpeed);
 
         HideDialogue();
     }
@@ -87,20 +90,23 @@ public class DialogueManager : MonoBehaviour
         isTyping = true;
         skipTyping = false;
 
-        subtitleText.text = "";
+        subtitleText.text = text;
+        subtitleText.maxVisibleCharacters = 0;
 
-        foreach (char c in text)
+        int length = text != null ? text.Length : 0;
+        for (int i = 0; i < length; i++)
         {
             if (skipTyping)
             {
-                subtitleText.text = text;
                 break;
             }
 
-            subtitleText.text += c;
+            subtitleText.maxVisibleCharacters = i + 1;
 
-            yield return new WaitForSeconds(0.03f);
+            yield return typeDelay;
         }
+
+        subtitleText.maxVisibleCharacters = int.MaxValue;
 
         isTyping = false;
     }

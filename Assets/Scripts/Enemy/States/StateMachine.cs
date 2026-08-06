@@ -6,10 +6,52 @@ public class StateMachine : MonoBehaviour
 {
     public BaseState activeState;
     public PatrolState patrolState;
+
+    private Enemy owner;
+    private PatrolState cachedPatrolState;
+    private AttackState cachedAttackState;
+    private SearchState cachedSearchState;
+
+    public PatrolState PatrolStateInstance
+    {
+        get
+        {
+            if (cachedPatrolState == null)
+            {
+                cachedPatrolState = new PatrolState();
+            }
+            return cachedPatrolState;
+        }
+    }
+
+    public AttackState AttackStateInstance
+    {
+        get
+        {
+            if (cachedAttackState == null)
+            {
+                cachedAttackState = new AttackState();
+            }
+            return cachedAttackState;
+        }
+    }
+
+    public SearchState SearchStateInstance
+    {
+        get
+        {
+            if (cachedSearchState == null)
+            {
+                cachedSearchState = new SearchState();
+            }
+            return cachedSearchState;
+        }
+    }
+
     // Start is called before the first frame update
     public void Initialise()
     {
-        ChangeState(new PatrolState());
+        ChangeState(PatrolStateInstance);
     }
     void Start()
     {
@@ -32,8 +74,12 @@ public class StateMachine : MonoBehaviour
         activeState = newState;
         if (activeState != null)
         {
+            if (owner == null)
+            {
+                owner = GetComponent<Enemy>();
+            }
             activeState.stateMachine = this;
-            activeState.enemy = GetComponent<Enemy>();
+            activeState.enemy = owner;
             activeState.Enter();
         }
     }
