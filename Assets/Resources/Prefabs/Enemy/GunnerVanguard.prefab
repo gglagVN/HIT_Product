@@ -714,8 +714,13 @@ MonoBehaviour:
   sightDistance: 50
   fieldOfView: 100
   eyeHeight: 0.6
+  sightMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   enemyStyle: 0
   gunBarrel: {fileID: 6705558067435980856}
+  bulletPrefab: {fileID: 0}
+  bulletLifeTime: 5
   fireRate: 1
   meleeRange: 2
   meleeDamage: 10
@@ -907,27 +912,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   voiceSource: {fileID: 644930986546815696}
   footstepSource: {fileID: 1267377353277059618}
-  idleClips: []
-  detectClips: []
-  attackClips: []
-  hurtClips: []
-  deathClips: []
+  idleClips:
+    sequence: 1
+    audioClips: []
+  detectClips:
+    sequence: 1
+    audioClips: []
+  attackClips:
+    sequence: 1
+    audioClips: []
+  hurtClips:
+    sequence: 1
+    audioClips: []
+  deathClips:
+    sequence: 1
+    audioClips: []
   walkFootsteps:
-  - {fileID: 8300000, guid: ea0fde8972b1d7e468a7b4535d51ca32, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: ea0fde8972b1d7e468a7b4535d51ca32, type: 3}
   runFootsteps:
-  - {fileID: 8300000, guid: ddff6f8e4a5b78243afb2d4e1b18c782, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: ddff6f8e4a5b78243afb2d4e1b18c782, type: 3}
   gunnerShootClips:
-  - {fileID: 8300000, guid: 1b366e738f4d81345ad0c0690be887a4, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: 1b366e738f4d81345ad0c0690be887a4, type: 3}
   gunnerHurtClips:
-  - {fileID: 8300000, guid: d08522b081c2a8b418b2920bbf512a26, type: 3}
-  - {fileID: 8300000, guid: 5ee6107a57d790a4da52d59d9e157821, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: d08522b081c2a8b418b2920bbf512a26, type: 3}
+    - {fileID: 8300000, guid: 5ee6107a57d790a4da52d59d9e157821, type: 3}
   gunnerDeathClips:
-  - {fileID: 8300000, guid: f656d3d5e9cd7cf4d9ab8aebaf00edcf, type: 3}
-  - {fileID: 8300000, guid: dfb54833572de10479b9bbf4336fc7c0, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: f656d3d5e9cd7cf4d9ab8aebaf00edcf, type: 3}
+    - {fileID: 8300000, guid: dfb54833572de10479b9bbf4336fc7c0, type: 3}
   gunnerWalkFootsteps:
-  - {fileID: 8300000, guid: ea0fde8972b1d7e468a7b4535d51ca32, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: ea0fde8972b1d7e468a7b4535d51ca32, type: 3}
   gunnerRunFootsteps:
-  - {fileID: 8300000, guid: ddff6f8e4a5b78243afb2d4e1b18c782, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: ddff6f8e4a5b78243afb2d4e1b18c782, type: 3}
   minPitch: 0.95
   maxPitch: 1.05
 --- !u!1 &2474171518916207543

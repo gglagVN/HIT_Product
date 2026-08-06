@@ -1,3 +1,4 @@
+using Thnguyet.AudioManagement;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -10,20 +11,20 @@ public class EnemyAudio : MonoBehaviour
     private AudioSource footstepSource;
 
     [Header("Zombie")]
-    public AudioClip[] idleClips;
-    public AudioClip[] detectClips;
-    public AudioClip[] attackClips;
-    public AudioClip[] hurtClips;
-    public AudioClip[] deathClips;
-    public AudioClip[] walkFootsteps;
-    public AudioClip[] runFootsteps;
+    public AudioClipGroup idleClips = new AudioClipGroup();
+    public AudioClipGroup detectClips = new AudioClipGroup();
+    public AudioClipGroup attackClips = new AudioClipGroup();
+    public AudioClipGroup hurtClips = new AudioClipGroup();
+    public AudioClipGroup deathClips = new AudioClipGroup();
+    public AudioClipGroup walkFootsteps = new AudioClipGroup();
+    public AudioClipGroup runFootsteps = new AudioClipGroup();
 
     [Header("Gunner")]
-    public AudioClip[] gunnerShootClips;
-    public AudioClip[] gunnerHurtClips;
-    public AudioClip[] gunnerDeathClips;
-    public AudioClip[] gunnerWalkFootsteps;
-    public AudioClip[] gunnerRunFootsteps;
+    public AudioClipGroup gunnerShootClips = new AudioClipGroup();
+    public AudioClipGroup gunnerHurtClips = new AudioClipGroup();
+    public AudioClipGroup gunnerDeathClips = new AudioClipGroup();
+    public AudioClipGroup gunnerWalkFootsteps = new AudioClipGroup();
+    public AudioClipGroup gunnerRunFootsteps = new AudioClipGroup();
 
     [Header("Settings")]
     [Range(0.8f, 1.2f)]
@@ -34,29 +35,46 @@ public class EnemyAudio : MonoBehaviour
 
 
 
-    private void PlayRandom(AudioClip[] clips)
+    private void PlayRandom(AudioClipGroup group)
     {
-        if (clips == null || clips.Length == 0)
+        if (group == null)
+            return;
+
+        AudioClip clip = group.GetNextClip();
+
+        if (clip == null)
             return;
 
         voiceSource.pitch = Random.Range(minPitch, maxPitch);
 
-        voiceSource.PlayOneShot(clips[Random.Range(0, clips.Length)]);
+        voiceSource.PlayOneShot(clip);
 
         voiceSource.pitch = 1f;
     }
+
+    /// Lấy clip cố định dùng cho footstep loop.
+    private AudioClip GetLoopClip(AudioClipGroup group)
+    {
+        if (group == null || group.audioClips == null || group.audioClips.Length == 0)
+            return null;
+
+        return group.audioClips[0];
+    }
+
     public void StartWalkLoop()
     {
-        if (walkFootsteps.Length == 0)
+        AudioClip loopClip = GetLoopClip(walkFootsteps);
+
+        if (loopClip == null)
             return;
 
         if (footstepSource.isPlaying &&
-            footstepSource.clip == walkFootsteps[0])
+            footstepSource.clip == loopClip)
             return;
 
         footstepSource.Stop();
 
-        footstepSource.clip = walkFootsteps[0];
+        footstepSource.clip = loopClip;
 
         footstepSource.loop = true;
 
@@ -65,16 +83,18 @@ public class EnemyAudio : MonoBehaviour
 
     public void StartRunLoop()
     {
-        if (runFootsteps.Length == 0)
+        AudioClip loopClip = GetLoopClip(runFootsteps);
+
+        if (loopClip == null)
             return;
 
         if (footstepSource.isPlaying &&
-            footstepSource.clip == runFootsteps[0])
+            footstepSource.clip == loopClip)
             return;
 
         footstepSource.Stop();
 
-        footstepSource.clip = runFootsteps[0];
+        footstepSource.clip = loopClip;
 
         footstepSource.loop = true;
 
