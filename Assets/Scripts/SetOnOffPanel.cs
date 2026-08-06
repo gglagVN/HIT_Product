@@ -1,27 +1,49 @@
-using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class SetOnOffPanel : MonoBehaviour
 {
     [SerializeField] private GameObject[] gameObjects;
     [SerializeField] private float closeAnimationTime = 1f;
+    [SerializeField] private float openAnimationTime = 0.25f;
+    [SerializeField] private float closedScale = 0.85f;
+
+    private CanvasGroup[] canvasGroups;
+    private RectTransform[] rectTransforms;
+    private Sequence panelSequence;
 
     private bool isOpen = false;
     private bool isAnimating = false;
 
     private void Awake()
     {
-        foreach (GameObject go in gameObjects)
+        int count = gameObjects != null ? gameObjects.Length : 0;
+
+        canvasGroups = new CanvasGroup[count];
+        rectTransforms = new RectTransform[count];
+
+        for (int i = 0; i < count; i++)
         {
+            GameObject go = gameObjects[i];
             if (go == null) continue;
 
-            go.SetActive(false);
+            canvasGroups[i] = go.GetComponent<CanvasGroup>();
+            rectTransforms[i] = go.GetComponent<RectTransform>();
+
+            if (canvasGroups[i] == null)
+            {
+                Debug.LogError(
+                    "SetOnOffPanel: '" + go.name + "' chưa có CanvasGroup. " +
+                    "Hãy thêm component CanvasGroup cho object này trong Inspector để fade hoạt động.", go);
+            }
 
             Animator anim = go.GetComponent<Animator>();
             if (anim != null)
             {
-                anim.SetBool("isOpened", false);
+                anim.enabled = false;
             }
+
+            go.SetActive(false);
         }
     }
 
@@ -32,7 +54,7 @@ public class SetOnOffPanel : MonoBehaviour
 
         if (isOpen)
         {
-            StartCoroutine(ClosePanelsRoutine());
+            ClosePanels();
         }
         else
         {
@@ -42,69 +64,147 @@ public class SetOnOffPanel : MonoBehaviour
 
     private void OpenPanels()
     {
-        isOpen = true;
+        KillSequence();
 
-        foreach (GameObject go in gameObjects)
+        isOpen = true;
+        isAnimating = true;
+
+        panelSequence = DOTween.Sequence().SetUpdate(true).SetLink(gameObject);
+
+        for (int i = 0; i < gameObjects.Length; i++)
         {
+            GameObject go = gameObjects[i];
             if (go == null) continue;
 
             go.SetActive(true);
 
-            Animator anim = go.GetComponent<Animator>();
-
-            if (anim != null)
+            CanvasGroup group = canvasGroups[i];
+            if (group != null)
             {
-                anim.SetBool("isOpened", true);
+                group.alpha = 0f;
+                group.interactable = false;
+                group.blocksRaycasts = false;
+
+                panelSequence.Join(group.DOFade(1f, openAnimationTime).SetEase(Ease.OutQuad));
+            }
+
+            RectTransform rect = rectTransforms[i];
+            if (rect != null)
+            {
+                rect.localScale = Vector3.one * closedScale;
+
+                panelSequence.Join(rect.DOScale(1f, openAnimationTime).SetEase(Ease.OutBack));
             }
         }
+
+        panelSequence.OnComplete(() =>
+        {
+            SetPanelsInteractable(true);
+            isAnimating = false;
+            panelSequence = null;
+        });
     }
 
-    private IEnumerator ClosePanelsRoutine()
+    private void ClosePanels()
     {
-        isAnimating = true;
+        KillSequence();
+
         isOpen = false;
+        isAnimating = true;
 
-        foreach (GameObject go in gameObjects)
+        SetPanelsInteractable(false);
+
+        panelSequence = DOTween.Sequence().SetUpdate(true).SetLink(gameObject);
+
+        for (int i = 0; i < gameObjects.Length; i++)
         {
-            if (go == null) continue;
+            GameObject go = gameObjects[i];
+            if (go == null || !go.activeSelf) continue;
 
-            Animator anim = go.GetComponent<Animator>();
-
-            if (anim != null)
+            CanvasGroup group = canvasGroups[i];
+            if (group != null)
             {
-                anim.SetBool("isOpened", false);
+                panelSequence.Join(group.DOFade(0f, closeAnimationTime).SetEase(Ease.InQuad));
+            }
+
+            RectTransform rect = rectTransforms[i];
+            if (rect != null)
+            {
+                panelSequence.Join(rect.DOScale(closedScale, closeAnimationTime).SetEase(Ease.InBack));
             }
         }
 
-        // Chờ animation đóng chạy xong
-        yield return new WaitForSecondsRealtime(closeAnimationTime);
-
-        foreach (GameObject go in gameObjects)
+        panelSequence.OnComplete(() =>
         {
-            if (go == null) continue;
-
-            go.SetActive(false);
-        }
-
-        isAnimating = false;
+            HideAllPanels();
+            isAnimating = false;
+            panelSequence = null;
+        });
     }
+
     public void ForceClose()
     {
-        StopAllCoroutines();
+        KillSequence();
 
         isOpen = false;
         isAnimating = false;
 
-        foreach (GameObject go in gameObjects)
+        HideAllPanels();
+    }
+
+    private void HideAllPanels()
+    {
+        if (canvasGroups == null) return;
+
+        for (int i = 0; i < gameObjects.Length; i++)
         {
+            GameObject go = gameObjects[i];
             if (go == null) continue;
 
-            Animator anim = go.GetComponent<Animator>();
+            CanvasGroup group = canvasGroups[i];
+            if (group != null)
+            {
+                group.alpha = 0f;
+                group.interactable = false;
+                group.blocksRaycasts = false;
+            }
 
-            if (anim != null)
-                anim.SetBool("isOpened", false);
+            RectTransform rect = rectTransforms[i];
+            if (rect != null)
+            {
+                rect.localScale = Vector3.one * closedScale;
+            }
 
             go.SetActive(false);
         }
+    }
+
+    private void SetPanelsInteractable(bool value)
+    {
+        if (canvasGroups == null) return;
+
+        for (int i = 0; i < canvasGroups.Length; i++)
+        {
+            CanvasGroup group = canvasGroups[i];
+            if (group == null) continue;
+
+            group.interactable = value;
+            group.blocksRaycasts = value;
+        }
+    }
+
+    private void KillSequence()
+    {
+        if (panelSequence != null && panelSequence.IsActive())
+        {
+            panelSequence.Kill();
+        }
+
+        panelSequence = null;
+    }
+
+    private void OnDisable()
+    {
+        KillSequence();
     }
 }

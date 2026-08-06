@@ -1,6 +1,6 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class DamageOverlay : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class DamageOverlay : MonoBehaviour
 
     public float fadeSpeed = 2f;
 
-    Coroutine fadeRoutine;
+    private Tween fadeTween;
 
     private void Awake()
     {
@@ -19,29 +19,38 @@ public class DamageOverlay : MonoBehaviour
 
     public void ShowDamage(float alpha)
     {
+        if (overlay == null)
+        {
+            Debug.LogError("DamageOverlay: chưa gán Image 'overlay' trong Inspector.", this);
+            return;
+        }
+
+        KillFadeTween();
+
         Color c = overlay.color;
         c.a = alpha;
         overlay.color = c;
 
-        if (fadeRoutine != null)
-            StopCoroutine(fadeRoutine);
+        float duration = fadeSpeed > 0f ? alpha / fadeSpeed : 0f;
 
-        fadeRoutine = StartCoroutine(FadeOut());
+        fadeTween = overlay
+            .DOFade(0f, duration)
+            .SetEase(Ease.Linear)
+            .SetLink(gameObject);
     }
 
-    IEnumerator FadeOut()
+    private void KillFadeTween()
     {
-        while (overlay.color.a > 0)
+        if (fadeTween != null && fadeTween.IsActive())
         {
-            Color c = overlay.color;
-            c.a -= fadeSpeed * Time.deltaTime;
-            overlay.color = c;
-
-            yield return null;
+            fadeTween.Kill();
         }
 
-        Color color = overlay.color;
-        color.a = 0;
-        overlay.color = color;
+        fadeTween = null;
+    }
+
+    private void OnDisable()
+    {
+        KillFadeTween();
     }
 }

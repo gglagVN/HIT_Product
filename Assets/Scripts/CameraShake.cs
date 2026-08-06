@@ -1,11 +1,15 @@
+using DG.Tweening;
 using UnityEngine;
-using System.Collections;
 
 public class CameraShake : MonoBehaviour
 {
     public static CameraShake Instance;
 
+    [SerializeField] private float vibratoPerSecond = 60f;
+    [SerializeField] private float randomness = 90f;
+
     private Vector3 originalPos;
+    private Tween shakeTween;
 
     private void Awake()
     {
@@ -19,25 +23,37 @@ public class CameraShake : MonoBehaviour
 
     public void Shake(float duration, float magnitude)
     {
-        StopAllCoroutines();
-        StartCoroutine(ShakeRoutine(duration, magnitude));
-    }
-
-    IEnumerator ShakeRoutine(float duration, float magnitude)
-    {
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            float x = Random.Range(-1f, 1f) * magnitude;
-            float y = Random.Range(-1f, 1f) * magnitude;
-
-            transform.localPosition = originalPos + new Vector3(x, y, 0);
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
+        KillShakeTween();
 
         transform.localPosition = originalPos;
+
+        int vibrato = Mathf.Max(1, Mathf.RoundToInt(duration * vibratoPerSecond));
+
+        shakeTween = transform
+            .DOShakePosition(duration, new Vector3(magnitude, magnitude, 0f), vibrato, randomness, false, true)
+            .SetLink(gameObject)
+            .OnComplete(() => transform.localPosition = originalPos);
+    }
+
+    private void KillShakeTween()
+    {
+        if (shakeTween != null && shakeTween.IsActive())
+        {
+            shakeTween.Kill();
+        }
+
+        shakeTween = null;
+    }
+
+    private void OnDisable()
+    {
+        bool wasShaking = shakeTween != null && shakeTween.IsActive();
+
+        KillShakeTween();
+
+        if (wasShaking)
+        {
+            transform.localPosition = originalPos;
+        }
     }
 }
