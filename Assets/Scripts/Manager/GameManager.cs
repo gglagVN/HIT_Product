@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Pause Menu")]
     public GameObject pausePanel;
+    [SerializeField] private SetOnOffPanel settingsPanel;
 
     private bool isPaused = false;
 
@@ -72,6 +74,7 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         isPaused = false;
+        settingsPanel.ForceClose();
 
         // Tắt Pause Panel
         pausePanel.SetActive(false);
@@ -87,5 +90,9 @@ public class GameManager : MonoBehaviour
     public bool IsPaused()
     {
         return isPaused;
+    }
+    public void LoadScene(string name)
+    {
+        SceneManager.LoadScene(name);
     }
 }

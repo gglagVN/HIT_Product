@@ -40,16 +40,30 @@ public class HUDManager : MonoBehaviour
     }
     public void GetCurrentGun(int index)
     {
+        GunHolder gunHolder = FindObjectOfType<GunHolder>();
         for (int i = 0; i < listGunIsActive.Length; i++)
         {
-            listGunIsActive[i].SetActive(i == index);
+            bool unlocked = true;
+            if (gunHolder != null && gunHolder.weapons != null && i < gunHolder.weapons.Length)
+            {
+                Gun g = gunHolder.weapons[i]?.GetComponent<Gun>();
+                unlocked = (g == null) || g.isPlayable;
+            }
+            listGunIsActive[i].SetActive(unlocked && i == index);
         }
     }
     public void GetPrevGun(int index)
     {
+        GunHolder gunHolder = FindObjectOfType<GunHolder>();
         for (int i = 0; i < listGunIsUnactive.Length; i++)
         {
-            listGunIsUnactive[i].SetActive(i == index);
+            bool unlocked = true;
+            if (gunHolder != null && gunHolder.weapons != null && i < gunHolder.weapons.Length)
+            {
+                Gun g = gunHolder.weapons[i]?.GetComponent<Gun>();
+                unlocked = (g == null) || g.isPlayable;
+            }
+            listGunIsUnactive[i].SetActive(unlocked && i == index);
         }
     }
 }

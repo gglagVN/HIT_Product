@@ -157,7 +157,7 @@ public class Gun : MonoBehaviour
 
     private void FireWeapon()
     {
-        if (playerMovement.enabled == false) return;
+        if (playerMovement.enabled == false || Time.timeScale == 0) return;
         if (bulletsLeft <= 0)
         {
             gunAudio.PlayEmpty();

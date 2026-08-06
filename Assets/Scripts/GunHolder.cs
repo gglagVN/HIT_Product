@@ -6,7 +6,30 @@ public class GunHolder : MonoBehaviour
     public int currentWeapon;
     void Start()
     {
-        currentWeapon = 0;
+        currentWeapon = -1;
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            Gun g = weapons[i]?.GetComponent<Gun>();
+            bool playable = (g != null) && g.isPlayable;
+            weapons[i].SetActive(false);
+            if (playable && currentWeapon == -1)
+            {
+                currentWeapon = i;
+            }
+        }
+        if (currentWeapon == -1)
+        {
+            currentWeapon = 0;
+        }
+        else
+        {
+            weapons[currentWeapon].SetActive(true);
+            if (HUDManager.Instance != null)
+            {
+                HUDManager.Instance.GetCurrentGun(currentWeapon);
+                HUDManager.Instance.GetCurrentAmmo(currentWeapon);
+            }
+        }
     }
     void Update()
     {
