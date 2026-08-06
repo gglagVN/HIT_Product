@@ -1,0 +1,19 @@
+{
+    "name": "Thnguyet",
+    "rootNamespace": "Thnguyet",
+    "references": [
+        "UnityEngine.UI",
+        "DOTween.Modules",
+        "Unity.TextMeshPro",
+        "Unity.RenderPipelines.Universal.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
