@@ -12147,6 +12147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf999ed7f21f21540836a7a929f4246e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vibratoPerSecond: 60
+  randomness: 90
 --- !u!4 &171257654 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: c046375e7bf1c42cdac74810855eae68,
@@ -13877,6 +13879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Umbra Orphanage
+  saveId: f20ac425b9ed4165b7ae0ea25987ab93
   document: {fileID: 11400000, guid: 772b90bf5b8dd5847849d85a186e3f51, type: 2}
 --- !u!212 &186542369
 SpriteRenderer:
@@ -24165,6 +24168,7 @@ Transform:
   - {fileID: 1017998110}
   - {fileID: 1820268181}
   - {fileID: 338058549}
+  - {fileID: 842894310}
   m_Father: {fileID: 1583675901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &252208691 stripped
@@ -30645,6 +30649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Press E to collect. Press B to open Bag
+  saveId: 5be9d23e3d8945569254942e807563af
   document: {fileID: 11400000, guid: ea32ad915125cbc4c8bdf150752fc834, type: 2}
 --- !u!212 &329403104
 SpriteRenderer:
@@ -43850,6 +43855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Paper Devasting Fire
+  saveId: 4ba81e228b3c429885dff89c24b973c1
   document: {fileID: 11400000, guid: f35d2b7766264ad4786d622a5ea947b6, type: 2}
 --- !u!212 &535642197
 SpriteRenderer:
@@ -47025,6 +47031,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: AK47
+  saveId: 3b152d1de5cc4e9694e0884355808e47
   gunToUnlock: {fileID: 205585947}
   index: 0
 --- !u!23 &585043869
@@ -47906,7 +47913,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 599828594}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 642398816}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &599828594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50759,6 +50778,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cabinet
       objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 7306bbd268c84a1e9f95c5b4ecece5a6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: bb9d92de9abf4332b42fb03704726bbd
+      objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52048,6 +52077,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 697303906}
   settingsPanel: {fileID: 642398817}
+  playerTransform: {fileID: 3180643536865434146}
+  playerHealth: {fileID: 1955877332}
+  playerLook: {fileID: 1955877330}
+  gunHolder: {fileID: 858695176}
+  documentManager: {fileID: 336641301}
+  countdownTimer: {fileID: 1667917488}
+  playerMovement: {fileID: 3180643536865434145}
+  inputManager: {fileID: 858695183}
 --- !u!114 &642398817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52062,7 +52099,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameObjects:
   - {fileID: 677437083}
-  closeAnimationTime: 1
+  closeAnimationTime: 0.25
+  openAnimationTime: 0.25
+  closedScale: 0.85
 --- !u!1 &644005110 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100020, guid: 61485a9a68e6845828d6e61f3d353298,
@@ -54344,6 +54383,7 @@ GameObject:
   - component: {fileID: 677437086}
   - component: {fileID: 677437085}
   - component: {fileID: 677437087}
+  - component: {fileID: 677437088}
   m_Layer: 5
   m_Name: SettingPanel
   m_TagString: Untagged
@@ -54438,6 +54478,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &677437088
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677437083}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!4 &677467939 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: c046375e7bf1c42cdac74810855eae68,
@@ -59510,6 +59562,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 81792fcdbf144df185c475fc14ea27f5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 453b104d951f408a905a2cf741262db5
       objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
@@ -64938,6 +65000,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Umbra News Paper
+  saveId: 6f6a023228484e98aee299d6f365fe5e
   document: {fileID: 11400000, guid: c7bd884761f11864ca17bd6f751899ec, type: 2}
 --- !u!212 &780526374
 SpriteRenderer:
@@ -67074,7 +67137,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 801224016}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 642398816}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MAIN
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &801224016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73325,6 +73400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Labotary Staff Record
+  saveId: aa5f3f0a800f45a4b1f082dd17e0db93
   document: {fileID: 11400000, guid: f553c5bb6913aad4aa6ef30794dcc723, type: 2}
 --- !u!212 &823316650
 SpriteRenderer:
@@ -75481,6 +75557,94 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6081653615227354178}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &842894309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 842894310}
+  - component: {fileID: 842894312}
+  - component: {fileID: 842894311}
+  m_Layer: 0
+  m_Name: WinTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &842894310
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842894309}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 53, y: -5, z: -18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 251812081}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &842894311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842894309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8ad73805ae8ab499af8c387dc87cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 642398816}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: CompleteGame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnHackSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHackFail:
+    m_PersistentCalls:
+      m_Calls: []
+  fireOnPlayerEnter: 1
+--- !u!65 &842894312
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842894309}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 6, z: 3}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &843683315 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: d9496913daf444c5c9205545c44d78c4,
@@ -83966,6 +84130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promtMessage: Key Pad
+  saveId: 52f16060f8bd4ab39e109846fcd4c911
   interactionEvent: {fileID: 950143438}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: c2e500144635e3045baa4766c48b099b, type: 2}
@@ -84005,6 +84170,7 @@ MonoBehaviour:
   OnHackFail:
     m_PersistentCalls:
       m_Calls: []
+  fireOnPlayerEnter: 0
 --- !u!1 &951327112 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 127422, guid: 95da570a8888f45228821df8bdb85c2f,
@@ -88949,6 +89115,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
+      propertyPath: saveId
+      value: 584032d7d37a46d5921618d87a73efe6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
       propertyPath: hackLevel
       value: 
       objectReference: {fileID: 11400000, guid: 1dee3bf9ab179414483ec29910e07235,
@@ -91208,6 +91379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Project Super Human
+  saveId: a38e9f01ce24492cb868b3f879086e10
   document: {fileID: 11400000, guid: 8472755e9d801554a9c2587dc58c520e, type: 2}
 --- !u!212 &1035541567
 SpriteRenderer:
@@ -98635,6 +98807,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Kid Picture
+  saveId: a8d0227c20814a91b80119468c33153b
   document: {fileID: 11400000, guid: 768cf573b0eca0149b0b6f4209869fa8, type: 2}
 --- !u!212 &1140788628
 SpriteRenderer:
@@ -99106,6 +99279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Escape Hint
+  saveId: 0e79a0e2e08f4025b4a2fda9510dda82
   document: {fileID: 11400000, guid: b34d2be6cecf14f419280ca0193de958, type: 2}
 --- !u!212 &1150338489
 SpriteRenderer:
@@ -100705,6 +100879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Experiment Report
+  saveId: 066353501086423c8ddd5d350c0e047a
   document: {fileID: 11400000, guid: d4ec7d4f64da28e499d423980a8b54ce, type: 2}
 --- !u!212 &1161460605
 SpriteRenderer:
@@ -103180,6 +103355,7 @@ MonoBehaviour:
   OnHackFail:
     m_PersistentCalls:
       m_Calls: []
+  fireOnPlayerEnter: 0
 --- !u!114 &1193238226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103194,6 +103370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promtMessage: M4
+  saveId: 6c5cb19d12c64835b0dedb0c4125a119
   gunToUnlock: {fileID: 1764754309}
   index: 1
 --- !u!23 &1193238227
@@ -115075,6 +115252,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
+      propertyPath: saveId
+      value: b65ed8e16f5b469aac580db54acb6020
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
       propertyPath: hackLevel
       value: 
       objectReference: {fileID: 11400000, guid: 807eeaf3e826c5f4e9668e91d281f738,
@@ -116104,6 +116286,7 @@ MonoBehaviour:
   OnHackFail:
     m_PersistentCalls:
       m_Calls: []
+  fireOnPlayerEnter: 0
 --- !u!114 &1368414901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116118,6 +116301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promtMessage: M1911
+  saveId: b1ce7002037d4092b6d3554533d78826
   gunToUnlock: {fileID: 1594345790}
   index: 2
 --- !u!23 &1368414903
@@ -116691,6 +116875,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
+      propertyPath: saveId
+      value: 901df2afcb224e7fa8ae315e2c1c7bc9
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
@@ -117535,6 +117724,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Hack Key Pad
+  saveId: a1eeeee0a8ec4d41a90fe6b3dd3997f1
   interactionEvent: {fileID: 0}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: 8bf62a8f5c5f2364d92f32b124a16049, type: 2}
@@ -120595,6 +120785,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cabinet (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 8dcf46afce9c4a8480efbdc9065bad32
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 5784c2c337114c63991a63fec31f320b
+      objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -122132,6 +122332,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 269b37317ffc4ce0b8f801da3127ffb9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 1c644521dc66444cbb28b680eb3a1d5a
       objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
@@ -129042,6 +129252,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
+      propertyPath: saveId
+      value: c97d7798c81449ff937133841a26c714
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
       propertyPath: hackLevel
       value: 
       objectReference: {fileID: 11400000, guid: 27b30b5b14cd20f41897cdd7c58951b2,
@@ -130660,6 +130875,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2114478347}
     m_Modifications:
+    - target: {fileID: 2204572348848696272, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: bd291ad10eb04ff68aae372774deee69
+      objectReference: {fileID: 0}
     - target: {fileID: 3073338875445356411, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
       propertyPath: m_Name
@@ -130669,6 +130889,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012556762566104539, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 1e7f077cb5904d53989d218577e4ebcc
+      objectReference: {fileID: 0}
+    - target: {fileID: 5216127474960401471, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: b46d03d792ef46a9a792b93a1e96241c
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222837576889123668, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 6703f3c78bb94d0ba7b716d62100b39d
       objectReference: {fileID: 0}
     - target: {fileID: 9167103997404966213, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
@@ -132515,6 +132750,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1567928170}
     m_Modifications:
+    - target: {fileID: 2204572348848696272, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: e408873c1a2942d58b0ccd6fb0ff60fa
+      objectReference: {fileID: 0}
     - target: {fileID: 3073338875445356411, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
       propertyPath: m_Name
@@ -132524,6 +132764,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012556762566104539, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: cc04c7585dcb48f891d24815f7cea109
+      objectReference: {fileID: 0}
+    - target: {fileID: 5216127474960401471, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: eee74b51187e41ad8dca2a34c585665e
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222837576889123668, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 68cf3fde01d14506b912ac764f1e8072
       objectReference: {fileID: 0}
     - target: {fileID: 9167103997404966213, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
@@ -138452,6 +138707,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Girl's Diary
+  saveId: ee5bb40e8ea0410d97c04333b08dbfe9
   document: {fileID: 11400000, guid: a9ee2308827219f4a99f3041f0103a07, type: 2}
 --- !u!212 &1605050121
 SpriteRenderer:
@@ -144770,6 +145026,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Pull Lever
+  saveId: 49e777b8a7f34aa6b6b76d4dc35d3c18
   door: {fileID: 8373658}
   doorAnimator: {fileID: 8373660}
   playerCam: {fileID: 106765904}
@@ -149232,6 +149489,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
+      propertyPath: saveId
+      value: d8f5c450ae374da8ab42afbb333fc168
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
       propertyPath: hackLevel
       value: 
       objectReference: {fileID: 11400000, guid: f91373fe7db43724fbfba1ad27a6afef,
@@ -150323,6 +150585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Hack Pad Key
+  saveId: d764b122db1b40659060593a43ad68b1
   interactionEvent: {fileID: 0}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: 8e07441798ed80a45aafeb61a72f9b1c, type: 2}
@@ -150834,6 +151097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Hack Key Pad
+  saveId: 7063987e988948e1987d65a6a1965636
   interactionEvent: {fileID: 0}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: 6509107928ac6874d96ac6a5c8701d95, type: 2}
@@ -155039,6 +155303,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
+      propertyPath: saveId
+      value: 7f834e6a6a7143efa6fd5a4a6637399e
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
@@ -166246,6 +166515,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cabinet
       objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 91645dc9da8b4b8eb2d4e4ac8b09b71e
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 6cf5d6b8caac4a46be285b43402466e9
+      objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -166867,6 +167146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Hack Key Pad
+  saveId: aa4e217d1b644462ab754bebbd5ec585
   interactionEvent: {fileID: 0}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: ed18da353e7f32c4494b6436c36e4170, type: 2}
@@ -167740,6 +168020,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cabinet (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: ff5983b200654ae5b40945d1cc4a2c58
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 9f28ed84d5c04730b0ab35826bb9cd3a
+      objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -168214,6 +168504,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: f7b9545bff584bb8ac7e00eea2a66450
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: ab6cf962002242a0bf402f4ce95f37b9
       objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
@@ -182560,6 +182860,24 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1594345795}
   m_SourcePrefab: {fileID: 100100000, guid: e2518eef03243c840b8beba21c82fcb9, type: 3}
+--- !u!114 &3180643536865434145 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 33920809272545098, guid: e2518eef03243c840b8beba21c82fcb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 3180643536865434144}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba71f78361325d641bae1a24c63e9897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &3180643536865434146 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1814172327304331215, guid: e2518eef03243c840b8beba21c82fcb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 3180643536865434144}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3822560497888603480
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182656,6 +182974,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_Gear_01_Half
       objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 6f6203040b564231abc69f643dd27a57
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: a016f58ee4304fba81cbac70df6dfd97
+      objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -182728,6 +183056,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
+      propertyPath: saveId
+      value: 83b8f703004f46f9938b15aa2892c7d7
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
@@ -182946,6 +183279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promtMessage: Hack Key Pad
+  saveId: df56a2d8095246cfb69c1d2038cf6d60
   interactionEvent: {fileID: 5806419461432976948}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: 99c313a2a3950554492ef79385d972ee, type: 2}
@@ -183003,6 +183337,7 @@ MonoBehaviour:
   OnHackFail:
     m_PersistentCalls:
       m_Calls: []
+  fireOnPlayerEnter: 0
 --- !u!1001 &6081653615227354178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -183094,6 +183429,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2204572348848696272, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 978ccc1a386c4288ac7742e6a8dc0c82
+      objectReference: {fileID: 0}
     - target: {fileID: 2422126835169539725, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
       propertyPath: m_Layer
@@ -183113,6 +183453,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012556762566104539, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 95ab2328104842a581820d42af5be63d
+      objectReference: {fileID: 0}
+    - target: {fileID: 5216127474960401471, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: a515e5248c89431ca3d530f02eef78ec
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222837576889123668, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: e08aea7f7f5d4709a04f0b35550f5789
       objectReference: {fileID: 0}
     - target: {fileID: 9167103997404966213, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}

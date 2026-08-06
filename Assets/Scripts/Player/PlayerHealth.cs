@@ -13,6 +13,10 @@ public class PlayerHealth : MonoBehaviour
     public Image backHealthBar;
     public TextMeshProUGUI healthText;
     private float lastHealthDisplayed = float.NaN;
+    private bool isDead;
+
+    public float CurrentHealth => health;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +27,11 @@ public class PlayerHealth : MonoBehaviour
     void Update()
     {
         health = Mathf.Clamp(health, 0, maxHealth);
+
+        if (!isDead && health <= 0f)
+        {
+            Die();
+        }
 
         float hFraction = health / maxHealth;
         bool barsAreLerping =
@@ -78,5 +87,32 @@ public class PlayerHealth : MonoBehaviour
     {
         health += healAmount;
         lerpTimer = 0f;
+    }
+
+    /// <summary>
+    /// Đặt thẳng lượng máu hiện tại, dùng khi khôi phục save.
+    /// </summary>
+    public void SetHealth(float value)
+    {
+        health = Mathf.Clamp(value, 0, maxHealth);
+        isDead = health <= 0f;
+        lerpTimer = 0f;
+
+        frontHealthBar.fillAmount = health / maxHealth;
+        backHealthBar.fillAmount = health / maxHealth;
+        lastHealthDisplayed = float.NaN;
+    }
+
+    /// <summary>
+    /// Báo cho GameManager nạp lại save gần nhất khi player hết máu.
+    /// </summary>
+    private void Die()
+    {
+        isDead = true;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnPlayerDied();
+        }
     }
 }

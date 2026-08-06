@@ -8,6 +8,24 @@ public class InteractionEvent : MonoBehaviour
     public UnityEvent OnHackSuccess;
     public UnityEvent OnHackFail;
 
+    [Header("Trigger Zone")]
+    [SerializeField] private bool fireOnPlayerEnter;
+    private bool triggerFired;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!fireOnPlayerEnter || triggerFired)
+        {
+            return;
+        }
+        if (!other.CompareTag("Player"))
+        {
+            return;
+        }
+        triggerFired = true;
+        OnInteract?.Invoke();
+    }
+
     public void InvokeInteract()
     {
         OnInteract?.Invoke();

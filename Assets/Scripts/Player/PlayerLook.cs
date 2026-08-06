@@ -6,6 +6,20 @@ public class PlayerLook : MonoBehaviour
 
     private float xRotation = 0f;
 
+    public float CameraPitch
+    {
+        get => xRotation;
+        set
+        {
+            xRotation = Mathf.Clamp(value, -80f, 80f);
+
+            if (cam != null)
+            {
+                cam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            }
+        }
+    }
+
     [Header("Normal Sensitivity")]
     public float xSensitive = 20f;
     public float ySensitive = 20f;
