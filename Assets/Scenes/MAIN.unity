@@ -312,7 +312,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3711532}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 642398816}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3711532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4625,21 +4637,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &60003403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 60003394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 935782e2199d635499370f6a67c12bb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveKey: Door_Vert_01
-  mandatory: 1
-  openParameter: isOpened
 --- !u!4 &60425651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 43cae7f98873e473d96789cc6276b26f,
@@ -10409,12 +10406,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0000007, y: 6.000004, z: 1.0000007}
   m_Center: {x: -1.0000006, y: -3.000008, z: 0.49999946}
---- !u!1 &146764167 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4922247723679767649, guid: e2518eef03243c840b8beba21c82fcb9,
-    type: 3}
-  m_PrefabInstance: {fileID: 3180643536865434144}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &146798527 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400014, guid: ac93356612ce24c718977a61ed7246de,
@@ -12302,6 +12293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf999ed7f21f21540836a7a929f4246e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vibratoPerSecond: 60
+  randomness: 90
 --- !u!4 &171257654 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: c046375e7bf1c42cdac74810855eae68,
@@ -14032,6 +14025,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Umbra Orphanage
+  saveId: ccfe6c91e02a4669bdf8a4b76df2c003
   document: {fileID: 11400000, guid: 772b90bf5b8dd5847849d85a186e3f51, type: 2}
 --- !u!212 &186542369
 SpriteRenderer:
@@ -30800,6 +30794,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Press E to collect. Press B to open Bag
+  saveId: 6338dc2679c34c27b5a919e87b52b66a
   document: {fileID: 11400000, guid: ea32ad915125cbc4c8bdf150752fc834, type: 2}
 --- !u!212 &329403104
 SpriteRenderer:
@@ -31405,7 +31400,6 @@ GameObject:
   m_Component:
   - component: {fileID: 336641302}
   - component: {fileID: 336641301}
-  - component: {fileID: 336641303}
   m_Layer: 3
   m_Name: DocumentManager
   m_TagString: Untagged
@@ -31441,21 +31435,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 943719116}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &336641303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 336641300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 828cf67b98987f44d9e03124a9ad515e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveKey: DocumentManager
-  mandatory: 1
-  documentManager: {fileID: 336641301}
 --- !u!4 &336798393 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1646122579618895617, guid: d1db5c72a1ea0a641b031921030b40e5,
@@ -32751,10 +32730,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1462874388}
-    - targetCorrespondingSourceObject: {fileID: 4246617369317758107, guid: 57e2255e73fea854db5fe3f4ea947e02,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1462874389}
     - targetCorrespondingSourceObject: {fileID: 993678412394490064, guid: 57e2255e73fea854db5fe3f4ea947e02,
         type: 3}
       insertIndex: -1
@@ -36632,6 +36607,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: 6da1847040ba7144783778edc195ab07, type: 2}
   playOnce: 1
+  saveId: eb46de15bad642f09f367db519d6cf8a
 --- !u!65 &405618352
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44037,6 +44013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Paper Devasting Fire
+  saveId: b4409e1031c345ab840f88446b43bfa7
   document: {fileID: 11400000, guid: f35d2b7766264ad4786d622a5ea947b6, type: 2}
 --- !u!212 &535642197
 SpriteRenderer:
@@ -47212,6 +47189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: AK47
+  saveId: cc0cd3e38f5f4527b3818543d15f4a86
   gunToUnlock: {fileID: 205585947}
   index: 0
 --- !u!23 &585043869
@@ -48093,7 +48071,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 599828594}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 642398816}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SaveAndLoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &599828594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50946,6 +50936,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cabinet
       objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: d01b897bee5d47758fa8e19b9e9beb45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 6ac38ffa5b7048b3a63b60ca0493cbec
+      objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -52235,6 +52235,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 697303906}
   settingsPanel: {fileID: 642398817}
+  saveFeedbackText: {fileID: 772116400}
+  saveFeedbackDuration: 1.5
+  playerTransform: {fileID: 1955877341}
+  playerHealth: {fileID: 1955877332}
+  playerLook: {fileID: 1955877330}
+  gunHolder: {fileID: 858695176}
+  documentManager: {fileID: 336641301}
+  countdownTimer: {fileID: 1667917488}
+  playerMovement: {fileID: 1955877344}
+  inputManager: {fileID: 858695183}
 --- !u!114 &642398817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52250,6 +52260,8 @@ MonoBehaviour:
   gameObjects:
   - {fileID: 677437083}
   closeAnimationTime: 1
+  openAnimationTime: 0.25
+  closedScale: 0.85
 --- !u!1 &644005110 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100020, guid: 61485a9a68e6845828d6e61f3d353298,
@@ -53309,8 +53321,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 657128936}
-  - component: {fileID: 657128935}
-  - component: {fileID: 657128937}
   - component: {fileID: 657128938}
   m_Layer: 0
   m_Name: SaveGame
@@ -53319,21 +53329,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &657128935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657128934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24d686ca94580bf4c953562b09392a6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadOnStart: 0
-  saveOnStart: 0
-  useBackup: 1
 --- !u!4 &657128936
 Transform:
   m_ObjectHideFlags: 0
@@ -53349,23 +53344,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &657128937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657128934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3510ecd9633f85349807774502eb8ec6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  includeMandatory: 1
-  includeOptional: 1
-  useBackup: 1
-  autoSaveOnQuit: 0
-  enableHotkeys: 1
 --- !u!114 &657128938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54611,6 +54589,7 @@ GameObject:
   - component: {fileID: 677437086}
   - component: {fileID: 677437085}
   - component: {fileID: 677437087}
+  - component: {fileID: 677437088}
   m_Layer: 5
   m_Name: SettingPanel
   m_TagString: Untagged
@@ -54705,6 +54684,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &677437088
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677437083}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!4 &677467939 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: c046375e7bf1c42cdac74810855eae68,
@@ -54841,6 +54832,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cabinet (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 9bf4b0cd66ff4450954c03b0ccbbd8af
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: e90b0730f09a4087b409b35522ccf77c
       objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
@@ -55984,6 +55985,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: 35a45d60b0890e9408a28823f30468ef, type: 2}
   playOnce: 1
+  saveId: 4d37fe0007924e28aa57b85022f13763
 --- !u!65 &693152199
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -56818,6 +56820,7 @@ RectTransform:
   - {fileID: 599828591}
   - {fileID: 3711529}
   - {fileID: 677437084}
+  - {fileID: 772116398}
   m_Father: {fileID: 2003599609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -59779,6 +59782,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: ea1412454ce64d49abd5b9d18a258efe
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 436b875588a34809a63af51ceb233efe
       objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
@@ -64333,6 +64346,141 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 699771455}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &772116397
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 772116398}
+  - component: {fileID: 772116399}
+  - component: {fileID: 772116400}
+  m_Layer: 0
+  m_Name: SaveFeedbackText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &772116398
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772116397}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 697303907}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -716.99854, y: -145}
+  m_SizeDelta: {x: 330.87878, y: 40}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &772116399
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772116397}
+  m_CullTransparentMesh: 1
+--- !u!114 &772116400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772116397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: GAME SAVED
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: a5bc056940f641f4fabb068ba060e7ba, type: 2}
+  m_sharedMaterial: {fileID: 8360232816199611264, guid: a5bc056940f641f4fabb068ba060e7ba,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 0.55, g: 1, b: 0.6, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 30
+  m_fontSizeBase: 30
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &772854549
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65207,6 +65355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Umbra News Paper
+  saveId: 6c27f9d2e0b14316aa64e103dcfe876d
   document: {fileID: 11400000, guid: c7bd884761f11864ca17bd6f751899ec, type: 2}
 --- !u!212 &780526374
 SpriteRenderer:
@@ -67343,7 +67492,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 801224016}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 642398816}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: RestartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &801224016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73594,6 +73755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Labotary Staff Record
+  saveId: b619507075834bef9e3d3254a0d69111
   document: {fileID: 11400000, guid: f553c5bb6913aad4aa6ef30794dcc723, type: 2}
 --- !u!212 &823316650
 SpriteRenderer:
@@ -76819,7 +76981,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3180643536865434144}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146764167}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7faf2ea4954a5c5448135b1a64a226ef, type: 3}
@@ -76831,7 +76993,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3180643536865434144}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146764167}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe2af94db0531384eabba059d59263e6, type: 3}
@@ -84235,6 +84397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promtMessage: Key Pad
+  saveId: 42699467fd234fd9b68e5bf034c51af9
   interactionEvent: {fileID: 950143438}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: c2e500144635e3045baa4766c48b099b, type: 2}
@@ -84274,6 +84437,7 @@ MonoBehaviour:
   OnHackFail:
     m_PersistentCalls:
       m_Calls: []
+  fireOnPlayerEnter: 0
 --- !u!1 &951327112 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 127422, guid: 95da570a8888f45228821df8bdb85c2f,
@@ -89218,6 +89382,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
+      propertyPath: saveId
+      value: 4def081748e741f3ac1564ed119212fc
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
       propertyPath: hackLevel
       value: 
       objectReference: {fileID: 11400000, guid: 1dee3bf9ab179414483ec29910e07235,
@@ -91477,6 +91646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Project Super Human
+  saveId: b3cf19c6bdfa4f9f90ea73891933be84
   document: {fileID: 11400000, guid: 8472755e9d801554a9c2587dc58c520e, type: 2}
 --- !u!212 &1035541567
 SpriteRenderer:
@@ -99039,6 +99209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Kid Picture
+  saveId: 2543163e8e47470a9742685728da30b4
   document: {fileID: 11400000, guid: 768cf573b0eca0149b0b6f4209869fa8, type: 2}
 --- !u!212 &1140788628
 SpriteRenderer:
@@ -99510,6 +99681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Escape Hint
+  saveId: 17f8ddc7de1c469196f4402fc95f8bc7
   document: {fileID: 11400000, guid: b34d2be6cecf14f419280ca0193de958, type: 2}
 --- !u!212 &1150338489
 SpriteRenderer:
@@ -101109,6 +101281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Experiment Report
+  saveId: 1d7d22fcaa9d414a9e287f88ba1ed4c9
   document: {fileID: 11400000, guid: d4ec7d4f64da28e499d423980a8b54ce, type: 2}
 --- !u!212 &1161460605
 SpriteRenderer:
@@ -103584,6 +103757,7 @@ MonoBehaviour:
   OnHackFail:
     m_PersistentCalls:
       m_Calls: []
+  fireOnPlayerEnter: 0
 --- !u!114 &1193238226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103598,6 +103772,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promtMessage: M4
+  saveId: 91fac76982c4459597fc6fa968a1dde6
   gunToUnlock: {fileID: 1764754309}
   index: 1
 --- !u!23 &1193238227
@@ -104457,13 +104632,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 657128937}
-        m_TargetAssemblyTypeName: SaveLoadUI, Assembly-CSharp
-        m_MethodName: OnSaveButton
+      - m_Target: {fileID: 642398816}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SaveFromMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -106606,6 +106781,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
+      propertyPath: saveId
+      value: 7941f55f791f4c6c835da8713b808732
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
@@ -113357,25 +113537,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 657128937}
-        m_TargetAssemblyTypeName: SaveLoadUI, Assembly-CSharp
-        m_MethodName: OnLoadButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 642398816}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ResumeGame
+        m_MethodName: LoadSavedGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -116830,6 +116998,7 @@ MonoBehaviour:
   OnHackFail:
     m_PersistentCalls:
       m_Calls: []
+  fireOnPlayerEnter: 0
 --- !u!114 &1368414901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116844,6 +117013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promtMessage: M1911
+  saveId: 1a1d58d395534f969f03098bd14c3a4e
   gunToUnlock: {fileID: 1594345790}
   index: 2
 --- !u!23 &1368414903
@@ -117417,6 +117587,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
+      propertyPath: saveId
+      value: c4cbe3f138d9406a9170c27ebb46c564
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
@@ -118261,6 +118436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promtMessage: Hack Key Pad
+  saveId: 3834d0483afb40ce8d25694bd07cb403
   interactionEvent: {fileID: 1389005181}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: 8bf62a8f5c5f2364d92f32b124a16049, type: 2}
@@ -118288,6 +118464,7 @@ MonoBehaviour:
   OnHackFail:
     m_PersistentCalls:
       m_Calls: []
+  fireOnPlayerEnter: 0
 --- !u!1 &1389352319
 GameObject:
   m_ObjectHideFlags: 0
@@ -119962,10 +120139,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 60003401}
-    - targetCorrespondingSourceObject: {fileID: 2307911824082845309, guid: 0093e9b15135e5d4c89b62ee596bffac,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 60003403}
     - targetCorrespondingSourceObject: {fileID: 8632600892748314557, guid: 0093e9b15135e5d4c89b62ee596bffac,
         type: 3}
       insertIndex: -1
@@ -121345,6 +121518,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cabinet (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: b8378b8e4b2941b88901367d8411f970
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 2da51e83709448788f4df763beb14b75
       objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
@@ -122883,6 +123066,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 94419780ff574ddc9a0e4b54c0eca861
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 16939d4b102143c4b318eb7b311c7e2c
       objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
@@ -124701,21 +124894,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1462874389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462874386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 935782e2199d635499370f6a67c12bb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveKey: DoorHorizontal
-  mandatory: 1
-  openParameter: isOpened
 --- !u!1001 &1463738477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -126958,7 +127136,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495790034}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1495790038
 Camera:
   m_ObjectHideFlags: 0
@@ -127181,6 +127359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: a038747f6355e0b4f826e18c5da0096f, type: 2}
   playOnce: 1
+  saveId: 333441aa046d422c9f213e2af002498e
 --- !u!65 &1498162225
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -128318,10 +128497,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1856358361}
-    - targetCorrespondingSourceObject: {fileID: 2307911824082845309, guid: 0093e9b15135e5d4c89b62ee596bffac,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1856358363}
     - targetCorrespondingSourceObject: {fileID: 8632600892748314557, guid: 0093e9b15135e5d4c89b62ee596bffac,
         type: 3}
       insertIndex: -1
@@ -129813,6 +129988,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
+      propertyPath: saveId
+      value: fe3983bc8bf045be99c860773b4cd874
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
@@ -133289,6 +133469,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1567928170}
     m_Modifications:
+    - target: {fileID: 2204572348848696272, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 8677e18f0953418f914bcf368668fed1
+      objectReference: {fileID: 0}
     - target: {fileID: 3073338875445356411, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
       propertyPath: m_Name
@@ -133298,6 +133483,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012556762566104539, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 73e71f4face84196a93603ff31050718
+      objectReference: {fileID: 0}
+    - target: {fileID: 5216127474960401471, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 4eb4943199c94954ae5151b4a82aa962
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222837576889123668, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 267d2a22327b4aa58582924c026a749b
       objectReference: {fileID: 0}
     - target: {fileID: 9167103997404966213, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
@@ -137699,6 +137899,94 @@ Transform:
   m_Children: []
   m_Father: {fileID: 481572316}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1592417286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1592417289}
+  - component: {fileID: 1592417288}
+  - component: {fileID: 1592417287}
+  m_Layer: 0
+  m_Name: WinTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1592417287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592417286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8ad73805ae8ab499af8c387dc87cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 642398816}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: CompleteGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnHackSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHackFail:
+    m_PersistentCalls:
+      m_Calls: []
+  fireOnPlayerEnter: 1
+--- !u!65 &1592417288
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592417286}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 6, y: 4, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1592417289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592417286}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 53, y: -5, z: -18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1592814460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -139227,6 +139515,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Girl's Diary
+  saveId: f0d7330e8cbe4434b22a863560a3a5f4
   document: {fileID: 11400000, guid: a9ee2308827219f4a99f3041f0103a07, type: 2}
 --- !u!212 &1605050121
 SpriteRenderer:
@@ -145465,7 +145754,6 @@ GameObject:
   - component: {fileID: 1667917486}
   - component: {fileID: 1667917487}
   - component: {fileID: 1667917488}
-  - component: {fileID: 1667917489}
   m_Layer: 3
   m_Name: Lever
   m_TagString: Untagged
@@ -145546,6 +145834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Pull Lever
+  saveId: f11718eeb97841698d291ec6feeb5f31
   door: {fileID: 8373658}
   doorAnimator: {fileID: 8373660}
   playerCam: {fileID: 106765904}
@@ -145668,21 +145957,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerText: {fileID: 1605951559}
   duration: 120
---- !u!114 &1667917489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1667917482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4ff4b0ac98391444a0c247d3ce35d6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveKey: Lever
-  mandatory: 1
-  used: 0
 --- !u!1 &1668476445
 GameObject:
   m_ObjectHideFlags: 0
@@ -149739,6 +150013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: aaa09ac84545eae429d539fdafb74495, type: 2}
   playOnce: 1
+  saveId: 0f3a66109ed1417c9224672850db56d6
 --- !u!65 &1722343287
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -150020,6 +150295,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
+      propertyPath: saveId
+      value: caea9301951f4a20955844edc72f17d7
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
@@ -151114,6 +151394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Hack Pad Key
+  saveId: 2f2418415d0f4dbfb062a8e8d8a2fad5
   interactionEvent: {fileID: 0}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: 8e07441798ed80a45aafeb61a72f9b1c, type: 2}
@@ -151625,6 +151906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Hack Key Pad
+  saveId: d9778da544f24210855e1bc7f15a1a7a
   interactionEvent: {fileID: 0}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: 6509107928ac6874d96ac6a5c8701d95, type: 2}
@@ -155830,6 +156112,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
+      propertyPath: saveId
+      value: 8a27607e0e88417b940aedbc1ab79f93
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
@@ -161042,21 +161329,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1856358363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856358354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 935782e2199d635499370f6a67c12bb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveKey: Door_Vert_01
-  mandatory: 1
-  openParameter: isOpened
 --- !u!1001 &1857533780
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -163861,21 +164133,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1893029876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893029867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 935782e2199d635499370f6a67c12bb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveKey: Door_Vert_01
-  mandatory: 1
-  openParameter: isOpened
 --- !u!1 &1894208458 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100008, guid: ac93356612ce24c718977a61ed7246de,
@@ -165900,6 +166157,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 479133372}
     m_Modifications:
+    - target: {fileID: 2204572348848696272, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 225f2c2036e44612ac80fdf32dc04722
+      objectReference: {fileID: 0}
     - target: {fileID: 3073338875445356411, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
       propertyPath: m_Name
@@ -165909,6 +166171,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012556762566104539, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 1fb1dd8268d74d76a784d95b1f44ffe2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5216127474960401471, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 6bf1105c0e6e4f1fa2dc8fe2ad9d143b
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222837576889123668, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 62f1ded91bc746e79a46d7a1341a52aa
       objectReference: {fileID: 0}
     - target: {fileID: 9167103997404966213, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
@@ -167202,6 +167479,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cabinet
       objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: dfc123e0474444eca13aba32e8fcdfe3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: d371dd4c43b04b9e989f1bb9e558731d
+      objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -167823,6 +168110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promtMessage: Hack Key Pad
+  saveId: 43fe640e7f2c4315a34e5ef46b12e48e
   interactionEvent: {fileID: 0}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: ed18da353e7f32c4494b6436c36e4170, type: 2}
@@ -169069,7 +169357,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3180643536865434144}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146764167}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 493c97c6975d1154ab853299ed1eda2a, type: 3}
@@ -169081,49 +169369,30 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3180643536865434144}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146764167}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7529cbeca4a90de4db85d835b96910a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1955877333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146764167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 757e2cc5be0883746b0e6eecbed45648, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveKey: Player
-  mandatory: 1
-  gunHolder: {fileID: 858695176}
---- !u!114 &1955877334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146764167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a0ce068977d8b478003aa311f94e37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveKey: Player
-  mandatory: 1
-  playerTransform: {fileID: 1955877341}
-  restoreRotation: 0
 --- !u!4 &1955877341 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1814172327304331215, guid: e2518eef03243c840b8beba21c82fcb9,
     type: 3}
   m_PrefabInstance: {fileID: 3180643536865434144}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1955877344 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 33920809272545098, guid: e2518eef03243c840b8beba21c82fcb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 3180643536865434144}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba71f78361325d641bae1a24c63e9897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1956556269 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100006, guid: 8a0669be60aaf43bc84e95a66b4f5248,
@@ -169207,6 +169476,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cabinet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: f281d65be08c4588944ae7a0f70f7b4b
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: f3aadc2981374c8cae4cd39f69eb775c
       objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
@@ -169368,6 +169647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: fd00326756a472d40afd58e95b4cf813, type: 2}
   playOnce: 1
+  saveId: 790473b980c143fa8f157b178c6cd882
 --- !u!65 &1962813764
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -171950,21 +172230,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1991752923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 809846758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 935782e2199d635499370f6a67c12bb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveKey: Horizontal_Doors_Kit
-  mandatory: 1
-  openParameter: isOpened
 --- !u!1 &1992399568
 GameObject:
   m_ObjectHideFlags: 0
@@ -183387,10 +183652,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1991752922}
-    - targetCorrespondingSourceObject: {fileID: 4246617369317758107, guid: 57e2255e73fea854db5fe3f4ea947e02,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1991752923}
     - targetCorrespondingSourceObject: {fileID: 993678412394490064, guid: 57e2255e73fea854db5fe3f4ea947e02,
         type: 3}
       insertIndex: -1
@@ -183543,14 +183804,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4922247723679767649, guid: e2518eef03243c840b8beba21c82fcb9,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1955877334}
-    - targetCorrespondingSourceObject: {fileID: 4922247723679767649, guid: e2518eef03243c840b8beba21c82fcb9,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1955877333}
     - targetCorrespondingSourceObject: {fileID: 1269697978410605497, guid: e2518eef03243c840b8beba21c82fcb9,
         type: 3}
       insertIndex: -1
@@ -183676,6 +183929,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall_Gear_01_Half
       objectReference: {fileID: 0}
+    - target: {fileID: 7267313837532603275, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 9f37b180b4a14962b95055eef7939e0a
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533093808368533146, guid: 57737b22a23d66540be121202811a85b,
+        type: 3}
+      propertyPath: saveId
+      value: 3606a7b0639d4f3790835d5802fc8ca9
+      objectReference: {fileID: 0}
     - target: {fileID: 8482589996251952354, guid: 57737b22a23d66540be121202811a85b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -183748,6 +184011,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
+        type: 3}
+      propertyPath: saveId
+      value: c3db8cadc87b4643a672f87de0ba3334
       objectReference: {fileID: 0}
     - target: {fileID: 4003694870109013484, guid: 0b6c95a0743cc5b4fbd91917bd448cd3,
         type: 3}
@@ -183937,10 +184205,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1893029874}
-    - targetCorrespondingSourceObject: {fileID: 2307911824082845309, guid: 0093e9b15135e5d4c89b62ee596bffac,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1893029876}
     - targetCorrespondingSourceObject: {fileID: 8632600892748314557, guid: 0093e9b15135e5d4c89b62ee596bffac,
         type: 3}
       insertIndex: -1
@@ -183970,6 +184234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promtMessage: Hack Key Pad
+  saveId: f4056373ff2c41a383cfdb966a112249
   interactionEvent: {fileID: 5806419461432976948}
   hackManager: {fileID: 396735224}
   hackLevel: {fileID: 11400000, guid: 99c313a2a3950554492ef79385d972ee, type: 2}
@@ -184027,6 +184292,7 @@ MonoBehaviour:
   OnHackFail:
     m_PersistentCalls:
       m_Calls: []
+  fireOnPlayerEnter: 0
 --- !u!1001 &6081653615227354178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -184118,6 +184384,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2204572348848696272, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 775d8de9fa634fd9ac1f56f66de8ac83
+      objectReference: {fileID: 0}
     - target: {fileID: 2422126835169539725, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
       propertyPath: m_Layer
@@ -184137,6 +184408,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 4012556762566104539, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: b40d0da6b0bb4e1db93fc0217b8b490e
+      objectReference: {fileID: 0}
+    - target: {fileID: 5216127474960401471, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: f1785d73a96a482bacddfcaa0048d0de
+      objectReference: {fileID: 0}
+    - target: {fileID: 7222837576889123668, guid: 475d7e0cf2a80864f9021aad583ebabc,
+        type: 3}
+      propertyPath: saveId
+      value: 1e5929139f114354835e9d402d4ea6ca
       objectReference: {fileID: 0}
     - target: {fileID: 9167103997404966213, guid: 475d7e0cf2a80864f9021aad583ebabc,
         type: 3}
@@ -184281,3 +184567,4 @@ SceneRoots:
   - {fileID: 1247740693}
   - {fileID: 1821273343}
   - {fileID: 657128936}
+  - {fileID: 1592417289}
