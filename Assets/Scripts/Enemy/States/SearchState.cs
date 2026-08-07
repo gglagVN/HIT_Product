@@ -13,6 +13,7 @@ public class SearchState : BaseState
         moveTimer = 0f;
         nextMoveTime = Random.Range(3f, 5f);
 
+        enemy.Agent.stoppingDistance = 0f;
         enemy.Agent.SetDestination(enemy.LastKnownPos);
     }
 

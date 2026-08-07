@@ -62,7 +62,16 @@ public class Enemy : MonoBehaviour
     public float meleeCooldown = 1f;
     public float walkSpeed = 2f;
     public float chaseSpeed = 4.5f;
+    [Tooltip("Tốc độ xoay người về phía player, độ/giây")]
+    public float turnSpeed = 360f;
     public float blendSmooth = 0.12f;
+
+    [Header("Animation")]
+    [Tooltip("Vận tốc mà clip đi bộ trông khớp mặt đất khi phát ở 1x. Hạ xuống nếu chân đạp chậm hơn thân")]
+    [SerializeField] private float walkClipReferenceSpeed = 2f;
+    [Tooltip("Vận tốc mà clip chạy trông khớp mặt đất khi phát ở 1x")]
+    [SerializeField] private float runClipReferenceSpeed = 4.5f;
+    [SerializeField] private Vector2 animSpeedRange = new Vector2(0.4f, 1.6f);
     private float losePlayerTimer;
     [SerializeField] private float losePlayerDelay = 2f;
     private float nextAttackTime;
@@ -74,6 +83,7 @@ public class Enemy : MonoBehaviour
     private static readonly int AnimIsAttacking = Animator.StringToHash("isAttacking");
     private static readonly int AnimMoveX = Animator.StringToHash("moveX");
     private static readonly int AnimMoveY = Animator.StringToHash("moveY");
+    private static readonly int AnimSpeed = Animator.StringToHash("animSpeed");
 
     private bool animIsWalking;
     private bool animIsChasing;
@@ -126,7 +136,9 @@ public class Enemy : MonoBehaviour
         HandleEnemyAudio(playerSeen);
 
 #if UNITY_EDITOR
-        currentState = stateMachine.activeState.ToString();
+        currentState = stateMachine != null && stateMachine.activeState != null
+            ? stateMachine.activeState.ToString()
+            : string.Empty;
 #endif
 
         if (debugSphere != null)
@@ -145,7 +157,9 @@ public class Enemy : MonoBehaviour
             {
                 Vector3 targetDirection = player.transform.position - transform.position - (Vector3.up * eyeHeight);
                 float angleToPlayer = Vector3.Angle(targetDirection, transform.forward);
-                if (angleToPlayer <= fieldOfView / 2f)
+                // Đã giao chiến thì không cần đúng hướng nhìn nữa, nếu không địch sẽ mất dấu ngay khi vòng qua bên hông
+                bool engaged = stateMachine != null && stateMachine.activeState is AttackState;
+                if (engaged || angleToPlayer <= fieldOfView / 2f)
                 {
                     Ray ray = new Ray(
                         transform.position + (Vector3.up * eyeHeight),
@@ -244,6 +258,7 @@ public class Enemy : MonoBehaviour
             SetAnimBool(AnimIsWalking, !attackAnimationPlaying && !shouldChase && isMoving, ref animIsWalking);
             SetAnimBool(AnimIsChasing, !attackAnimationPlaying && shouldChase, ref animIsChasing);
             SetAnimBool(AnimIsAttacking, attackAnimationPlaying, ref animIsAttacking);
+            UpdateStrideSpeed(shouldChase);
             // Zombie doesn't use blend tree; skip setting moveX/moveY
             return;
         }
@@ -270,6 +285,29 @@ public class Enemy : MonoBehaviour
         }
 
     }
+    /// <summary>
+    /// Khớp tốc độ phát clip bước chân với vận tốc di chuyển thật để chân không trượt trên sàn.
+    /// </summary>
+    private void UpdateStrideSpeed(bool chasing)
+    {
+        if (Agent == null)
+        {
+            return;
+        }
+
+        float reference = chasing ? runClipReferenceSpeed : walkClipReferenceSpeed;
+        if (reference < 0.01f)
+        {
+            return;
+        }
+
+        Vector3 velocity = Agent.velocity;
+        velocity.y = 0f;
+
+        float multiplier = Mathf.Clamp(velocity.magnitude / reference, animSpeedRange.x, animSpeedRange.y);
+        anim.SetFloat(AnimSpeed, multiplier);
+    }
+
     private bool isDead;
     public bool IsDead => isDead;
 
@@ -351,13 +389,6 @@ public class Enemy : MonoBehaviour
         anim.SetBool(AnimIsAttacking, false);
         anim.SetFloat(AnimMoveX, 0f);
         anim.SetFloat(AnimMoveY, 0f);
-    }
-
-    private IEnumerator ResetAttackAnimation()
-    {
-        yield return new WaitForSeconds(0.25f);
-        attackAnimationPlaying = false;
-        UpdateAnimationState(PlayerVisible);
     }
 
     private IEnumerator ResetAttackAnimation(float waitTime)
@@ -462,7 +493,7 @@ public class Enemy : MonoBehaviour
             {
                 SetAnimBool(AnimIsAttacking, true, ref animIsAttacking);
             }
-            StartCoroutine(ResetAttackAnimation());
+            StartCoroutine(ResetAttackAnimation(meleeCooldown));
 
             PlayerHealth playerHealth = Player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
