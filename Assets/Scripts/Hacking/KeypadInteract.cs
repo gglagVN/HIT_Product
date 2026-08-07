@@ -14,9 +14,14 @@ public class KeypadInteract : Interactable
     [SerializeField] private InputManager inputManager;
     [SerializeField] private PlayerLook playerLook;
     private AudioSource audioSource;
+    private Animator targetAnimator;
+    private bool isSolved;
+
+    public bool IsSolved => isSolved;
 
     private void Awake()
     {
+        isSolved = false;
         if (hackManager == null)
         {
             hackManager = FindObjectOfType<HackManager>();
@@ -32,6 +37,7 @@ public class KeypadInteract : Interactable
             playerLook = FindObjectOfType<PlayerLook>();
         }
         audioSource = targetObject.GetComponent<AudioSource>();
+        targetAnimator = targetObject.GetComponent<Animator>();
     }
 
     private void OnEnable()
@@ -59,6 +65,11 @@ public class KeypadInteract : Interactable
         if (hackManager == null || hackLevel == null)
         {
             Debug.LogWarning("HackManager or HackLevel is not assigned.");
+            return;
+        }
+
+        if (isSolved)
+        {
             return;
         }
 
@@ -99,6 +110,7 @@ public class KeypadInteract : Interactable
         {
             return;
         }
+        isSolved = true;
         interactionEvent?.InvokeHackSuccess();
 
         SetPlayerControl(true);
@@ -106,6 +118,24 @@ public class KeypadInteract : Interactable
         Cursor.visible = false;
         playerLook.SetLookEnabled(true);
         StartCoroutine("delay");
+    }
+
+    /// <summary>
+    /// Đánh dấu keypad đã hack xong và mở cửa ngay, không chạy minigame cũng không phát lại hội thoại.
+    /// </summary>
+    public void ForceSolved()
+    {
+        isSolved = true;
+
+        if (targetAnimator == null && targetObject != null)
+        {
+            targetAnimator = targetObject.GetComponent<Animator>();
+        }
+
+        if (targetAnimator != null)
+        {
+            targetAnimator.SetBool("isOpened", true);
+        }
     }
     IEnumerator delay()
     {
