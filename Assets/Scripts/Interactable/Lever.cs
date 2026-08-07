@@ -61,6 +61,19 @@ public class Lever : Interactable
         StartCoroutine(OpenDoorSequence());
     }
 
+    public void ForceActivate()
+    {
+        if (isUsed)
+            return;
+
+        isUsed = true;
+        if (leverAnimator != null)
+            leverAnimator.SetBool("isOpened", true);
+
+        if (doorAnimator != null)
+            doorAnimator.SetBool("isOpened", true);
+    }
+
     private IEnumerator OpenDoorSequence()
     {
         isUsed = true;

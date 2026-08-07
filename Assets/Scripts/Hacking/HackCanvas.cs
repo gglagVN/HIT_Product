@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Thnguyet.UnityExtensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -102,6 +103,7 @@ public class HackCanvas : MonoBehaviour
             var containerObject = new GameObject("NodeContainer");
             containerObject.transform.SetParent(transform, false);
             nodeContainer = containerObject.AddComponent<RectTransform>();
+            nodeContainer.localScale = new Vector3(3f, 3f, 1f);
         }
 
         if (nodePrefab == null)
@@ -267,6 +269,7 @@ public class HackCanvas : MonoBehaviour
 
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = true;
+
 
         UpdateVisuals();
     }

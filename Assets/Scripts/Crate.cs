@@ -105,11 +105,26 @@ public class Crate : Interactable
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         playerLook.SetLookEnabled(true);
+        MarkSolved();
+    }
+
+    public void MarkSolved()
+    {
+        if (isSolved)
+            return;
+
+        isSolved = true;
         if (targetAnimator != null)
         {
             targetAnimator.SetBool("isOpened", true);
         }
-        isSolved = true;
+
+        var save = GetComponent<CrateSaveData>();
+        if (save != null)
+        {
+            save.solved = true;
+            save.DataChanged = true;
+        }
     }
 
     private void OnHackFailed()

@@ -562,6 +562,7 @@ GameObject:
   - component: {fileID: 6312802923109603127}
   - component: {fileID: 4966897291038895585}
   - component: {fileID: 4003694870109013484}
+  - component: {fileID: 6242746350115572650}
   m_Layer: 3
   m_Name: Crate_Top
   m_TagString: Untagged
@@ -692,6 +693,21 @@ MonoBehaviour:
   targetObject: {fileID: 2135071133982254856}
   inputManager: {fileID: 0}
   playerLook: {fileID: 0}
+--- !u!114 &6242746350115572650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6313099503755570656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8148c0f99065645a604030eafc200b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveKey: Crate_Top
+  mandatory: 1
+  solved: 0
 --- !u!1 &8980548563752100823
 GameObject:
   m_ObjectHideFlags: 0

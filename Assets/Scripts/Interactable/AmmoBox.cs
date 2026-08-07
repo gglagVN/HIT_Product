@@ -30,6 +30,15 @@ public class AmmoBox : Interactable
             }
         }
 
+        var save = GetComponent<AmmoBoxSaveData>();
+        if (save != null)
+        {
+            save.collected = true;
+            save.DataChanged = true;
+            gameObject.SetActive(false);
+            return;
+        }
+
         Destroy(gameObject);
     }
 }

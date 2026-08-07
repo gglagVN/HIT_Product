@@ -657,6 +657,7 @@ GameObject:
   - component: {fileID: 1631081220155232156}
   - component: {fileID: 9009010014803208510}
   - component: {fileID: 3940435098324089730}
+  - component: {fileID: -9034747049227084287}
   m_Layer: 0
   m_Name: ZombieSkeleton
   m_TagString: Target
@@ -722,8 +723,13 @@ MonoBehaviour:
   sightDistance: 10
   fieldOfView: 180
   eyeHeight: 0.6
+  sightMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   enemyStyle: 1
   gunBarrel: {fileID: 0}
+  bulletPrefab: {fileID: 0}
+  bulletLifeTime: 5
   fireRate: 1
   meleeRange: 2
   meleeDamage: 10
@@ -939,6 +945,20 @@ MonoBehaviour:
   gunnerRunFootsteps: []
   minPitch: 0.95
   maxPitch: 1.05
+--- !u!114 &-9034747049227084287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2373584653473578845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631f7aaf2a0275d4ca4d0c0b73ea9373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveKey: ZombieSkeleton
+  mandatory: 1
 --- !u!1 &2437166342680664289
 GameObject:
   m_ObjectHideFlags: 0

@@ -1174,6 +1174,7 @@ GameObject:
   - component: {fileID: 8826348433209766400}
   - component: {fileID: 8707811632620901428}
   - component: {fileID: 8960364389857688658}
+  - component: {fileID: -8392976753118410231}
   m_Layer: 0
   m_Name: ZombieHulk
   m_TagString: Target
@@ -1239,8 +1240,13 @@ MonoBehaviour:
   sightDistance: 10
   fieldOfView: 180
   eyeHeight: 0.8
+  sightMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   enemyStyle: 1
   gunBarrel: {fileID: 0}
+  bulletPrefab: {fileID: 0}
+  bulletLifeTime: 5
   fireRate: 1
   meleeRange: 2
   meleeDamage: 10
@@ -1456,6 +1462,20 @@ MonoBehaviour:
   gunnerRunFootsteps: []
   minPitch: 0.95
   maxPitch: 1.05
+--- !u!114 &-8392976753118410231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3447637544958205852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631f7aaf2a0275d4ca4d0c0b73ea9373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveKey: ZombieHulk
+  mandatory: 1
 --- !u!1 &3469454223274868194
 GameObject:
   m_ObjectHideFlags: 0

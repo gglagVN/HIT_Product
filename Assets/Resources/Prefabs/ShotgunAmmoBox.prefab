@@ -172,6 +172,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 168355899415810671}
+    - targetCorrespondingSourceObject: {fileID: 7145165998672086327, guid: 8a271fde7aad44b5a8ec8025c447c359,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1906133517711247684}
   m_SourcePrefab: {fileID: 100100000, guid: 8a271fde7aad44b5a8ec8025c447c359, type: 3}
 --- !u!4 &6717193823870883038 stripped
 Transform:
@@ -240,3 +244,18 @@ MonoBehaviour:
   promtMessage: Shotgun Ammo
   ammoAmount: 5
   ammoType: 2
+--- !u!114 &-1906133517711247684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7738061472941696717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1c9189bb2e8ef6428b47160fcb5fc19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveKey: ShotgunAmmoBox
+  mandatory: 0
+  collected: 0

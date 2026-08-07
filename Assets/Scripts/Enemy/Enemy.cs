@@ -271,6 +271,8 @@ public class Enemy : MonoBehaviour
 
     }
     private bool isDead;
+    public bool IsDead => isDead;
+
     public void Die()
     {
         isDead = true;

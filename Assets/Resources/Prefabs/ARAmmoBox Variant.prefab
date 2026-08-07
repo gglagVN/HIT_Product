@@ -172,6 +172,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3370415147592559300}
+    - targetCorrespondingSourceObject: {fileID: 7145165998672086327, guid: 8a271fde7aad44b5a8ec8025c447c359,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -144662113841176263}
   m_SourcePrefab: {fileID: 100100000, guid: 8a271fde7aad44b5a8ec8025c447c359, type: 3}
 --- !u!4 &1646122579618895617 stripped
 Transform:
@@ -240,3 +244,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.47200003, y: 0.22600001, z: 0.21999992}
   m_Center: {x: 0, y: 0.113000005, z: -0.007910401}
+--- !u!114 &-144662113841176263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2342832896726394130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1c9189bb2e8ef6428b47160fcb5fc19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveKey: ARAmmoBox Variant
+  mandatory: 0
+  collected: 0
