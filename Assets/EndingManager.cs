@@ -16,30 +16,44 @@ public class EndingManager : MonoBehaviour
 
     private void ShowEnding()
     {
-        badEnd.SetActive(false);
-        goodEnd.SetActive(false);
-        trueEnd.SetActive(false);
+        SetPanelActive(badEnd, false);
+        SetPanelActive(goodEnd, false);
+        SetPanelActive(trueEnd, false);
 
         int ending = PlayerPrefs.GetInt("EndingType", 0);
 
         switch (ending)
         {
             case 1:
-                badEnd.SetActive(true);
+                SetPanelActive(badEnd, true);
                 break;
 
             case 2:
-                goodEnd.SetActive(true);
+                SetPanelActive(goodEnd, true);
                 break;
 
             case 3:
-                trueEnd.SetActive(true);
+                SetPanelActive(trueEnd, true);
                 break;
         }
     }
 
+    private void SetPanelActive(GameObject panel, bool active)
+    {
+        if (panel == null)
+        {
+            if (active)
+            {
+                Debug.LogError("EndingManager: chưa gán panel kết thúc trong Inspector.", this);
+            }
+            return;
+        }
+
+        panel.SetActive(active);
+    }
+
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("MAIN_MENU");
+        SceneManager.LoadScene("MainMenu");
     }
 }
