@@ -11,6 +11,8 @@ public class Crate : Interactable
     private Animator targetAnimator;
     private bool isSolved;
 
+    public bool IsSolved => isSolved;
+
     private void Awake()
     {
         isSolved = false;
@@ -82,6 +84,24 @@ public class Crate : Interactable
             Cursor.visible = false;
         }
         hackManager.StartHack(hackLevel, targetObject);
+    }
+
+    /// <summary>
+    /// Đánh dấu crate đã giải và mở cửa ngay, không chạy minigame hack.
+    /// </summary>
+    public void ForceSolved()
+    {
+        isSolved = true;
+
+        if (targetAnimator == null && targetObject != null)
+        {
+            targetAnimator = targetObject.GetComponent<Animator>();
+        }
+
+        if (targetAnimator != null)
+        {
+            targetAnimator.SetBool("isOpened", true);
+        }
     }
 
     private bool IsCurrentHackTarget()

@@ -13,8 +13,15 @@ public class CountdownTimer : MonoBehaviour
 
     private int lastDisplayedSeconds = -1;
 
+    public float Remaining => currentTime;
+
+    public bool IsRunning => isRunning;
+
     private void Start()
     {
+        if (isRunning)
+            return;
+
         currentTime = duration;
         UpdateTimerUI();
         timerText.gameObject.SetActive(false);
@@ -45,6 +52,18 @@ public class CountdownTimer : MonoBehaviour
         isRunning = true;
         lastDisplayedSeconds = -1;
         timerText.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Chạy tiếp đếm ngược từ số giây còn lại đã lưu.
+    /// </summary>
+    public void ResumeCountdown(float remaining)
+    {
+        currentTime = Mathf.Clamp(remaining, 0f, duration);
+        isRunning = currentTime > 0f;
+        lastDisplayedSeconds = -1;
+        timerText.gameObject.SetActive(true);
+        UpdateTimerUI();
     }
 
     private void UpdateTimerUI()

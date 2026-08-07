@@ -28,6 +28,8 @@ public class Lever : Interactable
     private bool isUsed;
     private bool selfDestructStarted;
 
+    public bool IsUsed => isUsed;
+
     private void Awake()
     {
         leverAnimator = GetComponent<Animator>();
@@ -88,8 +90,7 @@ public class Lever : Interactable
         yield return new WaitForSeconds(1f);
 
         // Open door
-        if (doorAnimator != null)
-            doorAnimator.SetBool("isOpened", true);
+        OpenDoorImmediate();
 
         // Start self destruct
         StartSelfDestruct();
@@ -109,6 +110,34 @@ public class Lever : Interactable
         // Enable player
         playerMovement.enabled = true;
         playerLook.enabled = true;
+    }
+
+    /// <summary>
+    /// Đặt cửa về trạng thái đã mở, không kèm hiệu ứng hay chờ đợi.
+    /// </summary>
+    private void OpenDoorImmediate()
+    {
+        if (doorAnimator == null && door != null)
+            doorAnimator = door.GetComponent<Animator>();
+
+        if (doorAnimator != null)
+            doorAnimator.SetBool("isOpened", true);
+    }
+
+    /// <summary>
+    /// Khôi phục trạng thái cần gạt đã kéo và cửa đã mở, bỏ qua cutscene và đếm ngược.
+    /// </summary>
+    public void ForceUsed()
+    {
+        isUsed = true;
+
+        if (leverAnimator == null)
+            leverAnimator = GetComponent<Animator>();
+
+        if (leverAnimator != null)
+            leverAnimator.SetBool("isOpened", true);
+
+        OpenDoorImmediate();
     }
 
     private void StartSelfDestruct()

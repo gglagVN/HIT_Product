@@ -2448,27 +2448,51 @@ MonoBehaviour:
   voiceSource: {fileID: 1664317380936239741}
   footstepSource: {fileID: 59508043806231688}
   idleClips:
-  - {fileID: 8300000, guid: d4459d13c80e3e946acd36d6d299581e, type: 3}
-  - {fileID: 8300000, guid: 5d0aab3546d53ee449858872d81dca44, type: 3}
-  - {fileID: 8300000, guid: a79c5d7a8c22e5e4c8c78e272a08ea1e, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: d4459d13c80e3e946acd36d6d299581e, type: 3}
+    - {fileID: 8300000, guid: 5d0aab3546d53ee449858872d81dca44, type: 3}
+    - {fileID: 8300000, guid: a79c5d7a8c22e5e4c8c78e272a08ea1e, type: 3}
   detectClips:
-  - {fileID: 8300000, guid: c7434dcbb6398614d8d36e8314127861, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: c7434dcbb6398614d8d36e8314127861, type: 3}
   attackClips:
-  - {fileID: 8300000, guid: 56da8b31e39b4f0489a7d92b31bfe755, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: 56da8b31e39b4f0489a7d92b31bfe755, type: 3}
   hurtClips:
-  - {fileID: 8300000, guid: 1143b05e68c50f64f9f090d6ad0561ae, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: 1143b05e68c50f64f9f090d6ad0561ae, type: 3}
   deathClips:
-  - {fileID: 8300000, guid: 6b579ee8b1fde8b49877c5989fc549b7, type: 3}
-  - {fileID: 8300000, guid: 49e60f2ee99aae84b916740add2a962b, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: 6b579ee8b1fde8b49877c5989fc549b7, type: 3}
+    - {fileID: 8300000, guid: 49e60f2ee99aae84b916740add2a962b, type: 3}
   walkFootsteps:
-  - {fileID: 8300000, guid: a0cb0b65447f36142b05f6837b85a74f, type: 3}
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: a0cb0b65447f36142b05f6837b85a74f, type: 3}
   runFootsteps:
-  - {fileID: 8300000, guid: 91afea1de939d6b4684209521865f939, type: 3}
-  gunnerShootClips: []
-  gunnerHurtClips: []
-  gunnerDeathClips: []
-  gunnerWalkFootsteps: []
-  gunnerRunFootsteps: []
+    sequence: 1
+    audioClips:
+    - {fileID: 8300000, guid: 91afea1de939d6b4684209521865f939, type: 3}
+  gunnerShootClips:
+    sequence: 1
+    audioClips: []
+  gunnerHurtClips:
+    sequence: 1
+    audioClips: []
+  gunnerDeathClips:
+    sequence: 1
+    audioClips: []
+  gunnerWalkFootsteps:
+    sequence: 1
+    audioClips: []
+  gunnerRunFootsteps:
+    sequence: 1
+    audioClips: []
   minPitch: 0.95
   maxPitch: 1.05
 --- !u!114 &-8122731674301317606
