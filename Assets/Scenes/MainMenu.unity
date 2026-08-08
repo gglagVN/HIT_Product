@@ -2464,6 +2464,7 @@ GameObject:
   - component: {fileID: 604174001}
   - component: {fileID: 604174000}
   - component: {fileID: 604173999}
+  - component: {fileID: 604174002}
   m_Layer: 5
   m_Name: SettingPanel (1)
   m_TagString: Untagged
@@ -2558,6 +2559,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604173997}
   m_CullTransparentMesh: 1
+--- !u!225 &604174002
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604173997}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &794017718
 GameObject:
   m_ObjectHideFlags: 0
@@ -3949,6 +3962,8 @@ MonoBehaviour:
   gameObjects:
   - {fileID: 604173997}
   closeAnimationTime: 1
+  openAnimationTime: 0.25
+  closedScale: 0.85
 --- !u!114 &1187476596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6416,6 +6431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb51aebbd244b9e4ba32a51159ea25e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startButtonLabel: {fileID: 1932347962}
 --- !u!1 &1830841351
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,16 @@ public class InteractionEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        TryFireOnPlayer(other);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        TryFireOnPlayer(other);
+    }
+
+    private void TryFireOnPlayer(Collider other)
+    {
         if (!fireOnPlayerEnter || triggerFired)
         {
             return;

@@ -69,28 +69,28 @@ namespace Thnguyet.SaveGame
                         hasChanged |= item.DataChanged;
                     }
 
-                    if (!hasChanged)
-                        return;
-
-                    foreach (var kv in mMandatory)
+                    if (hasChanged)
                     {
-                        var value = kv.Value;
-                        if (value == null)
-                            continue;
-
-                        payload.mandatory.Add(new SaveDataEntry
+                        foreach (var kv in mMandatory)
                         {
-                            key = kv.Key,
-                            json = JsonUtility.ToJson(value.GetData())
-                        });
-                    }
+                            var value = kv.Value;
+                            if (value == null)
+                                continue;
 
-                    if (payload.mandatory.Count > 0)
-                    {
-                        SaveToFile(MANDATORY_SAVE_NAME, JsonUtility.ToJson(payload), hasBackup);
-                        foreach (var item in mMandatory.Values)
+                            payload.mandatory.Add(new SaveDataEntry
+                            {
+                                key = kv.Key,
+                                json = JsonUtility.ToJson(value.GetData())
+                            });
+                        }
+
+                        if (payload.mandatory.Count > 0)
                         {
-                            item.DataChanged = false;
+                            SaveToFile(MANDATORY_SAVE_NAME, JsonUtility.ToJson(payload), hasBackup);
+                            foreach (var item in mMandatory.Values)
+                            {
+                                item.DataChanged = false;
+                            }
                         }
                     }
                 }

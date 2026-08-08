@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +21,7 @@ public class GameSaveData
     public int[] gunAmmoReserve;
     public string[] collectedDocuments;
     public string[] openedObjectIds;
+    public string[] playedDialogueIds;
     public bool leverUsed;
     public float countdownRemaining;
 }
@@ -113,6 +116,10 @@ public class GameManager : MonoBehaviour
     public GameObject pausePanel;
     [SerializeField] private SetOnOffPanel settingsPanel;
 
+    [Header("Save Feedback")]
+    [SerializeField] private TMP_Text saveFeedbackText;
+    [SerializeField] private float saveFeedbackDuration = 1.5f;
+
     [Header("Save References")]
     [SerializeField] private Transform playerTransform;
     [SerializeField] private PlayerHealth playerHealth;
@@ -124,8 +131,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private InputManager inputManager;
 
     private CharacterController playerController;
+    private GameSaveData pendingSaveData;
     private bool isPaused = false;
     private bool isReloadingScene = false;
+    private bool stateRestored = false;
 
     private void Awake()
     {
@@ -149,6 +158,13 @@ public class GameManager : MonoBehaviour
         {
             playerController = playerTransform.GetComponent<CharacterController>();
         }
+
+        // Phải chặn thoại ngay trong Awake vì player có thể đứng sẵn trong vùng trigger lúc scene mở
+        pendingSaveData = SaveSystem.Load();
+        if (pendingSaveData != null)
+        {
+            RestoreDialogueTriggers(pendingSaveData);
+        }
     }
 
     private IEnumerator Start()
@@ -161,11 +177,13 @@ public class GameManager : MonoBehaviour
         // Chờ 1 frame cho Awake/Start của các script khác chạy xong rồi mới ghi đè state
         yield return null;
 
-        GameSaveData data = SaveSystem.Load();
-        if (data != null)
+        if (pendingSaveData != null)
         {
-            ApplyState(data);
+            ApplyState(pendingSaveData);
+            pendingSaveData = null;
         }
+
+        stateRestored = true;
     }
 
     private void Update()
@@ -236,21 +254,109 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void SaveNow()
     {
-        if (isReloadingScene)
+        WriteSave(false);
+    }
+
+    /// <summary>
+    /// Ghi save theo yêu cầu từ menu Pause, bỏ qua điều kiện game đang dừng và báo kết quả lên UI.
+    /// </summary>
+    public void SaveFromMenu()
+    {
+        bool saved = WriteSave(true);
+        ShowSaveFeedback(saved);
+    }
+
+    private bool WriteSave(bool ignorePause)
+    {
+        if (isReloadingScene || !stateRestored)
         {
-            return;
+            return false;
         }
 
-        if (!CanSave())
+        if (!CanSave(ignorePause))
         {
-            return;
+            return false;
         }
 
         GameSaveData data = CaptureState();
-        if (data != null)
+        if (data == null)
         {
-            SaveSystem.Save(data);
+            return false;
         }
+
+        SaveSystem.Save(data);
+        return SaveSystem.HasSave();
+    }
+
+    /// <summary>
+    /// Hiện dòng thông báo kết quả lưu rồi tự mờ dần, chạy được cả khi game đang tạm dừng.
+    /// </summary>
+    private void ShowSaveFeedback(bool saved)
+    {
+        if (saveFeedbackText == null)
+        {
+            Debug.LogWarning("GameManager: chưa gán saveFeedbackText nên không hiện được thông báo lưu.", this);
+            return;
+        }
+
+        saveFeedbackText.text = saved ? "GAME SAVED" : "SAVE FAILED";
+        saveFeedbackText.color = saved ? new Color(0.55f, 1f, 0.6f) : new Color(1f, 0.45f, 0.45f);
+
+        saveFeedbackText.gameObject.SetActive(true);
+        saveFeedbackText.DOKill();
+        saveFeedbackText.alpha = 1f;
+        saveFeedbackText.DOFade(0f, 0.4f)
+            .SetDelay(saveFeedbackDuration)
+            .SetUpdate(true)
+            .SetLink(saveFeedbackText.gameObject)
+            .OnComplete(() => saveFeedbackText.gameObject.SetActive(false));
+    }
+
+    /// <summary>
+    /// Nạp lại scene hiện tại để save gần nhất được áp dụng lại từ đầu.
+    /// </summary>
+    public void LoadSavedGame()
+    {
+        if (!SaveSystem.HasSave())
+        {
+            Debug.LogWarning("GameManager: chưa có save nào để nạp.");
+            return;
+        }
+
+        isReloadingScene = true;
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    /// <summary>
+    /// Chơi lại từ đầu: xoá save rồi nạp lại scene.
+    /// </summary>
+    public void RestartGame()
+    {
+        isReloadingScene = true;
+        Time.timeScale = 1f;
+        SaveSystem.Delete();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    /// <summary>
+    /// Lưu lại rồi thoát game.
+    /// </summary>
+    public void QuitGame()
+    {
+        SaveFromMenu();
+        Application.Quit();
+    }
+
+    /// <summary>
+    /// Lưu lại rồi chuyển sang scene khác, dùng cho nút quay về menu chính.
+    /// </summary>
+    public void SaveAndLoadScene(string sceneName)
+    {
+        SaveFromMenu();
+        isReloadingScene = true;
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(sceneName);
     }
 
     /// <summary>
@@ -292,9 +398,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool CanSave()
+    private bool CanSave(bool ignorePause)
     {
-        if (Time.timeScale == 0f)
+        if (!ignorePause && Time.timeScale == 0f)
         {
             return false;
         }
@@ -405,8 +511,29 @@ public class GameManager : MonoBehaviour
                     openedIds.Add(lever.SaveId);
                 }
             }
+            else if (interactable is KeypadInteract keypad)
+            {
+                if (keypad.IsSolved)
+                {
+                    openedIds.Add(keypad.SaveId);
+                }
+            }
         }
         data.openedObjectIds = openedIds.ToArray();
+
+        List<string> playedDialogues = new List<string>();
+        DialogueTrigger[] dialogueTriggers = FindObjectsOfType<DialogueTrigger>(true);
+
+        for (int i = 0; i < dialogueTriggers.Length; i++)
+        {
+            DialogueTrigger trigger = dialogueTriggers[i];
+
+            if (trigger.Played && !string.IsNullOrEmpty(trigger.SaveId))
+            {
+                playedDialogues.Add(trigger.SaveId);
+            }
+        }
+        data.playedDialogueIds = playedDialogues.ToArray();
 
         if (countdownTimer != null && countdownTimer.IsRunning)
         {
@@ -541,6 +668,13 @@ public class GameManager : MonoBehaviour
                     lever.ForceUsed();
                 }
             }
+            else if (interactable is KeypadInteract keypad)
+            {
+                if (openedIds.Contains(keypad.SaveId))
+                {
+                    keypad.ForceSolved();
+                }
+            }
             else if (interactable is DocumentInterac documentPickup)
             {
                 if (documentPickup.document != null &&
@@ -565,6 +699,33 @@ public class GameManager : MonoBehaviour
         if (countdownTimer != null && data.countdownRemaining > 0f)
         {
             countdownTimer.ResumeCountdown(data.countdownRemaining);
+        }
+    }
+
+    /// <summary>
+    /// Đánh dấu lại các đoạn thoại đã nghe để chúng không phát lại sau khi nạp save.
+    /// </summary>
+    private void RestoreDialogueTriggers(GameSaveData data)
+    {
+        HashSet<string> playedIds = new HashSet<string>();
+        if (data.playedDialogueIds != null)
+        {
+            for (int i = 0; i < data.playedDialogueIds.Length; i++)
+            {
+                playedIds.Add(data.playedDialogueIds[i]);
+            }
+        }
+
+        DialogueTrigger[] triggers = FindObjectsOfType<DialogueTrigger>(true);
+
+        for (int i = 0; i < triggers.Length; i++)
+        {
+            DialogueTrigger trigger = triggers[i];
+
+            if (playedIds.Contains(trigger.SaveId))
+            {
+                trigger.ForcePlayed();
+            }
         }
     }
 

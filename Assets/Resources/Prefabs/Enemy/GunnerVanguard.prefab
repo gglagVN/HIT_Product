@@ -648,7 +648,6 @@ GameObject:
   - component: {fileID: 3804540694863919977}
   - component: {fileID: 5243098411989292851}
   - component: {fileID: 5949605024271718511}
-  - component: {fileID: 4447488152145785761}
   m_Layer: 0
   m_Name: GunnerVanguard
   m_TagString: Target
@@ -689,7 +688,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: d741264e2721cbd48a47740d36c3fdf4, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -728,6 +727,7 @@ MonoBehaviour:
   meleeCooldown: 1
   walkSpeed: 2
   chaseSpeed: 3.5
+  turnSpeed: 360
   blendSmooth: 0.12
   losePlayerDelay: 2
 --- !u!114 &1486938654264576313
@@ -754,7 +754,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2391871323995146275}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.3
+  m_Radius: 0.45
   m_Speed: 1
   m_Acceleration: 20
   avoidancePriority: 50
@@ -763,7 +763,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 3
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -960,20 +960,6 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ddff6f8e4a5b78243afb2d4e1b18c782, type: 3}
   minPitch: 0.95
   maxPitch: 1.05
---- !u!114 &4447488152145785761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2391871323995146275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 631f7aaf2a0275d4ca4d0c0b73ea9373, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveKey: GunnerVanguard
-  mandatory: 1
 --- !u!1 &2474171518916207543
 GameObject:
   m_ObjectHideFlags: 0

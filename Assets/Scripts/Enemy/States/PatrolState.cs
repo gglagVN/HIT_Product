@@ -12,6 +12,7 @@ public class PatrolState : BaseState
         waypointIndex = 0;
         waitTimer = 0f;
 
+        enemy.Agent.stoppingDistance = 0f;
         enemy.Agent.SetDestination(enemy.path.waypoints[waypointIndex].position);
     }
     public override void Exit()
