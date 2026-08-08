@@ -40,6 +40,17 @@ public class EndingManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("MAIN_MENU");
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void ToggleTime()
+    {
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+        else if (Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
+        }
     }
 }
