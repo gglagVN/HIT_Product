@@ -92,12 +92,12 @@ MonoBehaviour:
   neighbors:
   - {fileID: 6998170773511327927, guid: 75e0e01195cfc3542af8a1bc6a3f11ba, type: 3}
   - {fileID: 7757690598169674416, guid: d6756b8ef4969d540a0798f2b86a759e, type: 3}
-  - {fileID: 7757690598169674416, guid: 7be150fff64d6a54cb7797813ef36dcf, type: 3}
-  - {fileID: 7757690598169674416, guid: 8d9f13dd25bc88b4cb1ec7decc60fd2c, type: 3}
+  - {fileID: 7757690598169674416, guid: acd8c48d6b33d4c42a111bbb1ba8efb0, type: 3}
+  - {fileID: 7757690598169674416, guid: e2af4aa9adfb29d49affa8356cf005ba, type: 3}
   isVisited: 0
   requiresKey: 0
   keyCost: 1
   teleportDestination: {fileID: 0}
   pulseSpeed: 1.5
   id: 8
-  uiPosition: {x: -60, y: 120}
+  uiPosition: {x: -60, y: 160}

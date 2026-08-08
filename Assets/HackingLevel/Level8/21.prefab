@@ -93,11 +93,11 @@ MonoBehaviour:
   - {fileID: 7757690598169674416, guid: 9a6bbe41801b40a41a224d685aa91b6a, type: 3}
   - {fileID: 7757690598169674416, guid: 6fad620dae664c44d9af1f2ae3341647, type: 3}
   - {fileID: 7757690598169674416, guid: ac3d31dbba9b6494cac5ead616986426, type: 3}
-  - {fileID: 7757690598169674416, guid: 37678a42e74331c499cfe5303336f212, type: 3}
+  - {fileID: 7757690598169674416, guid: 91ad6b330d2f86a4e90b42234563ba1d, type: 3}
   isVisited: 0
   requiresKey: 0
   keyCost: 1
   teleportDestination: {fileID: 0}
   pulseSpeed: 1.5
   id: 8
-  uiPosition: {x: -90, y: 60}
+  uiPosition: {x: -100, y: 80}

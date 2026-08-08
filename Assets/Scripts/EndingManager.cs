@@ -38,6 +38,7 @@ public class EndingManager : MonoBehaviour
         }
     }
 
+
     public void ReturnToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");

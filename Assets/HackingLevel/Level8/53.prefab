@@ -91,11 +91,11 @@ MonoBehaviour:
   nodeType: 0
   neighbors:
   - {fileID: 7757690598169674416, guid: 37702f1662ea1cb4398fe5198c07c0ed, type: 3}
-  - {fileID: 7757690598169674416, guid: 76f84b3988d5e674fa4f01a5683c4133, type: 3}
+  - {fileID: 7757690598169674416, guid: 0578937be6bf2ac44abc3df6bd2fe17d, type: 3}
   isVisited: 0
   requiresKey: 0
   keyCost: 1
   teleportDestination: {fileID: 0}
   pulseSpeed: 1.5
   id: 8
-  uiPosition: {x: 60, y: -150}
+  uiPosition: {x: 60, y: -200}

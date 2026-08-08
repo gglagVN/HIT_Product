@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CountdownTimer : MonoBehaviour
 {
@@ -38,7 +39,11 @@ public class CountdownTimer : MonoBehaviour
         {
             currentTime = 0;
             isRunning = false;
-
+            PlayerPrefs.SetInt("EndingType", 1);
+            PlayerPrefs.Save();
+            Time.timeScale = 1f;
+            SaveSystem.Delete();
+            SceneManager.LoadScene("EndGame");
             // TODO: Nổ map
             Debug.Log("BOOM!");
         }

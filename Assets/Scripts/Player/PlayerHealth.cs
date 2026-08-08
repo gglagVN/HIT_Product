@@ -6,6 +6,7 @@ using TMPro;
 public class PlayerHealth : MonoBehaviour
 {
     private float health;
+    public GameObject panelDie;
     private float lerpTimer;
     public float maxHealth = 100f;
     public float chipSpeed = 2f;
@@ -13,13 +14,14 @@ public class PlayerHealth : MonoBehaviour
     public Image backHealthBar;
     public TextMeshProUGUI healthText;
     private float lastHealthDisplayed = float.NaN;
-    private bool isDead;
+    public bool isDead;
 
     public float CurrentHealth => health;
 
     // Start is called before the first frame update
     void Start()
     {
+        panelDie.SetActive(false);
         health = maxHealth;
     }
 
@@ -109,10 +111,9 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         isDead = true;
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.OnPlayerDied();
-        }
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        panelDie.SetActive(true);
+        Time.timeScale = 0;
     }
 }

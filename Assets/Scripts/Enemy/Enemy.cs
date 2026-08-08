@@ -77,6 +77,7 @@ public class Enemy : MonoBehaviour
     private float nextAttackTime;
     private Animator anim;
     private bool attackAnimationPlaying;
+    private Coroutine attackResetRoutine;
 
     private static readonly int AnimIsWalking = Animator.StringToHash("isWalking");
     private static readonly int AnimIsChasing = Animator.StringToHash("isChasing");
@@ -313,10 +314,33 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
+        if (attackResetRoutine != null)
+        {
+            StopCoroutine(attackResetRoutine);
+            attackResetRoutine = null;
+        }
+
         isDead = true;
 
         if (enemyAudio != null)
             enemyAudio.StopFootstep();
+    }
+
+    public void ResetAttackAnimationState()
+    {
+        if (attackResetRoutine != null)
+        {
+            StopCoroutine(attackResetRoutine);
+            attackResetRoutine = null;
+        }
+
+        attackAnimationPlaying = false;
+        if (anim != null)
+        {
+            SetAnimBool(AnimIsAttacking, false, ref animIsAttacking);
+        }
+
+        UpdateAnimationState(PlayerVisible);
     }
     private void HandleFootstepState(bool playerSeen)
     {
@@ -375,6 +399,14 @@ public class Enemy : MonoBehaviour
 
     private void ResetAnimationBools()
     {
+        if (attackResetRoutine != null)
+        {
+            StopCoroutine(attackResetRoutine);
+            attackResetRoutine = null;
+        }
+
+        attackAnimationPlaying = false;
+
         if (anim == null)
         {
             return;
@@ -394,6 +426,7 @@ public class Enemy : MonoBehaviour
     private IEnumerator ResetAttackAnimation(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+        attackResetRoutine = null;
         attackAnimationPlaying = false;
         UpdateAnimationState(PlayerVisible);
     }
@@ -404,13 +437,18 @@ public class Enemy : MonoBehaviour
         {
             if (!IsGunnerPathing())
             {
+                if (attackResetRoutine != null)
+                {
+                    StopCoroutine(attackResetRoutine);
+                }
+
                 attackAnimationPlaying = true;
                 if (anim != null)
                 {
                     SetAnimBool(AnimIsAttacking, true, ref animIsAttacking);
                 }
                 // keep attack animation visible for a short duration related to fireRate
-                StartCoroutine(ResetAttackAnimation(Mathf.Max(0.25f, fireRate)));
+                attackResetRoutine = StartCoroutine(ResetAttackAnimation(Mathf.Max(0.25f, fireRate)));
             }
             Shoot();
         }
@@ -478,7 +516,7 @@ public class Enemy : MonoBehaviour
 
     public virtual void TryMeleeAttack()
     {
-        if (Player == null || Time.time < nextAttackTime)
+        if (Player == null || attackAnimationPlaying || Time.time < nextAttackTime)
         {
             return;
         }
@@ -488,12 +526,17 @@ public class Enemy : MonoBehaviour
         }
         if (Vector3.Distance(transform.position, Player.transform.position) <= meleeRange)
         {
+            if (attackResetRoutine != null)
+            {
+                StopCoroutine(attackResetRoutine);
+            }
+
             attackAnimationPlaying = true;
             if (anim != null)
             {
                 SetAnimBool(AnimIsAttacking, true, ref animIsAttacking);
             }
-            StartCoroutine(ResetAttackAnimation(meleeCooldown));
+            attackResetRoutine = StartCoroutine(ResetAttackAnimation(meleeCooldown));
 
             PlayerHealth playerHealth = Player.GetComponent<PlayerHealth>();
             if (playerHealth != null)

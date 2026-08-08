@@ -4,6 +4,9 @@ public class Bullet : MonoBehaviour
 {
     public int bulletDamage = 10;
 
+    [Header("Hit Effects")]
+    [SerializeField] private ParticleSystem enemyHitParticle;
+
     private Rigidbody body;
     private Bullet sourcePrefab;
     private float despawnTime;
@@ -14,7 +17,6 @@ public class Bullet : MonoBehaviour
         body = GetComponent<Rigidbody>();
     }
 
-    /// Khởi động lại viên đạn vừa lấy từ pool: xoá quán tính cũ và hẹn giờ tự thu hồi.
     public void Arm(Bullet prefab, float lifeTime)
     {
         sourcePrefab = prefab;
@@ -39,45 +41,85 @@ public class Bullet : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (!isLive)
+            return;
+
+        // =========================
+        // BẮN TRÚNG ENEMY
+        // =========================
+        if (collision.gameObject.CompareTag("Target"))
         {
+            if (collision.gameObject.TryGetComponent(out EnemyHealth enemyHealth))
+            {
+                enemyHealth.TakeDamage(bulletDamage);
+            }
+
+            CreateEnemyHitEffect(collision);
+
+            Despawn();
             return;
         }
 
-        Transform hitTransform = collision.transform;
+        // =========================
+        // BẮN TRÚNG PLAYER
+        // =========================
+        if (collision.transform.CompareTag("Player") &&
+            collision.transform.TryGetComponent(out PlayerHealth playerHealth))
+        {
+            playerHealth.TakeDamage(10f);
+
+            CreateBulletImpactEffect(collision);
+
+            Despawn();
+            return;
+        }
+
+        // =========================
+        // BẮN TRÚNG VẬT THỂ KHÁC
+        // =========================
         if (!collision.gameObject.CompareTag("Bullet"))
         {
-            if (hitTransform.CompareTag("Player") &&
-                hitTransform.TryGetComponent(out PlayerHealth playerHealth))
-            {
-                playerHealth.TakeDamage(10f);
-            }
             CreateBulletImpactEffect(collision);
             Despawn();
         }
-        if (collision.gameObject.CompareTag("Target") &&
-            collision.gameObject.TryGetComponent(out EnemyHealth enemyHealth))
-        {
-            enemyHealth.TakeDamage(bulletDamage);
-        }
     }
 
-    void CreateBulletImpactEffect(Collision collision)
+    private void CreateEnemyHitEffect(Collision collision)
     {
-        if (GlobalReferences.Instance == null)
-        {
+        if (enemyHitParticle == null)
             return;
-        }
 
         ContactPoint contact = collision.contacts[0];
-        GlobalReferences.Instance.SpawnImpact(contact.point, Quaternion.LookRotation(contact.normal), collision.transform);
+
+        ParticleSystem effect = Instantiate(
+            enemyHitParticle,
+            contact.point,
+            Quaternion.LookRotation(contact.normal)
+        );
+
+        effect.Play();
+
+        Destroy(effect.gameObject, effect.main.duration + effect.main.startLifetime.constantMax);
+    }
+
+    private void CreateBulletImpactEffect(Collision collision)
+    {
+        if (GlobalReferences.Instance == null)
+            return;
+
+        ContactPoint contact = collision.contacts[0];
+
+        GlobalReferences.Instance.SpawnImpact(
+            contact.point,
+            Quaternion.LookRotation(contact.normal),
+            collision.transform
+        );
     }
 
     private void Despawn()
     {
         if (!isLive)
-        {
             return;
-        }
+
         isLive = false;
 
         if (body != null)

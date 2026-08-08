@@ -20,6 +20,11 @@ public class AttackState : BaseState
         repathTimer = 0f;
         nextMoveDelay = Random.Range(3, 7);
 
+        if (enemy != null)
+        {
+            enemy.ResetAttackAnimationState();
+        }
+
         // Dừng cách player một quãng để không ủi vào người và đẩy họ xuyên tường
         if (enemy.Agent != null)
         {

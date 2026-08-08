@@ -90,7 +90,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeType: 0
   neighbors:
-  - {fileID: 7757690598169674416, guid: 79f586e31c4de5047a6d634c3c334a8f, type: 3}
+  - {fileID: 7757690598169674416, guid: 9ebfb615e58ce7f4581eafee542e1d05, type: 3}
   - {fileID: 7757690598169674416, guid: 37702f1662ea1cb4398fe5198c07c0ed, type: 3}
   isVisited: 0
   requiresKey: 0
@@ -98,4 +98,4 @@ MonoBehaviour:
   teleportDestination: {fileID: 0}
   pulseSpeed: 1.5
   id: 8
-  uiPosition: {x: 60, y: -90}
+  uiPosition: {x: 60, y: -120}

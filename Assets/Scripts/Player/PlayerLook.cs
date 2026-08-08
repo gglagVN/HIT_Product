@@ -41,6 +41,7 @@ public class PlayerLook : MonoBehaviour
     // % sensitivity hiện tại
     private float normalSensitivityPercent;
     private float adsSensitivityPercent;
+    private PlayerHealth playerHealth;
 
     private void Awake()
     {
@@ -65,6 +66,7 @@ public class PlayerLook : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     private void Update()
@@ -74,6 +76,8 @@ public class PlayerLook : MonoBehaviour
 
         if (GameManager.Instance != null &&
             GameManager.Instance.IsPaused())
+            return;
+        if (playerHealth.isDead == true)
             return;
 
         // Click chuột để khóa lại

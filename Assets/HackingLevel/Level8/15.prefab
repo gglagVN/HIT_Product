@@ -99,4 +99,4 @@ MonoBehaviour:
   teleportDestination: {fileID: 0}
   pulseSpeed: 1.5
   id: 8
-  uiPosition: {x: -120, y: 90}
+  uiPosition: {x: -140, y: 120}

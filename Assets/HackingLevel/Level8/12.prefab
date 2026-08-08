@@ -91,7 +91,7 @@ MonoBehaviour:
   nodeType: 0
   neighbors:
   - {fileID: 7257271502048586457, guid: cf0f0deec0a08cf4588f53e44aed402f, type: 3}
-  - {fileID: 7757690598169674416, guid: 7be150fff64d6a54cb7797813ef36dcf, type: 3}
+  - {fileID: 7757690598169674416, guid: acd8c48d6b33d4c42a111bbb1ba8efb0, type: 3}
   - {fileID: 7757690598169674416, guid: 62e61bdb22256f7468b58af8467365d9, type: 3}
   - {fileID: 7757690598169674416, guid: 90653379e896fdf4ab720a4643e30e70, type: 3}
   isVisited: 0
@@ -101,4 +101,4 @@ MonoBehaviour:
     type: 3}
   pulseSpeed: 1.5
   id: 8
-  uiPosition: {x: 30, y: 120}
+  uiPosition: {x: 20, y: 160}

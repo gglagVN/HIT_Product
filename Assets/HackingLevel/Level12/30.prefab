@@ -92,7 +92,7 @@ MonoBehaviour:
   neighbors:
   - {fileID: 7757690598169674416, guid: edf417ab98ec2fb4a9d55cc857df30f8, type: 3}
   - {fileID: 7757690598169674416, guid: 62e1bb8aab2e12a4690cae9db6a8ce65, type: 3}
-  - {fileID: 0}
+  - {fileID: 7757690598169674416, guid: 87b7ea85c524d8c44beabec44ac423ee, type: 3}
   isVisited: 0
   requiresKey: 0
   keyCost: 1

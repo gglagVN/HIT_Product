@@ -24,6 +24,8 @@ public class GameSaveData
     public string[] playedDialogueIds;
     public bool leverUsed;
     public float countdownRemaining;
+    public TextMeshProUGUI countDownTimeText;
+
 }
 
 public static class SaveSystem
@@ -319,8 +321,7 @@ public class GameManager : MonoBehaviour
     {
         if (!SaveSystem.HasSave())
         {
-            Debug.LogWarning("GameManager: chưa có save nào để nạp.");
-            return;
+            RestartGame();
         }
 
         isReloadingScene = true;
@@ -364,10 +365,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void CompleteGame()
     {
+        int collectedDocument = documentManager.documents.Count;
+        if (collectedDocument < 10)
+        {
+            PlayerPrefs.SetInt("EndingType", 2);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("EndingType", 3);
+        }
         isReloadingScene = true;
         Time.timeScale = 1f;
         SaveSystem.Delete();
         SceneManager.LoadScene("EndGame");
+
     }
 
     /// <summary>
@@ -728,6 +739,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
 
     private void ValidateSaveReferences()
     {

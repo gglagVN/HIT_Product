@@ -4,10 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Thnguyet.SaveGame;
+using UnityEngine.UI;
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text startButtonLabel;
-
     private void Start()
     {
         if (startButtonLabel == null)
@@ -16,7 +16,11 @@ public class MainMenuManager : MonoBehaviour
             return;
         }
 
-        startButtonLabel.text = SaveSystem.HasSave() ? "CONTINUE" : "NEW GAME";
+        Button continueBT = startButtonLabel.GetComponentInParent<Button>();
+
+        bool hasSave = SaveSystem.HasSave();
+
+        continueBT.interactable = hasSave;
     }
 
     public void LoadNextScene()
@@ -34,5 +38,25 @@ public class MainMenuManager : MonoBehaviour
     {
         Application.Quit();
     }
-    public void DeleteSave() { if (SaveGameManager.instance == null) { Debug.LogWarning("SaveGameManager instance not available."); return; } SaveGameManager.instance.DeleteAll(); Debug.Log("SAVE DATA DELETED!"); }
+    public void DeleteSave()
+    {
+        try
+        {
+            SaveSystem.Delete();
+
+            if (SaveGameManager.instance != null)
+            {
+                SaveGameManager.instance.DeleteAll();
+            }
+
+            PlayerPrefs.DeleteKey("EndingType");
+            PlayerPrefs.Save();
+
+            Debug.Log("SAVE DATA DELETED!");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"DeleteSave failed: {ex.Message}");
+        }
+    }
 }

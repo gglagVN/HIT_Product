@@ -98,5 +98,5 @@ MonoBehaviour:
   keyCost: 1
   teleportDestination: {fileID: 0}
   pulseSpeed: 1.5
-  id: 8
+  id: 9
   uiPosition: {x: 20, y: -140}

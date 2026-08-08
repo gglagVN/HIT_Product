@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5912839309202240987}
   - component: {fileID: 7757690598169674416}
   m_Layer: 5
-  m_Name: 17
+  m_Name: 25 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,14 +90,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeType: 0
   neighbors:
-  - {fileID: 7757690598169674416, guid: 3bc233ab01fd6964bbe126502d0666c6, type: 3}
-  - {fileID: 7757690598169674416, guid: 9a6bbe41801b40a41a224d685aa91b6a, type: 3}
-  - {fileID: 7757690598169674416, guid: 18e326168f586ec4a89fa73d7204ab86, type: 3}
-  - {fileID: 7757690598169674416, guid: ac3d31dbba9b6494cac5ead616986426, type: 3}
+  - {fileID: 7757690598169674416, guid: b21d5062dd8678c4aab826a0995db2f6, type: 3}
+  - {fileID: 7757690598169674416, guid: 120a67f6a8cbda04b9e6461d4a5172ee, type: 3}
+  - {fileID: 7757690598169674416, guid: 571c334b14f9a924cbebb88f875e1feb, type: 3}
+  - {fileID: 7757690598169674416, guid: e6868bda34d4ac848a1f65991756a4ef, type: 3}
   isVisited: 0
   requiresKey: 0
   keyCost: 1
   teleportDestination: {fileID: 0}
   pulseSpeed: 1.5
   id: 8
-  uiPosition: {x: -60, y: 90}
+  uiPosition: {x: -100, y: 40}

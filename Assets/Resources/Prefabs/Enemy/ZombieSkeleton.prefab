@@ -737,6 +737,9 @@ MonoBehaviour:
   chaseSpeed: 4.5
   turnSpeed: 360
   blendSmooth: 0.12
+  walkClipReferenceSpeed: 2
+  runClipReferenceSpeed: 4.5
+  animSpeedRange: {x: 1, y: 1.6}
   losePlayerDelay: 2
 --- !u!114 &1836537785502957371
 MonoBehaviour:
@@ -1687,7 +1690,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4300279998363402732}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0

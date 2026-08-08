@@ -119,6 +119,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3152087f9ef259040a7a9e8d4c6d31d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletDamage: 10
+  enemyHitParticle: {fileID: 7810767003275694, guid: 9fa7f50f47bb989458088734ae0afa15,
+    type: 3}
 --- !u!54 &-4295978973025905413
 Rigidbody:
   m_ObjectHideFlags: 0

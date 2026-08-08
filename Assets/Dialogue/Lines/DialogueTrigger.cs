@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
@@ -7,6 +8,7 @@ public class DialogueTrigger : MonoBehaviour
 
     [Header("Settings")]
     public bool playOnce = true;
+
     public enum TriggerType
     {
         Sequence,
@@ -18,8 +20,11 @@ public class DialogueTrigger : MonoBehaviour
     private bool played;
 
     public string SaveId => saveId;
-
     public bool Played => played;
+
+    [Header("Player Control")]
+    [Tooltip("Bật nếu đây là dialogue dạng cutscene và muốn khóa Player.")]
+    [SerializeField] private bool lockPlayerDuringDialogue = false;
 
     public void ResetTrigger()
     {
@@ -33,6 +38,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         played = true;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
@@ -41,11 +47,26 @@ public class DialogueTrigger : MonoBehaviour
         if (playOnce && played)
             return;
 
-        DialogueManager.Instance.PlaySequence(dialogue);
+        if (dialogue == null)
+        {
+            Debug.LogWarning(
+                $"DialogueTrigger trên {gameObject.name} chưa được gán DialogueSequence.",
+                this
+            );
+
+            return;
+        }
 
         played = true;
+
+        DialogueManager.Instance.PlaySequence(
+            dialogue,
+            lockPlayerDuringDialogue
+        );
     }
+
 #if UNITY_EDITOR
+
     private void Reset()
     {
         GenerateSaveIdIfEmpty();
@@ -57,7 +78,7 @@ public class DialogueTrigger : MonoBehaviour
     }
 
     /// <summary>
-    /// Sinh id duy nhất cho object trong Editor khi id còn trống.
+    /// Sinh ID duy nhất cho object trong Editor khi ID còn trống.
     /// </summary>
     private void GenerateSaveIdIfEmpty()
     {
@@ -70,6 +91,7 @@ public class DialogueTrigger : MonoBehaviour
         saveId = System.Guid.NewGuid().ToString("N");
         UnityEditor.EditorUtility.SetDirty(this);
     }
+
 #endif
 
     private void OnDrawGizmos()
@@ -89,5 +111,5 @@ public class DialogueTrigger : MonoBehaviour
 
         Gizmos.matrix = old;
     }
-
 }
+
