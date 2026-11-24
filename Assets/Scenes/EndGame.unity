@@ -2494,9 +2494,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.04188384, g: 0, b: 0.18867922, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3358,7 +3358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -36.465, y: -1844}
+  m_AnchoredPosition: {x: -36.465, y: -2064}
   m_SizeDelta: {x: 1257.271, y: 2540.958}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1378047219
@@ -3381,16 +3381,70 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "HIT LAG\nA Sci-Fi Horror Game\nGAME DEVELOPMENT\n\nDang Tuan Linh\nLead
-    Programmer\n\nGameplay Programming\nPlayer Systems\nInteraction Systems\nGame
-    Systems & Integration\nEverythings\n\nNguyen Van Tung\n\nMap Design\nStory Planner\nPuzzle
-    Design\nGame Concept & Ideas\n\nPham Thuy Ngan\n\nStory & Document\nPuzzle Design\nCharacter
-    \n\nMENTOR\nNguyen Van Hieu\nNguyen Quang Minh\n\nProject Guidance\nGame Review\nTechnical
-    Support\nBug Fixing & Optimization\n\nSPECIAL THANKS\n\nTo HIT club and mentors\nfor
-    their guidance and support throughout development.\n\nTo our friends and testers\nwho
-    played the game and helped us improve it.\n\nPOWERED BY\n\nUnity\n\nMUSIC & SOUND\n\nMusic
-    and sound effects\nfrom licensed and royalty-free sources.\n\nHIT LAG\n\nEvery
-    secret has a price."
+  m_text: 'HIT LAG
+
+    A Sci-Fi Horror Game
+
+
+    Dang Tuan Linh
+
+    Lead Programmer
+
+
+    Nguyen
+    Ngoc Hieu
+
+    Lead Developer
+
+
+    Nguyen Van Tung
+
+    Lead Artist
+
+
+    Nguyen
+    Minh Duc
+
+    Sound & Animation
+
+
+    Nguyen Kim Ngan
+
+    Game Feel
+
+
+
+
+    Project
+    Guidance
+
+    Game Review
+
+    Technical Support
+
+    Bug Fixing & Optimization
+
+
+    POWERED
+    BY
+
+
+    Unity
+
+
+    MUSIC & SOUND
+
+
+    Music and sound effects
+
+    from licensed
+    and royalty-free sources.
+
+
+    LAG TEAM
+
+
+    Every secret has a price.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 362ea820d26982a489cdf7906095b7dc, type: 2}
   m_sharedMaterial: {fileID: -6387670768807625740, guid: 362ea820d26982a489cdf7906095b7dc,
@@ -3946,7 +4000,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: -1568}
+  m_AnchoredPosition: {x: 2, y: -1412}
   m_SizeDelta: {x: 643.224, y: 160.696}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1569354170
@@ -3968,7 +4022,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 3
+  m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -3993,18 +4047,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1315735565}
-        m_TargetAssemblyTypeName: EndingManager, Assembly-CSharp
-        m_MethodName: ReturnToMainMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1315735565}
         m_TargetAssemblyTypeName: EndingManager, Assembly-CSharp
         m_MethodName: ReturnToMainMenu
@@ -4860,7 +4902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

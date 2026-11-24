@@ -218,7 +218,7 @@ MonoBehaviour:
   useEvents: 0
   promtMessage: Pistol Ammo
   saveId: 51c1f54c35dc4be782083e9d3bbf19b4
-  ammoAmount: 10
+  ammoAmount: 20
   ammoType: 0
 --- !u!65 &3984795408720667871
 BoxCollider:

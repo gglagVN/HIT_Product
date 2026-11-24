@@ -12,6 +12,8 @@ public class EndingManager : MonoBehaviour
     private void Start()
     {
         ShowEnding();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private void ShowEnding()

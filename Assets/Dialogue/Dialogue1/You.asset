@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: You
   m_EditorClassIdentifier: 
   speakerName: You
-  dialogue: Huh, Who are you, Where is here
+  dialogue: What do you mean?
   voiceClip: {fileID: 0}
   duration: 3

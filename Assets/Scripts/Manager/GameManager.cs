@@ -22,6 +22,8 @@ public class GameSaveData
     public string[] collectedDocuments;
     public string[] openedObjectIds;
     public string[] playedDialogueIds;
+    public string[] deadEnemyIds;
+    public string[] collectedAmmoBoxIds;
     public bool leverUsed;
     public float countdownRemaining;
     public TextMeshProUGUI countDownTimeText;
@@ -551,6 +553,31 @@ public class GameManager : MonoBehaviour
             data.countdownRemaining = countdownTimer.Remaining;
         }
 
+        EnemySaveData[] enemies = FindObjectsOfType<EnemySaveData>(true);
+        List<string> deadEnemyIds = new List<string>();
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            EnemySaveData enemySaveData = enemies[i];
+            Enemy enemy = enemySaveData.GetComponent<Enemy>();
+            if (enemy != null && enemy.IsDead && !string.IsNullOrEmpty(enemySaveData.SaveId))
+            {
+                deadEnemyIds.Add(enemySaveData.SaveId);
+            }
+        }
+        data.deadEnemyIds = deadEnemyIds.ToArray();
+
+        AmmoBoxSaveData[] ammoBoxes = FindObjectsOfType<AmmoBoxSaveData>(true);
+        List<string> collectedAmmoBoxIds = new List<string>();
+        for (int i = 0; i < ammoBoxes.Length; i++)
+        {
+            AmmoBoxSaveData ammoBox = ammoBoxes[i];
+            if (ammoBox.collected && !string.IsNullOrEmpty(ammoBox.SaveId))
+            {
+                collectedAmmoBoxIds.Add(ammoBox.SaveId);
+            }
+        }
+        data.collectedAmmoBoxIds = collectedAmmoBoxIds.ToArray();
+
         return data;
     }
 
@@ -568,6 +595,8 @@ public class GameManager : MonoBehaviour
         RestorePlayer(data);
         RestoreWeapons(data);
         RestoreInteractables(data);
+        RestoreEnemies(data);
+        RestoreAmmoBoxes(data);
     }
 
     private void RestorePlayer(GameSaveData data)
@@ -710,6 +739,57 @@ public class GameManager : MonoBehaviour
         if (countdownTimer != null && data.countdownRemaining > 0f)
         {
             countdownTimer.ResumeCountdown(data.countdownRemaining);
+        }
+    }
+
+    private void RestoreEnemies(GameSaveData data)
+    {
+        HashSet<string> deadEnemyIds = new HashSet<string>();
+        if (data.deadEnemyIds != null)
+        {
+            for (int i = 0; i < data.deadEnemyIds.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(data.deadEnemyIds[i]))
+                {
+                    deadEnemyIds.Add(data.deadEnemyIds[i]);
+                }
+            }
+        }
+
+        EnemySaveData[] enemies = FindObjectsOfType<EnemySaveData>(true);
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            EnemySaveData enemySaveData = enemies[i];
+            if (deadEnemyIds.Contains(enemySaveData.SaveId))
+            {
+                enemySaveData.RestoreDeadState();
+            }
+        }
+    }
+
+    private void RestoreAmmoBoxes(GameSaveData data)
+    {
+        HashSet<string> collectedAmmoBoxIds = new HashSet<string>();
+        if (data.collectedAmmoBoxIds != null)
+        {
+            for (int i = 0; i < data.collectedAmmoBoxIds.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(data.collectedAmmoBoxIds[i]))
+                {
+                    collectedAmmoBoxIds.Add(data.collectedAmmoBoxIds[i]);
+                }
+            }
+        }
+
+        AmmoBoxSaveData[] ammoBoxes = FindObjectsOfType<AmmoBoxSaveData>(true);
+        for (int i = 0; i < ammoBoxes.Length; i++)
+        {
+            AmmoBoxSaveData ammoBox = ammoBoxes[i];
+            if (collectedAmmoBoxIds.Contains(ammoBox.SaveId))
+            {
+                ammoBox.collected = true;
+                ammoBox.gameObject.SetActive(false);
+            }
         }
     }
 

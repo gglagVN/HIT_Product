@@ -312,18 +312,34 @@ public class HackManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
+            if (hackCanvas != null)
+            {
+                hackCanvas.PlayButtonPressSound();
+            }
             TryMoveInDirection(Vector2.up);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
+            if (hackCanvas != null)
+            {
+                hackCanvas.PlayButtonPressSound();
+            }
             TryMoveInDirection(Vector2.down);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
+            if (hackCanvas != null)
+            {
+                hackCanvas.PlayButtonPressSound();
+            }
             TryMoveInDirection(Vector2.left);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
+            if (hackCanvas != null)
+            {
+                hackCanvas.PlayButtonPressSound();
+            }
             TryMoveInDirection(Vector2.right);
         }
     }

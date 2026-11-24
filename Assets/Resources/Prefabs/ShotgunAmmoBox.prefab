@@ -239,5 +239,5 @@ MonoBehaviour:
   useEvents: 0
   promtMessage: Shotgun Ammo
   saveId: 54a35182e03f4abda8cd54f0d9fac50b
-  ammoAmount: 5
+  ammoAmount: 10
   ammoType: 2

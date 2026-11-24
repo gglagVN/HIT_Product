@@ -17,6 +17,13 @@ public class EnemySaveData : SaveableComponent
             saveKey = gameObject.name + "_EnemyState";
     }
 
+    public string SaveId => saveKey;
+
+    private void OnEnable()
+    {
+        DataChanged = true;
+    }
+
     public override object GetData()
     {
         var enemy = GetComponent<Enemy>();
@@ -41,14 +48,17 @@ public class EnemySaveData : SaveableComponent
 
         if (loaded.isDead)
         {
-            enemy.Die();
-            enemy.enabled = false;
-            var health = GetComponent<EnemyHealth>();
-            if (health != null)
-                health.enabled = false;
-            var nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
-            if (nav != null)
-                nav.enabled = false;
+            RestoreDeadState();
         }
+    }
+
+    public void RestoreDeadState()
+    {
+        var enemy = GetComponent<Enemy>();
+        if (enemy == null)
+            return;
+
+        enemy.Die();
+        gameObject.SetActive(false);
     }
 }

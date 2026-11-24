@@ -27,3 +27,6 @@ MonoBehaviour:
   startNode: {fileID: 7257271502048586457, guid: 1a227064a08a8ac4694ad877cd61559e,
     type: 3}
   endNode: {fileID: 7757690598169674416, guid: 9020e4bd03806b64586e102d55c635d3, type: 3}
+  puzzleType: 0
+  correctPassword: 210125
+  passwordLength: 6

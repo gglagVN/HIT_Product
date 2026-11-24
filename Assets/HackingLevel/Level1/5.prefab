@@ -97,6 +97,7 @@ MonoBehaviour:
   isVisited: 1
   requiresKey: 0
   keyCost: 1
+  teleportDestination: {fileID: 0}
   pulseSpeed: 1.5
   id: 4
   uiPosition: {x: 0, y: 0}

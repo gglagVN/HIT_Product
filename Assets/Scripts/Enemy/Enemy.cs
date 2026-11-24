@@ -322,6 +322,10 @@ public class Enemy : MonoBehaviour
 
         isDead = true;
 
+        var saveData = GetComponent<EnemySaveData>();
+        if (saveData != null)
+            saveData.DataChanged = true;
+
         if (enemyAudio != null)
             enemyAudio.StopFootstep();
     }

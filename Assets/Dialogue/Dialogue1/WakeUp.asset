@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: WakeUp
   m_EditorClassIdentifier: 
   lines:
+  - {fileID: 11400000, guid: 9be34d934ea9aa541bb8634474a093b1, type: 2}
+  - {fileID: 11400000, guid: dd43b90654580524db3e679b64a545ab, type: 2}
   - {fileID: 11400000, guid: 11a1e31c38e4a394d9919811c8525197, type: 2}
   - {fileID: 11400000, guid: ad8eac4c32037734cb53bd17da40cb2a, type: 2}
   - {fileID: 11400000, guid: 711d84c5e1fa361448991ea6eda6545e, type: 2}
+  - {fileID: 11400000, guid: 19ec67e1de8fe9443b358d2033f3a07f, type: 2}
+  - {fileID: 11400000, guid: a87c8588f88b72747a8fbdf7a68badff, type: 2}
+  - {fileID: 11400000, guid: 5f4bd67c9a6668648abdf2a61bf4e2f0, type: 2}
+  - {fileID: 11400000, guid: ecdd49220ad0be54ba4a098a97aa5260, type: 2}
+  - {fileID: 11400000, guid: 58c24e2fc71bd7b459c7d435be99d444, type: 2}
+  - {fileID: 11400000, guid: d7e91a8a595d2b2479ab2019d6fd95c0, type: 2}

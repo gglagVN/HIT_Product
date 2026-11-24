@@ -29,6 +29,15 @@ public class PatrolState : BaseState
     }
     public void PatrolCycle()
     {
+        if (enemy == null ||
+            enemy.IsDead ||
+            enemy.Agent == null ||
+            !enemy.Agent.enabled ||
+            !enemy.Agent.isOnNavMesh)
+        {
+            return;
+        }
+
         if (enemy.Agent.remainingDistance < 0.2f)
         {
             waitTimer += Time.deltaTime;

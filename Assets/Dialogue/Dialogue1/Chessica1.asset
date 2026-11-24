@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Chessica1
   m_EditorClassIdentifier: 
   speakerName: Chessica
-  dialogue: Hello, Mr, Are you hear me! Please! Wake up, are you OK
-  voiceClip: {fileID: 8300000, guid: c2de97beb792b7f41b83f4d4fdd52571, type: 3}
+  dialogue: My name is Chessica.I am thirteen years old, I tried to move... but I
+    couldn't feel my own body.
+  voiceClip: {fileID: 8300000, guid: f00c060e7e9534a479399fecf147e6c7, type: 3}
   duration: 5

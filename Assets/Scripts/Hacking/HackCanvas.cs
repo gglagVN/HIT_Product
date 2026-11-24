@@ -51,6 +51,11 @@ public class HackCanvas : MonoBehaviour
 
     [SerializeField] private Button clearButton;
     [SerializeField] private Button enterButton;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource buttonAudioSource;
+    [SerializeField] private AudioClip buttonPressClip;
+
     private string enteredPassword = "";
 
     private HackManager hackManager;
@@ -96,6 +101,17 @@ public class HackCanvas : MonoBehaviour
         if (canvasGroup == null)
         {
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+
+        if (buttonAudioSource == null)
+        {
+            buttonAudioSource = GetComponent<AudioSource>();
+        }
+
+        if (buttonAudioSource == null)
+        {
+            buttonAudioSource = gameObject.AddComponent<AudioSource>();
+            buttonAudioSource.playOnAwake = false;
         }
 
         if (nodeContainer == null)
@@ -155,6 +171,8 @@ public class HackCanvas : MonoBehaviour
 
     private void OnPasswordButtonPressed(int digit)
     {
+        PlayButtonPressSound();
+
         if (digit < 0)
         {
             enteredPassword = "";
@@ -168,6 +186,8 @@ public class HackCanvas : MonoBehaviour
     }
     private void CheckPassword()
     {
+        PlayButtonPressSound();
+
         if (enteredPassword == correctPassword)
         {
             hackManager.CompleteHack();
@@ -186,6 +206,29 @@ public class HackCanvas : MonoBehaviour
         passwordDisplayText.text =
             string.Join(" ", new string('*', enteredPassword.Length)
             .PadRight(passwordLength, '_').ToCharArray());
+    }
+
+    public void PlayButtonPressSound()
+    {
+        Debug.Log("BUTTON SOUND!");
+        if (buttonPressClip == null)
+        {
+            return;
+        }
+
+        if (buttonAudioSource != null)
+        {
+            buttonAudioSource.PlayOneShot(buttonPressClip);
+            return;
+        }
+
+        if (Camera.main != null)
+        {
+            AudioSource.PlayClipAtPoint(buttonPressClip, Camera.main.transform.position, 1f);
+            return;
+        }
+
+        AudioSource.PlayClipAtPoint(buttonPressClip, Vector3.zero, 1f);
     }
 
     private void ResetPasswordInput()
@@ -223,6 +266,8 @@ public class HackCanvas : MonoBehaviour
             return;
         }
 
+        HandlePasswordKeyboardInput();
+
         if (lines.Count == 0 || hackManager == null || !hackManager.IsActive)
         {
             return;
@@ -240,6 +285,36 @@ public class HackCanvas : MonoBehaviour
             var color = line.color;
             color.a = pulse;
             line.color = color;
+        }
+    }
+
+    private void HandlePasswordKeyboardInput()
+    {
+        if (!IsPasswordPuzzleActive() || hackManager == null || !hackManager.IsActive)
+        {
+            return;
+        }
+
+        for (int i = 0; i <= 9; i++)
+        {
+            var alphaKey = KeyCode.Alpha0 + i;
+            var keypadKey = KeyCode.Keypad0 + i;
+            if (Input.GetKeyDown(alphaKey) || Input.GetKeyDown(keypadKey))
+            {
+                OnPasswordButtonPressed(i);
+                return;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Delete))
+        {
+            OnPasswordButtonPressed(-1);
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            CheckPassword();
         }
     }
 
@@ -900,6 +975,7 @@ public class HackCanvas : MonoBehaviour
                 return;
             }
 
+            owner.PlayButtonPressSound();
             owner.OnNodePointerDown?.Invoke(node);
         }
 

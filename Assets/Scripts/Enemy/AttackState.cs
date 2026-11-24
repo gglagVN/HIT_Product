@@ -42,6 +42,15 @@ public class AttackState : BaseState
 
     public override void Perform()
     {
+        if (enemy == null ||
+            enemy.IsDead ||
+            enemy.Agent == null ||
+            !enemy.Agent.enabled ||
+            !enemy.Agent.isOnNavMesh)
+        {
+            return;
+        }
+
         if (enemy.PlayerVisible)
         {
             losePlayerTimer = 0;

@@ -61,6 +61,12 @@ public class StateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (owner == null)
+            owner = GetComponent<Enemy>();
+
+        if (owner == null || owner.IsDead)
+            return;
+
         if (activeState != null)
             activeState.Perform();
     }

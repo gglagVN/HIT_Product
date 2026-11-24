@@ -218,7 +218,7 @@ MonoBehaviour:
   useEvents: 0
   promtMessage: AR Ammo
   saveId: 4e6ae1c029bf4a7a8fc5cec6c059265c
-  ammoAmount: 15
+  ammoAmount: 30
   ammoType: 1
 --- !u!65 &3370415147592559300
 BoxCollider:

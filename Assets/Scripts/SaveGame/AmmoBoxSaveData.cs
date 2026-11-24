@@ -20,6 +20,8 @@ public class AmmoBoxSaveData : SaveableComponent
         mandatory = false;
     }
 
+    public string SaveId => saveKey;
+
     public override object GetData()
     {
         return new AmmoBoxState { collected = collected };
